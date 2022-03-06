@@ -79,7 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Center(
           child: Text(widget.title,
           style: TextStyle(
-            color: Colors.black
+            color: Colors.black,
+            fontFamily: 'RobotoSlab'
           )),
         )
       ),
