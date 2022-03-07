@@ -24,11 +24,13 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.pink,
-        primaryTextTheme: TextTheme(
+        // Default font family
+        fontFamily: 'Roboto Slab',
+        primaryTextTheme: const TextTheme(
           titleSmall: TextStyle(
             color: Colors.black
           )
-        )
+        ),
       ),
       home: const MyHomePage(title: 'LoveBirds'),
     );
@@ -78,9 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Center(
           child: Text(widget.title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
-            fontFamily: 'RobotoSlab'
+            fontFamily: 'Roboto Slab'
           )),
         )
       ),
@@ -117,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.black,
-        onTap: _onItemTapped,
+        onTap: _onItemTapped
       ),// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
