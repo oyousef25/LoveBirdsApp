@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lovebirds_app/account.dart';
+import 'package:lovebirds_app/guests.dart';
+import 'package:lovebirds_app/home.dart';
+import 'package:lovebirds_app/planning.dart';
+import 'package:lovebirds_app/vendors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,13 +37,13 @@ class MyApp extends StatelessWidget {
           )
         ),
       ),
-      home: const MyHomePage(title: 'LoveBirds'),
+      home: const MainPage(title: 'LoveBirds'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -52,16 +57,24 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
+class _MainPageState extends State<MainPage> {
+  int _selectedPage = 0;
+  static const List<Widget> _widgetOptions = <Widget>[
+    HomePage(),
+    PlanningPage(),
+    GuestsPage(),
+    VendorsPage(),
+    AccountPage()
+    ];
+
   Color myColor = const Color(0xFFFFC9C9);//Bottom Nav Color
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _selectedPage = index;
     });
   }
 
@@ -80,16 +93,14 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Center(
           child: Text(widget.title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
             fontFamily: 'Roboto Slab'
           )),
         )
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-
+        child: _widgetOptions.elementAt(_selectedPage),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -116,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         type: BottomNavigationBarType.fixed,
         backgroundColor: myColor,
-        currentIndex: _selectedIndex,
+        currentIndex: _selectedPage,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.black,
         onTap: _onItemTapped
