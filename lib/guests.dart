@@ -4,7 +4,6 @@ import 'package:lovebirds_app/helper/constants.dart';
 
 class GuestsPage extends StatefulWidget {
   const GuestsPage({Key? key}) : super(key: key); // Guests page key identifier
-
   /// Creates a state
   ///
   /// Return the Guest page State
@@ -17,6 +16,8 @@ class GuestsPage extends StatefulWidget {
 class _GuestsPageState extends State<GuestsPage> {
   int? _selectedIndex = 0; // Index of selected chip
   final List<String> _chips = ['All', 'Confirmed', 'Pending']; // List of chip options
+  // List<String> guestNames = List<String>.generate(1000, (index) => 'Guest $index');
+  // List<String> guestRelationships = List<String>.generate(1000, (index) => '???');
 
   /// This Widget builds out the main Guest page
   ///
@@ -68,7 +69,16 @@ class _GuestsPageState extends State<GuestsPage> {
                 );
               },
             ).toList()
-          )
+          ),
+          // ListView.builder(
+          //   itemCount: guestNames.length,
+          //   itemBuilder: (context, index) {
+          //     return ListTile(
+          //       title: Text(guestNames[index]),
+          //       subtitle: Text(guestRelationships[index]),
+          //     );
+          //   },
+          // ),
         ],
       ),
     );
