@@ -3,8 +3,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class PlanningPage extends StatefulWidget {
-  const PlanningPage({Key? key}) : super(key: key);
+  const PlanningPage({Key? key}) : super(key: key); // Planning page key identifier
 
+  /// Creates a state
+  ///
+  /// Return the Planning page State
   @override
   State<StatefulWidget> createState() {
     return _PlanningPageState();
@@ -12,6 +15,9 @@ class PlanningPage extends StatefulWidget {
 }
 
 class _PlanningPageState extends State<PlanningPage> {
+  /// This Widget builds out the Planning page
+  ///
+  /// Given the build [context], return the Planning page Widget.
   @override
   Widget build(BuildContext context) {
     return Scaffold(

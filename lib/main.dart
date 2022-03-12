@@ -4,19 +4,23 @@ import 'package:lovebirds_app/guests.dart';
 import 'package:lovebirds_app/home.dart';
 import 'package:lovebirds_app/planning.dart';
 import 'package:lovebirds_app/vendors.dart';
+import 'package:lovebirds_app/helper/constants.dart';
 
+/// Main app
+///
+/// Runs the main app
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key); // Main app key identifier
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false, // Don't show the debug banner icon
       title: 'LoveBirds',
       theme: ThemeData(
         // This is the theme of your application.
@@ -43,7 +47,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key, required this.title}) : super(key: key);
+  const MainPage({Key? key, required this.title}) : super(key: key); // Main page key identifier
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -54,14 +58,17 @@ class MainPage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
+  final String title; // Top header
 
+  /// Creates a state
+  ///
+  /// Return the Main page State
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedPage = 0;
+  int _selectedPage = 0; // Current selected page index of the bottom nav
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     PlanningPage(),
@@ -70,8 +77,9 @@ class _MainPageState extends State<MainPage> {
     AccountPage()
     ];
 
-  Color myColor = const Color(0xFFFFC9C9);//Bottom Nav Color
-
+  /// Trigger bottom nav item tap
+  ///
+  /// Given an [index] set the selected page to it.
   void _onItemTapped(int index) {
     setState(() {
       _selectedPage = index;
@@ -88,7 +96,7 @@ class _MainPageState extends State<MainPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: myColor,
+        backgroundColor: Constants.lightPrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Center(
@@ -126,7 +134,7 @@ class _MainPageState extends State<MainPage> {
           ),
         ],
         type: BottomNavigationBarType.fixed,
-        backgroundColor: myColor,
+        backgroundColor: Constants.lightPrimary,
         currentIndex: _selectedPage,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.black,
