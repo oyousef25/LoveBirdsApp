@@ -4,6 +4,7 @@ import 'package:lovebirds_app/guests.dart';
 import 'package:lovebirds_app/home.dart';
 import 'package:lovebirds_app/planning.dart';
 import 'package:lovebirds_app/vendors.dart';
+import 'package:lovebirds_app/helper/constants.dart';
 
 /// Main app
 ///
@@ -76,8 +77,6 @@ class _MainPageState extends State<MainPage> {
     AccountPage()
     ];
 
-  Color myColor = const Color(0xFFFFC9C9);//Bottom Nav Color
-
   /// Trigger bottom nav item tap
   ///
   /// Given an [index] set the selected page to it.
@@ -97,7 +96,7 @@ class _MainPageState extends State<MainPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: myColor,
+        backgroundColor: Constants.lightPrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Center(
@@ -135,7 +134,7 @@ class _MainPageState extends State<MainPage> {
           ),
         ],
         type: BottomNavigationBarType.fixed,
-        backgroundColor: myColor,
+        backgroundColor: Constants.lightPrimary,
         currentIndex: _selectedPage,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.black,

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lovebirds_app/helper/constants.dart';
 
 class GuestsPage extends StatefulWidget {
   const GuestsPage({Key? key}) : super(key: key); // Guests page key identifier
@@ -13,6 +15,9 @@ class GuestsPage extends StatefulWidget {
 }
 
 class _GuestsPageState extends State<GuestsPage> {
+  int? _selectedIndex = 0; // Index of selected chip
+  final List<String> _chips = ['All', 'Confirmed', 'Pending']; // List of chip options
+
   /// This Widget builds out the main Guest page
   ///
   /// Given the build [context], return the Guest page Widget.
@@ -20,12 +25,49 @@ class _GuestsPageState extends State<GuestsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: const <Widget>[
+          children: <Widget>[
           Card(
-              child: ListTile(
-                  title: Text('Total Guests', textAlign: TextAlign.center),
-                  subtitle: Text('XX Guests', textAlign: TextAlign.center)
+              margin: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 100.0), // Hack for shrinking card padding
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)
+              ),
+              color: Constants.lightSecondary,
+              child: const ListTile(
+                  minVerticalPadding: 30.0,
+                  title: Text('Total Guests',
+                      textAlign: TextAlign.center,
+                      style: Constants.cardHeaderStyle
+                  ),
+                  subtitle: Text('XX Guests',
+                      textAlign: TextAlign.center,
+                      style: Constants.cardContentStyle
+                  )
               )
+          ),
+          Wrap(
+            spacing: 30.0,
+            // Creates a list of 3 chips that will highlight the selected ones
+            children: List<Widget>.generate(
+              3, (int index) {
+                return ChoiceChip(
+                  label: Text(_chips[index]),
+                  labelStyle: _selectedIndex == index ? Constants.chipSelectedStyle : Constants.chipUnselectedStyle,
+                  selected: _selectedIndex == index, // If selected index IS the index then it is selected
+                  backgroundColor: Colors.white,
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  selectedColor: Constants.darkSecondary,
+                  onSelected: (bool selected) {
+                    // Toggles selected chip only if the user presses on an unselected chip
+                    if (_selectedIndex != index) {
+                      setState(() {
+                      _selectedIndex = selected ? index : null;
+                      });
+                    }
+                  },
+                );
+              },
+            ).toList()
           )
         ],
       ),
