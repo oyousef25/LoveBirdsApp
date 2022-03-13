@@ -69,10 +69,11 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _selectedPage = 0; // Current selected page index of the bottom nav
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     PlanningPage(),
-    GuestsPage(),
+    // TODO: Replace seeded List with API list of guests
+    GuestsPage(guestNames: List<String>.generate(1000, (index) => 'Guest $index'), guestRelationships: List<String>.generate(1000, (index) => 'Relationship')),
     VendorsPage(),
     AccountPage()
     ];

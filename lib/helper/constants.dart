@@ -15,6 +15,8 @@ class Constants {
   static const Color darkSecondary = Color(0xFF61D2C6);
   /// Golden yellow
   static const Color highlight = Color(0xFFFFCF3E);
+  // Grey subtitle
+  static const Color subtitleColor = Color(0xFF525252);
 
   // Styles
   /// Card header TextStyle
@@ -25,4 +27,8 @@ class Constants {
   static const chipSelectedStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white);
   /// Chip unselected TextStyle
   static const chipUnselectedStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: darkSecondary);
+  /// List item title TextStyle
+  static const listTitleStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black);
+  /// List item subtitle TextStyle
+  static const listSubtitleStyle = TextStyle(fontSize: 13, fontWeight: FontWeight.normal, color: subtitleColor);
 }

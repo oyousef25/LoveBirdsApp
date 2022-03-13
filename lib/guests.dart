@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 class GuestsPage extends StatefulWidget {
-  const GuestsPage({Key? key}) : super(key: key); // Guests page key identifier
+  const GuestsPage({Key? key, required this.guestNames, required this.guestRelationships}) : super(key: key); // Guests page key identifier
+
+  // Require guest data to be passed into this Widget
+  final List<String> guestNames;
+  final List<String> guestRelationships;
+
   /// Creates a state
   ///
   /// Return the Guest page State
@@ -16,8 +21,6 @@ class GuestsPage extends StatefulWidget {
 class _GuestsPageState extends State<GuestsPage> {
   int? _selectedIndex = 0; // Index of selected chip
   final List<String> _chips = ['All', 'Confirmed', 'Pending']; // List of chip options
-  // List<String> guestNames = List<String>.generate(1000, (index) => 'Guest $index');
-  // List<String> guestRelationships = List<String>.generate(1000, (index) => '???');
 
   /// This Widget builds out the main Guest page
   ///
@@ -25,7 +28,8 @@ class _GuestsPageState extends State<GuestsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Column( // Column containing 4 rows:
+          // 1. Total guests card, 2. Choice chips for filtering, 3. Padding, 4. Guest list
           children: <Widget>[
           Card(
               margin: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 100.0), // Hack for shrinking card padding
@@ -56,7 +60,7 @@ class _GuestsPageState extends State<GuestsPage> {
                   selected: _selectedIndex == index, // If selected index IS the index then it is selected
                   backgroundColor: Colors.white,
                   shadowColor: Colors.grey,
-                  elevation: 3.0,
+                  elevation: 2.0,
                   selectedColor: Constants.darkSecondary,
                   onSelected: (bool selected) {
                     // Toggles selected chip only if the user presses on an unselected chip
@@ -70,16 +74,43 @@ class _GuestsPageState extends State<GuestsPage> {
               },
             ).toList()
           ),
-          // ListView.builder(
-          //   itemCount: guestNames.length,
-          //   itemBuilder: (context, index) {
-          //     return ListTile(
-          //       title: Text(guestNames[index]),
-          //       subtitle: Text(guestRelationships[index]),
-          //     );
-          //   },
-          // ),
+          Padding(padding: EdgeInsets.all(5.0)), // Some padding before the guest list
+          Expanded( // Makes sure that ListView expands to fit inside the column
+            child: ListView.builder( // ListView that is built as it is scrolled onto the screen
+              itemCount: widget.guestNames.length,
+              itemBuilder: (context, index) {
+                return Card(
+                    margin: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0), // Hack for shrinking card padding
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)
+                    ),
+                    color: Colors.white,
+                    shadowColor: Colors.grey,
+                    elevation: 5.0,
+                    child: ListTile(
+                        leading: Icon(Icons.person_outline_rounded, size: 40.0),
+                        title: Text(widget.guestNames[index],
+                            textAlign: TextAlign.left,
+                            style: Constants.listTitleStyle
+                        ),
+                        subtitle: Text(widget.guestRelationships[index],
+                            textAlign: TextAlign.left,
+                            style: Constants.listSubtitleStyle
+                        ),
+                      trailing: Icon(Icons.chevron_right_rounded),
+                    ),
+                );
+              },
+            ),
+          )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // TODO: Add a guest when FAB is pressed
+        },
+        backgroundColor: Constants.lightSecondary,
+        child: Icon(Icons.add, size: 50.0),
       ),
     );
   }
