@@ -43,21 +43,12 @@ class _PlanningPageState extends State<PlanningPage> {
                   children: [
                     //Budget Total Overview
                     Column(children: const [
-                      Text(
-                        "Budget Total",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                        ),
-                      ),
+                      Text("Budget Total",
+                          textAlign: TextAlign.center, style: Constants.title),
                       Text(
                         "\$20,000",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24.0,
-                            color: Constants.darkSecondary),
+                        style: Constants.budgetExpense,
                       ),
                     ]),
 
@@ -72,19 +63,13 @@ class _PlanningPageState extends State<PlanningPage> {
                     //Total Spent Overview
                     Column(
                       children: const [
-                        Text(
-                          "Total Spent",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20.0),
-                        ),
+                        Text("Total Spent",
+                            textAlign: TextAlign.center,
+                            style: Constants.title),
                         Text(
                           "\$10,000",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24.0,
-                              color: Constants.darkSecondary),
+                          style: Constants.budgetExpense,
                         ),
                       ],
                     ),
@@ -145,34 +130,34 @@ class _PlanningPageState extends State<PlanningPage> {
             ),
             Container(
               margin: const EdgeInsets.all(10),
-            child: Wrap(
-                spacing: 30.0,
-                // Creates a list of 3 chips that will highlight the selected ones
-                children: List<Widget>.generate(
-                  3,
-                  (int index) {
-                    return ChoiceChip(
-                      label: Text(_chips[index]),
-                      labelStyle: _selectedIndex == index
-                          ? Constants.chipSelectedStyle
-                          : Constants.chipUnselectedStyle,
-                      selected: _selectedIndex ==
-                          index, // If selected index IS the index then it is selected
-                      backgroundColor: Colors.white,
-                      shadowColor: Colors.grey,
-                      elevation: 2.0,
-                      selectedColor: Constants.darkSecondary,
-                      onSelected: (bool selected) {
-                        // Toggles selected chip only if the user presses on an unselected chip
-                        if (_selectedIndex != index) {
-                          setState(() {
-                            _selectedIndex = selected ? index : null;
-                          });
-                        }
-                      },
-                    );
-                  },
-                ).toList()),
+              child: Wrap(
+                  spacing: 30.0,
+                  // Creates a list of 3 chips that will highlight the selected ones
+                  children: List<Widget>.generate(
+                    3,
+                    (int index) {
+                      return ChoiceChip(
+                        label: Text(_chips[index]),
+                        labelStyle: _selectedIndex == index
+                            ? Constants.chipSelectedStyle
+                            : Constants.chipUnselectedStyle,
+                        selected: _selectedIndex ==
+                            index, // If selected index IS the index then it is selected
+                        backgroundColor: Colors.white,
+                        shadowColor: Colors.grey,
+                        elevation: 2.0,
+                        selectedColor: Constants.darkSecondary,
+                        onSelected: (bool selected) {
+                          // Toggles selected chip only if the user presses on an unselected chip
+                          if (_selectedIndex != index) {
+                            setState(() {
+                              _selectedIndex = selected ? index : null;
+                            });
+                          }
+                        },
+                      );
+                    },
+                  ).toList()),
             )
           ],
         ),
