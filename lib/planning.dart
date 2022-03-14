@@ -17,6 +17,9 @@ class PlanningPage extends StatefulWidget {
 }
 
 class _PlanningPageState extends State<PlanningPage> {
+  int? _selectedIndex = 0; // Index of selected chip
+  final List<String> _chips = ['All', 'To Do', 'Done']; // List of chip options
+
   /// This Widget builds out the Planning page
   ///
   /// Given the build [context], return the Planning page Widget.
@@ -98,52 +101,85 @@ class _PlanningPageState extends State<PlanningPage> {
 
             //progress bar container (in a fixed width using sized box)
             SizedBox(
-              width: 500,
-                child: Container(
-                    padding: const EdgeInsets.all(10),
+              width: 450,
+              child: Container(
+                padding: const EdgeInsets.all(10),
 
-                    //Column for progress bar and labels
-                    child: Column(
-                      children: [
-                        //progress bar
-                        const LinearProgressIndicator(
-                          value: 0.5,
-                          minHeight: 9,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              Constants.darkPrimary),
-                          backgroundColor: Constants.lightPrimary,
+                //Column for progress bar and labels
+                child: Column(
+                  children: [
+                    //progress bar
+                    const LinearProgressIndicator(
+                      value: 0.5,
+                      minHeight: 9,
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(Constants.darkPrimary),
+                      backgroundColor: Constants.lightPrimary,
+                    ),
+
+                    //row containing labels
+                    Row(
+                      children: const [
+                        Expanded(
+                          child: Text(
+                            "TOTAL REMAINING",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.0,
+                                color: Constants.mediumPrimary),
+                          ),
                         ),
-
-                        //row containing labels
-                        Row(
-                          children: const [
-                            Expanded(
-                              child: Text(
-                                "TOTAL REMAINING",
-                                textAlign: TextAlign.left,
+                        Expanded(
+                            child: Text("\$10,000",
+                                textAlign: TextAlign.right,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 15.0,
-                                    color: Constants.mediumPrimary),
-                              ),
-                            ),
-                            Expanded(
-                                child: Text("\$10,000",
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18.0,
-                                        color: Colors.black)))
-                          ],
-                        )
+                                    fontSize: 18.0,
+                                    color: Colors.black)))
                       ],
-                    )))
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(10),
+            child: Wrap(
+                spacing: 30.0,
+                // Creates a list of 3 chips that will highlight the selected ones
+                children: List<Widget>.generate(
+                  3,
+                  (int index) {
+                    return ChoiceChip(
+                      label: Text(_chips[index]),
+                      labelStyle: _selectedIndex == index
+                          ? Constants.chipSelectedStyle
+                          : Constants.chipUnselectedStyle,
+                      selected: _selectedIndex ==
+                          index, // If selected index IS the index then it is selected
+                      backgroundColor: Colors.white,
+                      shadowColor: Colors.grey,
+                      elevation: 2.0,
+                      selectedColor: Constants.darkSecondary,
+                      onSelected: (bool selected) {
+                        // Toggles selected chip only if the user presses on an unselected chip
+                        if (_selectedIndex != index) {
+                          setState(() {
+                            _selectedIndex = selected ? index : null;
+                          });
+                        }
+                      },
+                    );
+                  },
+                ).toList()),
+            )
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Add a guest when FAB is pressed
+          // TODO: Add a task when FAB is pressed
         },
         backgroundColor: Constants.lightSecondary,
         child: Icon(Icons.add, size: 50.0),
