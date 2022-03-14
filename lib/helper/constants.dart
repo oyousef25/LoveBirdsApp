@@ -7,6 +7,8 @@ class Constants {
   // Colours
   /// Light pink
   static const Color lightPrimary = Color(0xFFFFC9C9);
+  /// Medium pink
+  static const Color mediumPrimary = Color(0xffec8686);
   /// Dark pink
   static const Color darkPrimary = Color(0xFFFF8585);
   /// Light teal
