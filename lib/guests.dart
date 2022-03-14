@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
+import 'package:lovebirds_app/helper/guestInfo.dart';
 
 class GuestsPage extends StatefulWidget {
-  const GuestsPage({Key? key, required this.guestNames, required this.guestRelationships}) : super(key: key); // Guests page key identifier
+  const GuestsPage({Key? key, required this.guestList}) : super(key: key); // Guests page key identifier
 
   // Require guest data to be passed into this Widget
-  final List<String> guestNames;
-  final List<String> guestRelationships;
+  final List<GuestInfo> guestList;
 
   /// Creates a state
   ///
@@ -77,10 +77,10 @@ class _GuestsPageState extends State<GuestsPage> {
           Padding(padding: EdgeInsets.all(5.0)), // Some padding before the guest list
           Expanded( // Makes sure that ListView expands to fit inside the column
             child: ListView.builder( // ListView that is built as it is scrolled onto the screen
-              itemCount: widget.guestNames.length,
+              itemCount: widget.guestList.length,
               itemBuilder: (context, index) {
                 return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0), // Hack for shrinking card padding
+                    margin: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)
                     ),
@@ -89,15 +89,22 @@ class _GuestsPageState extends State<GuestsPage> {
                     elevation: 5.0,
                     child: ListTile(
                         leading: Icon(Icons.person_outline_rounded, size: 40.0),
-                        title: Text(widget.guestNames[index],
+                        title: Text(widget.guestList[index].firstName + ' ' + widget.guestList[index].lastName,
                             textAlign: TextAlign.left,
                             style: Constants.listTitleStyle
                         ),
-                        subtitle: Text(widget.guestRelationships[index],
+                        subtitle: Text(widget.guestList[index].relationship,
                             textAlign: TextAlign.left,
                             style: Constants.listSubtitleStyle
                         ),
                       trailing: Icon(Icons.chevron_right_rounded),
+                      onTap: () { // Open up the Guest Info route
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => GuestDetailsScreen(guestInfo: widget.guestList[index]),
+                          )
+                        );
+                      },
                     ),
                 );
               },
@@ -111,6 +118,76 @@ class _GuestsPageState extends State<GuestsPage> {
         },
         backgroundColor: Constants.lightSecondary,
         child: Icon(Icons.add, size: 50.0),
+      ),
+    );
+  }
+}
+
+class GuestDetailsScreen extends StatelessWidget {
+  // In the constructor, require a GuestInfo.
+  const GuestDetailsScreen({Key? key, required this.guestInfo}) : super(key: key);
+
+  // Declare a field that holds the GuestInfo.
+  final GuestInfo guestInfo;
+
+  @override
+  Widget build(BuildContext context) {
+    // Use the GuestInfo to create the UI.
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Constants.lightPrimary,
+        title: Center(
+          child: Text('Guest Details',
+              style: Constants.appBarStyle),
+        ),
+      ),
+      body: Column( // A column with image, card of guest details, and two buttons
+        children: <Widget>[
+          Icon(Icons.person_outline_rounded, size: 100.0),
+          Card(
+            margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)
+            ),
+            child: Column(
+              children: <Widget>[
+                Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                          bottomLeft: Radius.zero,
+                          bottomRight: Radius.zero)
+                  ),
+                  margin: EdgeInsets.zero,
+                  color: Constants.lightSecondary,
+                  child: ListTile(
+                    title: Text('Guest Information',
+                    textAlign: TextAlign.center,
+                    style: Constants.cardHeaderStyle),
+                    trailing: Icon(Icons.edit),
+                  )
+                ),
+                ListTile(
+                  leading: Text('Full Name', style: Constants.detailGreyedStyle),
+                  trailing: Text(guestInfo.firstName + ' ' + guestInfo.lastName, style: Constants.detailStyle),
+                ),
+                ListTile(
+                  leading: Text('Relationship', style: Constants.detailGreyedStyle),
+                  trailing: Text(guestInfo.relationship, style: Constants.detailStyle),
+                ),
+                ListTile(
+                  leading: Text('E-mail', style: Constants.detailGreyedStyle),
+                  trailing: Text(guestInfo.email, style: Constants.detailStyle),
+                ),
+                ListTile(
+                  leading: Text('Phone #', style: Constants.detailGreyedStyle),
+                  trailing: Text(guestInfo.phoneNum, style: Constants.detailStyle),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

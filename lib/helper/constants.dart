@@ -21,10 +21,16 @@ class Constants {
   static const Color subtitleColor = Color(0xFF525252);
 
   // Styles
+  /// AppBar title TextStyle
+  static const appBarStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black);
   /// Card header TextStyle
   static const cardHeaderStyle = TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Colors.black);
   /// Card content TextStyle
   static const cardContentStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: Colors.black);
+  /// Card content greyed TextStyle
+  static const detailStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black);
+  /// Card content greyed TextStyle
+  static const detailGreyedStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.grey);
   /// Chip selected TextStyle
   static const chipSelectedStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white);
   /// Chip unselected TextStyle
@@ -36,5 +42,5 @@ class Constants {
   ///Title TextStyle
   static const title = TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
   ///Budget Expense TextStyle
-  static const budgetExpense = TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0, color: Constants.darkSecondary)
+  static const budgetExpense = TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0, color: Constants.darkSecondary);
 }
