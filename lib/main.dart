@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/account.dart';
 import 'package:lovebirds_app/guests.dart';
+import 'package:lovebirds_app/helper/guestInfo.dart';
 import 'package:lovebirds_app/home.dart';
 import 'package:lovebirds_app/planning.dart';
 import 'package:lovebirds_app/vendors.dart';
@@ -71,10 +72,7 @@ class _MainPageState extends State<MainPage> {
     HomePage(),
     PlanningPage(),
     // TODO: Replace seeded List with API list of guests
-    GuestsPage(
-        guestNames: List<String>.generate(1000, (index) => 'Guest $index'),
-        guestRelationships:
-            List<String>.generate(1000, (index) => 'Relationship')),
+    GuestsPage(guestList: List<GuestInfo>.generate(1000, (i) => GuestInfo('Guest', '$i', 'Relation', 'email$i@ex.com', 'XXX-XXXX'))),
     VendorsPage(),
     AccountPage()
   ];
@@ -98,16 +96,14 @@ class _MainPageState extends State<MainPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Constants.lightPrimary,
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Center(
-            child: Text(widget.title,
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Roboto Slab',
-                    fontWeight: FontWeight.bold)),
-          )),
+        backgroundColor: Constants.lightPrimary,
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Center(
+          child: Text(widget.title,
+          style: Constants.appBarStyle),
+        )
+      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedPage),
       ),
