@@ -36,5 +36,7 @@ class Constants {
   ///Title TextStyle
   static const title = TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
   ///Budget Expense TextStyle
-  static const budgetExpense = TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0, color: Constants.darkSecondary)
+  static const budgetExpense = TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0, color: Constants.darkSecondary);
+  ///List item task price textStyle
+  static const taskPrice = TextStyle(fontWeight: FontWeight.bold, fontSize: 23.0, color: Colors.black);
 }
