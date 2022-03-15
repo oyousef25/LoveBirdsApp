@@ -36,11 +36,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.pink,
         // Default font family
         fontFamily: 'Roboto Slab',
-        primaryTextTheme: const TextTheme(
-          titleSmall: TextStyle(
-            color: Colors.black
-          )
-        ),
+        primaryTextTheme:
+            const TextTheme(titleSmall: TextStyle(color: Colors.black)),
       ),
       home: const MainPage(title: 'LoveBirds'),
     );
@@ -48,7 +45,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key, required this.title}) : super(key: key); // Main page key identifier
+  const MainPage({Key? key, required this.title})
+      : super(key: key); // Main page key identifier
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -77,7 +75,7 @@ class _MainPageState extends State<MainPage> {
     GuestsPage(guestList: List<GuestInfo>.generate(1000, (i) => GuestInfo('Guest', '$i', 'Relation', 'email$i@ex.com', 'XXX-XXXX'))),
     VendorsPage(),
     AccountPage()
-    ];
+  ];
 
   /// Trigger bottom nav item tap
   ///
@@ -110,35 +108,35 @@ class _MainPageState extends State<MainPage> {
         child: _widgetOptions.elementAt(_selectedPage),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.house_rounded),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.edit_calendar_rounded),
-            label: 'Planning',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.perm_contact_calendar_rounded),
-            label: 'Guests',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.storefront_rounded),
-            label: 'Vendors',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.manage_accounts_rounded),
-            label: 'Account',
-          ),
-        ],
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Constants.lightPrimary,
-        currentIndex: _selectedPage,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.black,
-        onTap: _onItemTapped
-      ),// This trailing comma makes auto-formatting nicer for build methods.
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.house_rounded),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.edit_calendar_rounded),
+              label: 'Planning',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.perm_contact_calendar_rounded),
+              label: 'Guests',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.storefront_rounded),
+              label: 'Vendors',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.manage_accounts_rounded),
+              label: 'Account',
+            ),
+          ],
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Constants.lightPrimary,
+          currentIndex: _selectedPage,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.black,
+          onTap:
+              _onItemTapped), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

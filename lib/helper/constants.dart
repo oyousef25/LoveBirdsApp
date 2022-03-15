@@ -45,8 +45,11 @@ class Constants {
   static const listSubtitleStyle = TextStyle(fontSize: 13, fontWeight: FontWeight.normal, color: subtitleColor);
   /// Title TextStyle
   static const title = TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
+
   /// Budget Expense TextStyle
   static const budgetExpense = TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0, color: darkSecondary);
+  ///List item task price textStyle
+  static const taskPrice = TextStyle(fontWeight: FontWeight.bold, fontSize: 23.0, color: Colors.black);
   /// Button red TextStyle
   static const buttonRedStyle = TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white);
   /// Button white TextStyle
