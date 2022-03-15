@@ -141,11 +141,14 @@ class GuestDetailsScreen extends StatelessWidget {
               style: Constants.appBarStyle),
         ),
       ),
-      body: Column( // A column with image, card of guest details, and two buttons
+      body: Column( // A column with image, guest detail card, and two buttons
         children: <Widget>[
+          Padding(padding: EdgeInsets.all(50.0)),
           Icon(Icons.person_outline_rounded, size: 100.0),
           Card(
-            margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+            shadowColor: Colors.grey,
+            elevation: 5.0,
+            margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)
             ),
@@ -186,6 +189,41 @@ class GuestDetailsScreen extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          Row( // This row contains the two buttons for removing and contacting a guest
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(onPressed: () {
+                // TODO: Remove guest functionality goes here
+              },
+                child: Text('Remove Guest', style: Constants.buttonRedStyle),
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)
+                    ),
+                  ),
+                  backgroundColor: MaterialStateProperty.all<Color>(Constants.buttonRed),
+                  padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 25.0, horizontal: 30.0)),
+                )
+              ),
+              Padding(padding: EdgeInsets.symmetric(vertical: 60.0, horizontal: 20.0),),
+              ElevatedButton(
+                onPressed: () {
+                // TODO: Contact guest functionality goes here
+                },
+                child: Text('Contact Guest', style: Constants.buttonWhiteStyle),
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 25.0, horizontal: 30.0)),
+                ),
+              ),
+            ],
           ),
         ],
       ),

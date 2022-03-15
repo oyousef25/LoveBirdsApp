@@ -17,8 +17,12 @@ class Constants {
   static const Color darkSecondary = Color(0xFF61D2C6);
   /// Golden yellow
   static const Color highlight = Color(0xFFFFCF3E);
-  // Grey subtitle
+  /// Grey subtitle
   static const Color subtitleColor = Color(0xFF525252);
+  /// Button red
+  static const Color buttonRed = Color(0xFFFF8585);
+  /// Button green
+  static const Color buttonGreen = Color(0xFF95E28E);
 
   // Styles
   /// AppBar title TextStyle
@@ -39,8 +43,12 @@ class Constants {
   static const listTitleStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black);
   /// List item subtitle TextStyle
   static const listSubtitleStyle = TextStyle(fontSize: 13, fontWeight: FontWeight.normal, color: subtitleColor);
-  ///Title TextStyle
+  /// Title TextStyle
   static const title = TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
-  ///Budget Expense TextStyle
-  static const budgetExpense = TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0, color: Constants.darkSecondary);
+  /// Budget Expense TextStyle
+  static const budgetExpense = TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0, color: darkSecondary);
+  /// Button red TextStyle
+  static const buttonRedStyle = TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white);
+  /// Button white TextStyle
+  static const buttonWhiteStyle = TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.bold, color: buttonRed);
 }
