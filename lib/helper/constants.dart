@@ -19,10 +19,16 @@ class Constants {
   static const Color highlight = Color(0xFFFFCF3E);
   /// Grey subtitle
   static const Color subtitleColor = Color(0xFF525252);
+
+  /// Spouse Color Codes
+  static const Color pinkSpouse = Color(0xFFFFADAD);
+  static const Color blueSpouse = Color(0xFF92DFD8);
+
   /// Button red
   static const Color buttonRed = Color(0xFFFF8585);
   /// Button green
   static const Color buttonGreen = Color(0xFF95E28E);
+
 
   // Styles
   /// AppBar title TextStyle

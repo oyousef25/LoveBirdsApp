@@ -17,6 +17,7 @@ class PlanningPage extends StatefulWidget {
     "Buy Flowers"
   ];
   final List<String> taskPrices = <String>["\$500.00", "\$500.00", "\$150.00"];
+  final List<Color> colorCodes = <Color>[Constants.blueSpouse, Constants.pinkSpouse, Constants.blueSpouse];
 
   /// Creates a state
   ///
@@ -113,7 +114,7 @@ class _PlanningPageState extends State<PlanningPage> {
                       backgroundColor: Constants.lightPrimary,
                     ),
 
-                    //row containing labels
+                    //row containing budget remaining labels
                     Row(
                       children: const [
                         Expanded(
@@ -169,11 +170,13 @@ class _PlanningPageState extends State<PlanningPage> {
                   },
                 ).toList()),
 
+            //the list of tasks (contained in a listview builder)
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.all(15),
                 itemCount: widget.taskNames.length,
                 itemBuilder: (BuildContext context, int index) {
+                  //an individual list item is a card
                   return Card(
                     margin: const EdgeInsets.symmetric(
                         vertical: 7.0,
@@ -183,10 +186,26 @@ class _PlanningPageState extends State<PlanningPage> {
                     color: Colors.white,
                     shadowColor: Colors.grey,
                     elevation: 5.0,
-                      child: Row(
-                        children: [
-                          const Padding(padding: EdgeInsets.only(left: 22)),
-                          Expanded(
+
+                    //this card contains a row of the labels and widgets that make up a task item
+                    child: Row(
+                      children: [
+                        //this container is the spouse's color indicator
+                        Container(
+                          width: 15,
+                          height: 80,
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                                bottomLeft: Radius.circular(10.0),
+                              ),
+                              color: widget.colorCodes[index]),
+                        ),
+
+                        const Padding(padding: EdgeInsets.only(left: 12)),
+
+                        Expanded(
+                          //column containing task name and due date
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -203,18 +222,19 @@ class _PlanningPageState extends State<PlanningPage> {
                                   padding: EdgeInsets.only(bottom: 12)),
                             ],
                           ),
-                          ),
-                          Row(
-                            children: [
-                              Text(widget.taskPrices[index],
-                                  textAlign: TextAlign.right,
-                                  style: Constants.taskPrice),
-                              const Icon(Icons.chevron_right_rounded),
-                              const Padding(
-                                  padding: EdgeInsets.only(right: 10)),
-                            ],
-                          ),
-                        ],
+                        ),
+
+                        //row containing task price and arrow indicator
+                        Row(
+                          children: [
+                            Text(widget.taskPrices[index],
+                                textAlign: TextAlign.right,
+                                style: Constants.taskPrice),
+                            const Icon(Icons.chevron_right_rounded),
+                            const Padding(padding: EdgeInsets.only(right: 10)),
+                          ],
+                        ),
+                      ],
                     ),
                   );
                 },
