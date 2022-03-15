@@ -17,8 +17,11 @@ class Constants {
   static const Color darkSecondary = Color(0xFF61D2C6);
   /// Golden yellow
   static const Color highlight = Color(0xFFFFCF3E);
-  // Grey subtitle
+  /// Grey subtitle
   static const Color subtitleColor = Color(0xFF525252);
+  /// Spouse Color Codes
+  static const Color pinkSpouse = Color(0xFFFFADAD);
+  static const Color blueSpouse = Color(0xFF92DFD8);
 
   // Styles
   /// Card header TextStyle
