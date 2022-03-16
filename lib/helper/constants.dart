@@ -34,13 +34,15 @@ class Constants {
   /// AppBar title TextStyle
   static const appBarStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black);
   /// Card header TextStyle
-  static const cardHeaderStyle = TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Colors.black);
+  static const cardHeaderStyle = TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Colors.black);
   /// Card content TextStyle
   static const cardContentStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: Colors.black);
-  /// Card content greyed TextStyle
+  /// Card detail greyed TextStyle
   static const detailStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black);
-  /// Card content greyed TextStyle
+  /// Card detail greyed TextStyle
   static const detailGreyedStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.grey);
+  /// Dialog content TextStyle
+  static const dialogContentStyle = TextStyle(fontSize: 23, fontWeight: FontWeight.normal, color: Colors.black);
   /// Chip selected TextStyle
   static const chipSelectedStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white);
   /// Chip unselected TextStyle

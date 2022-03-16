@@ -193,9 +193,69 @@ class GuestDetailsScreen extends StatelessWidget {
           Row( // This row contains the two buttons for removing and contacting a guest
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              ElevatedButton(onPressed: () {
-                // TODO: Remove guest functionality goes here
-              },
+              ElevatedButton( // Remove guest button
+                onPressed: () => showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)
+                    ),
+                    titlePadding: EdgeInsets.zero,
+                    title: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                                bottomLeft: Radius.zero,
+                                bottomRight: Radius.zero)
+                        ),
+                        margin: EdgeInsets.zero,
+                        color: Constants.lightSecondary,
+                        child: ListTile(
+                          title: Text('Deletion Confirmation',
+                              textAlign: TextAlign.center,
+                              style: Constants.cardHeaderStyle),
+                        )
+                    ),
+                    contentPadding: EdgeInsets.only(top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
+                    content: Text('Are you sure you want to remove ' + guestInfo.firstName + ' ' + guestInfo.lastName + '?',
+                        style: Constants.dialogContentStyle),
+                    actionsAlignment: MainAxisAlignment.center,
+                    // actionsPadding: ,
+                    buttonPadding: EdgeInsets.symmetric(horizontal: 25.0),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, 'Cancel'),
+                        child: const Text('Cancel', style: Constants.buttonRedStyle),
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)
+                            ),
+                          ),
+                          backgroundColor: MaterialStateProperty.all<Color>(Constants.buttonRed),
+                          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 25.0, horizontal: 40.0)),
+                        )
+                      ),
+                      TextButton(
+                        onPressed: () => {
+                          // TODO: Delete guest functionality
+                          Navigator.pop(context),
+                          Navigator.pop(context)},
+                        child: const Text('Confirm', style: Constants.buttonRedStyle),
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          backgroundColor: MaterialStateProperty.all<Color>(Constants.buttonGreen),
+                          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 25.0, horizontal: 35.0)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 child: Text('Remove Guest', style: Constants.buttonRedStyle),
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -208,7 +268,7 @@ class GuestDetailsScreen extends StatelessWidget {
                 )
               ),
               Padding(padding: EdgeInsets.symmetric(vertical: 60.0, horizontal: 20.0),),
-              ElevatedButton(
+              ElevatedButton( // Contact guest button
                 onPressed: () {
                 // TODO: Contact guest functionality goes here
                 },
