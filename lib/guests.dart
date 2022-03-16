@@ -316,21 +316,138 @@ class AddGuestScreen extends StatelessWidget {
           key: _guestFormKey,
           child: Column(
             children: <Widget>[
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'First Name',
-
-                  hintText: 'John',
+              Padding(padding: EdgeInsets.symmetric(vertical: 15.0)),
+              Material(
+                shadowColor: Colors.grey,
+                elevation: 3.0,
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                    labelText: 'First Name',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelStyle: Constants.formLabelStyle,
+                    hintText: 'John',
+                    hintStyle: Constants.formHintStyle,
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'First name cannot be empty';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
+              ),
+              Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+              Material(
+                shadowColor: Colors.grey,
+                elevation: 3.0,
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                    labelText: 'Last Name',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelStyle: Constants.formLabelStyle,
+                    hintText: 'Smith',
+                    hintStyle: Constants.formHintStyle,
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Last name cannot be empty';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+              Material(
+                shadowColor: Colors.grey,
+                elevation: 3.0,
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                    labelText: 'First Name',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelStyle: Constants.formLabelStyle,
+                    hintText: 'John',
+                    hintStyle: Constants.formHintStyle,
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Name cannot be empty';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+              Material(
+                shadowColor: Colors.grey,
+                elevation: 3.0,
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                    labelText: 'E-mail',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelStyle: Constants.formLabelStyle,
+                    hintText: 'email@example.com',
+                    hintStyle: Constants.formHintStyle,
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'E-mail cannot be empty';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+              Material(
+                shadowColor: Colors.grey,
+                elevation: 3.0,
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                    labelText: 'Phone',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelStyle: Constants.formLabelStyle,
+                    hintText: '(123)456-7890',
+                    hintStyle: Constants.formHintStyle,
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Phone cannot be empty';
+                    }
+                    return null;
+                  },
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                padding: const EdgeInsets.symmetric(vertical: 40.0),
                 child: ElevatedButton(
                     onPressed: () {
                       // Validate will return true if the form is valid, or false if
@@ -347,7 +464,7 @@ class AddGuestScreen extends StatelessWidget {
                         ),
                       ),
                       backgroundColor: MaterialStateProperty.all<Color>(Constants.buttonRed),
-                      padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 15.0, horizontal: 100.0)),
+                      padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 20.0, horizontal: 100.0)),
                     )
                 ),
               ),

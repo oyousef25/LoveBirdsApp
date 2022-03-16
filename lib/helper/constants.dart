@@ -31,18 +31,18 @@ class Constants {
 
   /// Material color
   static Map<int, Color> materialSwatchMap = {
-    50: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.05),
-    100: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.1),
-    200: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.2),
-    300: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.3),
-    400: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.4),
-    500: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.5),
-    600: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.6),
-    700: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.7),
-    800: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.8),
-    900: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.9),
+    50: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.05),
+    100: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.1),
+    200: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.2),
+    300: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.3),
+    400: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.4),
+    500: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.5),
+    600: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.6),
+    700: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.7),
+    800: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.8),
+    900: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.9),
   };
-  static MaterialColor appMaterialSwatch = MaterialColor(lightPrimary.value, materialSwatchMap);
+  static MaterialColor appMaterialSwatch = MaterialColor(darkSecondary.value, materialSwatchMap);
 
   // Styles
   /// AppBar title TextStyle
@@ -67,6 +67,10 @@ class Constants {
   static const listSubtitleStyle = TextStyle(fontSize: 13, fontWeight: FontWeight.normal, color: subtitleColor);
   /// Title TextStyle
   static const title = TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
+  /// Form label TextStyle
+  static const formLabelStyle = TextStyle(fontSize: 23, fontWeight: FontWeight.normal, color: darkSecondary);
+  /// Form hint TextStyle
+  static const formHintStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.black26);
 
   /// Budget Expense TextStyle
   static const budgetExpense = TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0, color: darkSecondary);
