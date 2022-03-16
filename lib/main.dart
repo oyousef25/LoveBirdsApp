@@ -72,7 +72,7 @@ class _MainPageState extends State<MainPage> {
     HomePage(),
     PlanningPage(),
     // TODO: Replace seeded List with API list of guests
-    GuestsPage(guestList: List<GuestInfo>.generate(1000, (i) => GuestInfo('Guest', '$i', 'Relation', 'email$i@ex.com', 'XXX-XXXX'))),
+    GuestsPage(guestList: List<GuestInfo>.generate(1000, (i) => GuestInfo('Guest', '$i', 'Hummus', 'email$i@ex.com', 'XXX-XXXX'))),
     VendorsPage(),
     AccountPage()
   ];

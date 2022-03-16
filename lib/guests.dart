@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
@@ -114,10 +116,10 @@ class _GuestsPageState extends State<GuestsPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Go to add guest page when FAB is pressed
+          // Go to add guest page
           Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => AddGuestScreen(),
+                builder: (context) => ModifyGuestScreen(guestInfo: null,),
               )
           );
         },
@@ -173,7 +175,15 @@ class GuestDetailsScreen extends StatelessWidget {
                     title: Text('Guest Information',
                     textAlign: TextAlign.center,
                     style: Constants.cardHeaderStyle),
-                    trailing: Icon(Icons.edit),
+                    trailing: IconButton(
+                      onPressed: () {
+                        // Jump to edit screen
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ModifyGuestScreen(guestInfo: guestInfo,),
+                            )
+                        );
+                      }, icon: Icon(Icons.edit),),
                   )
                 ),
                 ListTile(
@@ -296,27 +306,39 @@ class GuestDetailsScreen extends StatelessWidget {
   }
 }
 
-class AddGuestScreen extends StatefulWidget {
-  const AddGuestScreen({Key? key}) : super(key: key);
+class ModifyGuestScreen extends StatefulWidget {
+  const ModifyGuestScreen({Key? key, required this.guestInfo}) : super(key: key);
+
+  // Will be null if adding a guest
+  // Otherwise it will contain the guest info to edit.
+  final GuestInfo? guestInfo;
 
   @override
   State<StatefulWidget> createState() {
-    return _AddGuestState();
+    return _ModifyGuestState();
   }
 }
 
-class _AddGuestState extends State<AddGuestScreen> {
-  /// Form key for validation of guest info
+class _ModifyGuestState extends State<ModifyGuestScreen> {
+  /// Form key for validation of guest form
   final GlobalKey<FormState> _guestFormKey = GlobalKey<FormState>();
-  String guestRelationship = 'Hummus';
 
   @override
   Widget build(BuildContext context) {
+    // Populate the guest info text, if any
+    GuestInfo? guestInfo = widget.guestInfo;
+    GuestInfo guestInfoTextValue = GuestInfo('', '', 'Hummus', '', ''); // Default
+    if (guestInfo != null) { // Make sure guest info exists
+      guestInfoTextValue = guestInfo;
+    }
+    // Keeps track of relationship dropdown menu item
+    String guestRelationship = guestInfoTextValue.relationship;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Constants.lightPrimary,
           centerTitle: true,
-          title: Text('New Guest',
+          title: Text(widget.guestInfo == null ? 'New Guest' : 'Edit Guest',
               style: Constants.appBarStyle
           ),
         ),
@@ -334,6 +356,7 @@ class _AddGuestState extends State<AddGuestScreen> {
                   elevation: 3.0,
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   child: TextFormField(
+                    initialValue: guestInfoTextValue.firstName,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -362,6 +385,7 @@ class _AddGuestState extends State<AddGuestScreen> {
                   elevation: 3.0,
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   child: TextFormField(
+                    initialValue: guestInfoTextValue.lastName,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -431,6 +455,7 @@ class _AddGuestState extends State<AddGuestScreen> {
                   elevation: 3.0,
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   child: TextFormField(
+                    initialValue: guestInfoTextValue.email,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -459,6 +484,7 @@ class _AddGuestState extends State<AddGuestScreen> {
                   elevation: 3.0,
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   child: TextFormField(
+                    initialValue: guestInfoTextValue.phoneNum,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -487,9 +513,16 @@ class _AddGuestState extends State<AddGuestScreen> {
                         // the form is invalid.
                         if (_guestFormKey.currentState!.validate()) {
                           // Process data.
+                          if(widget.guestInfo == null) { // Case where adding a guest
+                            // TODO: Add a guest
+                          }
+                          else { // Case where editing a guest
+                            // TODO: Edit a guest's info
+                          }
                         }
                       },
-                      child: Text('Add Guest', style: Constants.buttonRedStyle),
+                      child: Text(
+                        widget.guestInfo == null ? 'Add Guest' : 'Save', style: Constants.buttonRedStyle),
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
