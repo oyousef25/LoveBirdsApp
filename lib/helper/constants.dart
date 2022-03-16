@@ -71,6 +71,8 @@ class Constants {
   static const formLabelStyle = TextStyle(fontSize: 23, fontWeight: FontWeight.normal, color: darkSecondary);
   /// Form hint TextStyle
   static const formHintStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.black26);
+  /// Form hint TextStyle
+  static const formDropdownStyle = TextStyle(fontFamily: 'Roboto Slab', fontSize: 18, fontWeight: FontWeight.normal, color: Colors.black);
 
   /// Budget Expense TextStyle
   static const budgetExpense = TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0, color: darkSecondary);

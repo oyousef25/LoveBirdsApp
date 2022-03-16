@@ -122,7 +122,7 @@ class _GuestsPageState extends State<GuestsPage> {
           );
         },
         backgroundColor: Constants.lightSecondary,
-        child: Icon(Icons.add, size: 50.0),
+        child: Icon(Icons.add, size: 50.0, color: Colors.white,),
       ),
     );
   }
@@ -296,182 +296,215 @@ class GuestDetailsScreen extends StatelessWidget {
   }
 }
 
-class AddGuestScreen extends StatelessWidget {
+class AddGuestScreen extends StatefulWidget {
+  const AddGuestScreen({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _AddGuestState();
+  }
+}
+
+class _AddGuestState extends State<AddGuestScreen> {
   /// Form key for validation of guest info
   final GlobalKey<FormState> _guestFormKey = GlobalKey<FormState>();
+  String guestRelationship = 'Hummus';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Constants.lightPrimary,
-        centerTitle: true,
-        title: Text('New Guest',
+        appBar: AppBar(
+          backgroundColor: Constants.lightPrimary,
+          centerTitle: true,
+          title: Text('New Guest',
               style: Constants.appBarStyle
-        ),
-      ),
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 30.0),
-        child: Form( // New guest form
-          key: _guestFormKey,
-          child: Column(
-            children: <Widget>[
-              Padding(padding: EdgeInsets.symmetric(vertical: 15.0)),
-              Material(
-                shadowColor: Colors.grey,
-                elevation: 3.0,
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                    labelText: 'First Name',
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    labelStyle: Constants.formLabelStyle,
-                    hintText: 'John',
-                    hintStyle: Constants.formHintStyle,
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'First name cannot be empty';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
-              Material(
-                shadowColor: Colors.grey,
-                elevation: 3.0,
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                    labelText: 'Last Name',
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    labelStyle: Constants.formLabelStyle,
-                    hintText: 'Smith',
-                    hintStyle: Constants.formHintStyle,
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Last name cannot be empty';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
-              Material(
-                shadowColor: Colors.grey,
-                elevation: 3.0,
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                    labelText: 'First Name',
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    labelStyle: Constants.formLabelStyle,
-                    hintText: 'John',
-                    hintStyle: Constants.formHintStyle,
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Name cannot be empty';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
-              Material(
-                shadowColor: Colors.grey,
-                elevation: 3.0,
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                    labelText: 'E-mail',
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    labelStyle: Constants.formLabelStyle,
-                    hintText: 'email@example.com',
-                    hintStyle: Constants.formHintStyle,
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'E-mail cannot be empty';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
-              Material(
-                shadowColor: Colors.grey,
-                elevation: 3.0,
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                    labelText: 'Phone',
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    labelStyle: Constants.formLabelStyle,
-                    hintText: '(123)456-7890',
-                    hintStyle: Constants.formHintStyle,
-                    fillColor: Colors.white,
-                    filled: true,
-                  ),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Phone cannot be empty';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 40.0),
-                child: ElevatedButton(
-                    onPressed: () {
-                      // Validate will return true if the form is valid, or false if
-                      // the form is invalid.
-                      if (_guestFormKey.currentState!.validate()) {
-                        // Process data.
-                      }
-                    },
-                    child: Text('Add Guest', style: Constants.buttonRedStyle),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)
-                        ),
-                      ),
-                      backgroundColor: MaterialStateProperty.all<Color>(Constants.buttonRed),
-                      padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 20.0, horizontal: 100.0)),
-                    )
-                ),
-              ),
-            ],
           ),
         ),
-      )
+        body: Container(
+          margin: EdgeInsets.symmetric(horizontal: 30.0),
+          child: Form( // New guest form
+            key: _guestFormKey,
+            child: Column(
+              children: <Widget>[
+                Padding(padding: EdgeInsets.symmetric(vertical: 15.0)),
+
+                /// Guest's first name
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      labelText: 'First Name',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      labelStyle: Constants.formLabelStyle,
+                      hintText: 'John',
+                      hintStyle: Constants.formHintStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'First name cannot be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+
+                /// Guest's last name
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      labelText: 'Last Name',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      labelStyle: Constants.formLabelStyle,
+                      hintText: 'Smith',
+                      hintStyle: Constants.formHintStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Last name cannot be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+
+                /// Guest's relationship
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      labelText: 'Relationship',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      labelStyle: Constants.formLabelStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                      isDense: true,
+                      contentPadding: EdgeInsets.only(left: 12.0, top: 12.0, right: 12.0, bottom: 2.0),
+                    ),
+                    iconSize: 50.0,
+                    value: guestRelationship,
+                    focusNode: FocusNode(), // Hack to not focus dropdown after selection
+                    icon: const Icon(Icons.arrow_drop_down_rounded),
+                    elevation: 16,
+                    style: Constants.formDropdownStyle,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        guestRelationship = newValue!;
+                      });
+                    },
+                    items: <String>['Hummus', 'Sister', 'Brother', 'Unspecified']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value,
+                          style: Constants.formDropdownStyle,),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+
+                /// Guest's email
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      labelText: 'E-mail',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      labelStyle: Constants.formLabelStyle,
+                      hintText: 'email@example.com',
+                      hintStyle: Constants.formHintStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'E-mail cannot be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+
+                /// Guest's phone number
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      labelText: 'Phone',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      labelStyle: Constants.formLabelStyle,
+                      hintText: '(123)456-7890',
+                      hintStyle: Constants.formHintStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Phone # cannot be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 50.0),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        // Validate will return true if the form is valid, or false if
+                        // the form is invalid.
+                        if (_guestFormKey.currentState!.validate()) {
+                          // Process data.
+                        }
+                      },
+                      child: Text('Add Guest', style: Constants.buttonRedStyle),
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)
+                          ),
+                        ),
+                        backgroundColor: MaterialStateProperty.all<Color>(Constants.buttonRed),
+                        padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 25.0, horizontal: 150.0)),
+                      )
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
     );
   }
 }
