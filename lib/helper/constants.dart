@@ -29,6 +29,20 @@ class Constants {
   /// Button green
   static const Color buttonGreen = Color(0xFF95E28E);
 
+  /// Material color
+  static Map<int, Color> materialSwatchMap = {
+    50: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.05),
+    100: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.1),
+    200: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.2),
+    300: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.3),
+    400: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.4),
+    500: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.5),
+    600: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.6),
+    700: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.7),
+    800: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.8),
+    900: Color.fromRGBO(lightPrimary.red, lightPrimary.green, lightPrimary.blue, 0.9),
+  };
+  static MaterialColor appMaterialSwatch = MaterialColor(lightPrimary.value, materialSwatchMap);
 
   // Styles
   /// AppBar title TextStyle

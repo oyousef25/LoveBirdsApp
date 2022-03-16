@@ -114,7 +114,12 @@ class _GuestsPageState extends State<GuestsPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Add a guest when FAB is pressed
+          // Go to add guest page when FAB is pressed
+          Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => AddGuestScreen(),
+              )
+          );
         },
         backgroundColor: Constants.lightSecondary,
         child: Icon(Icons.add, size: 50.0),
@@ -136,9 +141,9 @@ class GuestDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Constants.lightPrimary,
-        title: Center(
-          child: Text('Guest Details',
-              style: Constants.appBarStyle),
+        centerTitle: true,
+        title: Text('Guest Details',
+              style: Constants.appBarStyle
         ),
       ),
       body: Column( // A column with image, guest detail card, and two buttons
@@ -224,7 +229,7 @@ class GuestDetailsScreen extends StatelessWidget {
                     // actionsPadding: ,
                     buttonPadding: EdgeInsets.symmetric(horizontal: 25.0),
                     actions: <Widget>[
-                      TextButton(
+                      ElevatedButton(
                         onPressed: () => Navigator.pop(context, 'Cancel'),
                         child: const Text('Cancel', style: Constants.buttonRedStyle),
                         style: ButtonStyle(
@@ -237,7 +242,7 @@ class GuestDetailsScreen extends StatelessWidget {
                           padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 25.0, horizontal: 40.0)),
                         )
                       ),
-                      TextButton(
+                      ElevatedButton(
                         onPressed: () => {
                           // TODO: Delete guest functionality
                           Navigator.pop(context),
@@ -287,6 +292,69 @@ class GuestDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class AddGuestScreen extends StatelessWidget {
+  /// Form key for validation of guest info
+  final GlobalKey<FormState> _guestFormKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Constants.lightPrimary,
+        centerTitle: true,
+        title: Text('New Guest',
+              style: Constants.appBarStyle
+        ),
+      ),
+      body: Container(
+        margin: EdgeInsets.symmetric(horizontal: 30.0),
+        child: Form( // New guest form
+          key: _guestFormKey,
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'First Name',
+
+                  hintText: 'John',
+                ),
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: ElevatedButton(
+                    onPressed: () {
+                      // Validate will return true if the form is valid, or false if
+                      // the form is invalid.
+                      if (_guestFormKey.currentState!.validate()) {
+                        // Process data.
+                      }
+                    },
+                    child: Text('Add Guest', style: Constants.buttonRedStyle),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                      ),
+                      backgroundColor: MaterialStateProperty.all<Color>(Constants.buttonRed),
+                      padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 15.0, horizontal: 100.0)),
+                    )
+                ),
+              ),
+            ],
+          ),
+        ),
+      )
     );
   }
 }
