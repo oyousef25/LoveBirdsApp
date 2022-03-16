@@ -373,6 +373,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                       if (value == null || value.isEmpty) {
                         return 'First name cannot be empty';
                       }
+                      // TODO: First name validation code
                       return null;
                     },
                   ),
@@ -402,6 +403,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Last name cannot be empty';
                       }
+                      // TODO: Last name validation code
                       return null;
                     },
                   ),
@@ -472,6 +474,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                       if (value == null || value.isEmpty) {
                         return 'E-mail cannot be empty';
                       }
+                      // TODO: Email validation code
                       return null;
                     },
                   ),
@@ -501,6 +504,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Phone # cannot be empty';
                       }
+                      // TODO: Phone number validation code
                       return null;
                     },
                   ),
