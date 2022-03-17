@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
@@ -114,10 +116,15 @@ class _GuestsPageState extends State<GuestsPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Add a guest when FAB is pressed
+          // Go to add guest page
+          Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ModifyGuestScreen(guestInfo: null,),
+              )
+          );
         },
         backgroundColor: Constants.lightSecondary,
-        child: Icon(Icons.add, size: 50.0),
+        child: Icon(Icons.add, size: 50.0, color: Colors.white,),
       ),
     );
   }
@@ -136,9 +143,9 @@ class GuestDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Constants.lightPrimary,
-        title: Center(
-          child: Text('Guest Details',
-              style: Constants.appBarStyle),
+        centerTitle: true,
+        title: Text('Guest Details',
+              style: Constants.appBarStyle
         ),
       ),
       body: Column( // A column with image, guest detail card, and two buttons
@@ -168,7 +175,15 @@ class GuestDetailsScreen extends StatelessWidget {
                     title: Text('Guest Information',
                     textAlign: TextAlign.center,
                     style: Constants.cardHeaderStyle),
-                    trailing: Icon(Icons.edit),
+                    trailing: IconButton(
+                      onPressed: () {
+                        // Jump to edit screen
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ModifyGuestScreen(guestInfo: guestInfo,),
+                            )
+                        );
+                      }, icon: Icon(Icons.edit),),
                   )
                 ),
                 ListTile(
@@ -193,9 +208,69 @@ class GuestDetailsScreen extends StatelessWidget {
           Row( // This row contains the two buttons for removing and contacting a guest
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              ElevatedButton(onPressed: () {
-                // TODO: Remove guest functionality goes here
-              },
+              ElevatedButton( // Remove guest button
+                onPressed: () => showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)
+                    ),
+                    titlePadding: EdgeInsets.zero,
+                    title: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                                bottomLeft: Radius.zero,
+                                bottomRight: Radius.zero)
+                        ),
+                        margin: EdgeInsets.zero,
+                        color: Constants.lightSecondary,
+                        child: ListTile(
+                          title: Text('Deletion Confirmation',
+                              textAlign: TextAlign.center,
+                              style: Constants.cardHeaderStyle),
+                        )
+                    ),
+                    contentPadding: EdgeInsets.only(top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
+                    content: Text('Are you sure you want to remove ' + guestInfo.firstName + ' ' + guestInfo.lastName + '?',
+                        style: Constants.dialogContentStyle),
+                    actionsAlignment: MainAxisAlignment.center,
+                    // actionsPadding: ,
+                    buttonPadding: EdgeInsets.symmetric(horizontal: 25.0),
+                    actions: <Widget>[
+                      ElevatedButton(
+                        onPressed: () => Navigator.pop(context, 'Cancel'),
+                        child: const Text('Cancel', style: Constants.buttonRedStyle),
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)
+                            ),
+                          ),
+                          backgroundColor: MaterialStateProperty.all<Color>(Constants.buttonRed),
+                          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 25.0, horizontal: 40.0)),
+                        )
+                      ),
+                      ElevatedButton(
+                        onPressed: () => {
+                          // TODO: Delete guest functionality
+                          Navigator.pop(context),
+                          Navigator.pop(context)},
+                        child: const Text('Confirm', style: Constants.buttonRedStyle),
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          backgroundColor: MaterialStateProperty.all<Color>(Constants.buttonGreen),
+                          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 25.0, horizontal: 35.0)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 child: Text('Remove Guest', style: Constants.buttonRedStyle),
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -208,7 +283,7 @@ class GuestDetailsScreen extends StatelessWidget {
                 )
               ),
               Padding(padding: EdgeInsets.symmetric(vertical: 60.0, horizontal: 20.0),),
-              ElevatedButton(
+              ElevatedButton( // Contact guest button
                 onPressed: () {
                 // TODO: Contact guest functionality goes here
                 },
@@ -227,6 +302,246 @@ class GuestDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class ModifyGuestScreen extends StatefulWidget {
+  const ModifyGuestScreen({Key? key, required this.guestInfo}) : super(key: key);
+
+  // Will be null if adding a guest
+  // Otherwise it will contain the guest info to edit.
+  final GuestInfo? guestInfo;
+
+  @override
+  State<StatefulWidget> createState() {
+    return _ModifyGuestState();
+  }
+}
+
+class _ModifyGuestState extends State<ModifyGuestScreen> {
+  /// Form key for validation of guest form
+  final GlobalKey<FormState> _guestFormKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    // Populate the guest info text, if any
+    GuestInfo? guestInfo = widget.guestInfo;
+    GuestInfo guestInfoTextValue = GuestInfo('', '', 'Hummus', '', ''); // Default
+    if (guestInfo != null) { // Make sure guest info exists
+      guestInfoTextValue = guestInfo;
+    }
+    // Keeps track of relationship dropdown menu item
+    String guestRelationship = guestInfoTextValue.relationship;
+
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Constants.lightPrimary,
+          centerTitle: true,
+          title: Text(widget.guestInfo == null ? 'New Guest' : 'Edit Guest',
+              style: Constants.appBarStyle
+          ),
+        ),
+        body: Container(
+          margin: EdgeInsets.symmetric(horizontal: 30.0),
+          child: Form( // New guest form
+            key: _guestFormKey,
+            child: Column(
+              children: <Widget>[
+                Padding(padding: EdgeInsets.symmetric(vertical: 15.0)),
+
+                /// Guest's first name
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: TextFormField(
+                    initialValue: guestInfoTextValue.firstName,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      labelText: 'First Name',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      labelStyle: Constants.formLabelStyle,
+                      hintText: 'John',
+                      hintStyle: Constants.formHintStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'First name cannot be empty';
+                      }
+                      // TODO: First name validation code
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+
+                /// Guest's last name
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: TextFormField(
+                    initialValue: guestInfoTextValue.lastName,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      labelText: 'Last Name',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      labelStyle: Constants.formLabelStyle,
+                      hintText: 'Smith',
+                      hintStyle: Constants.formHintStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Last name cannot be empty';
+                      }
+                      // TODO: Last name validation code
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+
+                /// Guest's relationship
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      labelText: 'Relationship',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      labelStyle: Constants.formLabelStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                      isDense: true,
+                      contentPadding: EdgeInsets.only(left: 12.0, top: 12.0, right: 12.0, bottom: 2.0),
+                    ),
+                    iconSize: 50.0,
+                    value: guestRelationship,
+                    focusNode: FocusNode(), // Hack to not focus dropdown after selection
+                    icon: const Icon(Icons.arrow_drop_down_rounded),
+                    elevation: 16,
+                    style: Constants.formDropdownStyle,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        guestRelationship = newValue!;
+                      });
+                    },
+                    items: <String>['Hummus', 'Sister', 'Brother', 'Unspecified']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value,
+                          style: Constants.formDropdownStyle,),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+
+                /// Guest's email
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: TextFormField(
+                    initialValue: guestInfoTextValue.email,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      labelText: 'E-mail',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      labelStyle: Constants.formLabelStyle,
+                      hintText: 'email@example.com',
+                      hintStyle: Constants.formHintStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'E-mail cannot be empty';
+                      }
+                      // TODO: Email validation code
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+
+                /// Guest's phone number
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: TextFormField(
+                    initialValue: guestInfoTextValue.phoneNum,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      labelText: 'Phone',
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      labelStyle: Constants.formLabelStyle,
+                      hintText: '(123)456-7890',
+                      hintStyle: Constants.formHintStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Phone # cannot be empty';
+                      }
+                      // TODO: Phone number validation code
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 50.0),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        // Validate will return true if the form is valid, or false if
+                        // the form is invalid.
+                        if (_guestFormKey.currentState!.validate()) {
+                          // Process data.
+                          if(widget.guestInfo == null) { // Case where adding a guest
+                            // TODO: Add a guest
+                          }
+                          else { // Case where editing a guest
+                            // TODO: Edit a guest's info
+                          }
+                        }
+                      },
+                      child: Text(
+                        widget.guestInfo == null ? 'Add Guest' : 'Save', style: Constants.buttonRedStyle),
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)
+                          ),
+                        ),
+                        backgroundColor: MaterialStateProperty.all<Color>(Constants.buttonRed),
+                        padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 25.0, horizontal: 150.0)),
+                      )
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
     );
   }
 }

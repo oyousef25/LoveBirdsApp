@@ -29,18 +29,34 @@ class Constants {
   /// Button green
   static const Color buttonGreen = Color(0xFF95E28E);
 
+  /// Material color
+  static Map<int, Color> materialSwatchMap = {
+    50: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.05),
+    100: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.1),
+    200: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.2),
+    300: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.3),
+    400: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.4),
+    500: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.5),
+    600: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.6),
+    700: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.7),
+    800: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.8),
+    900: Color.fromRGBO(darkSecondary.red, darkSecondary.green, darkSecondary.blue, 0.9),
+  };
+  static MaterialColor appMaterialSwatch = MaterialColor(darkSecondary.value, materialSwatchMap);
 
   // Styles
   /// AppBar title TextStyle
   static const appBarStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black);
   /// Card header TextStyle
-  static const cardHeaderStyle = TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: Colors.black);
+  static const cardHeaderStyle = TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Colors.black);
   /// Card content TextStyle
   static const cardContentStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: Colors.black);
-  /// Card content greyed TextStyle
+  /// Card detail greyed TextStyle
   static const detailStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black);
-  /// Card content greyed TextStyle
+  /// Card detail greyed TextStyle
   static const detailGreyedStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.grey);
+  /// Dialog content TextStyle
+  static const dialogContentStyle = TextStyle(fontSize: 23, fontWeight: FontWeight.normal, color: Colors.black);
   /// Chip selected TextStyle
   static const chipSelectedStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white);
   /// Chip unselected TextStyle
@@ -51,6 +67,12 @@ class Constants {
   static const listSubtitleStyle = TextStyle(fontSize: 13, fontWeight: FontWeight.normal, color: subtitleColor);
   /// Title TextStyle
   static const title = TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
+  /// Form label TextStyle
+  static const formLabelStyle = TextStyle(fontSize: 23, fontWeight: FontWeight.normal, color: darkSecondary);
+  /// Form hint TextStyle
+  static const formHintStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.black26);
+  /// Form hint TextStyle
+  static const formDropdownStyle = TextStyle(fontFamily: 'Roboto Slab', fontSize: 18, fontWeight: FontWeight.normal, color: Colors.black);
 
   /// Budget Expense TextStyle
   static const budgetExpense = TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0, color: darkSecondary);

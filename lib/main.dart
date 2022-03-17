@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.pink,
+        primarySwatch: Constants.appMaterialSwatch,
         // Default font family
         fontFamily: 'Roboto Slab',
         primaryTextTheme:
@@ -72,7 +72,7 @@ class _MainPageState extends State<MainPage> {
     HomePage(),
     PlanningPage(),
     // TODO: Replace seeded List with API list of guests
-    GuestsPage(guestList: List<GuestInfo>.generate(1000, (i) => GuestInfo('Guest', '$i', 'Relation', 'email$i@ex.com', 'XXX-XXXX'))),
+    GuestsPage(guestList: List<GuestInfo>.generate(1000, (i) => GuestInfo('Guest', '$i', 'Hummus', 'email$i@ex.com', 'XXX-XXXX'))),
     VendorsPage(),
     AccountPage()
   ];
