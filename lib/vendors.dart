@@ -2,22 +2,28 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
+import 'package:lovebirds_app/helper/vendorInfo.dart';
 
 class VendorsPage extends StatefulWidget {
-  const VendorsPage({Key? key})
-      : super(key: key); // Vendors page key identifier
+  const VendorsPage({Key? key, required this.vendorList}) : super(key: key); // Vendors page key identifier
+
+  // Require guest data to be passed into this Widget
+  final List<VendorInfo> vendorList;
 
   /// Creates a state
   ///
   /// Return the Vendors page State
   @override
   State<StatefulWidget> createState() {
-    return _VendorsPageState();
+    return _VendorsPageState(vendorList: vendorList);
   }
 }
 
 class _VendorsPageState extends State<VendorsPage>
     with TickerProviderStateMixin {
+  _VendorsPageState({required this.vendorList});
+  final List<VendorInfo> vendorList;
+
   // Lazy load the tab bar
   late TabController _tabController;
 
@@ -48,7 +54,12 @@ class _VendorsPageState extends State<VendorsPage>
                     height: 90.0,
                     child: ElevatedButton(
                       onPressed: () {
-                        // TODO: Go to vendors page
+                        // Go to vendors page
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => VendorScreen(vendorType: 'Venues', vendors: vendorList,),
+                            )
+                        );
                       },
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -73,7 +84,13 @@ class _VendorsPageState extends State<VendorsPage>
                     height: 90.0,
                     child: ElevatedButton(
                       onPressed: () {
-                        // TODO: Go to vendors page
+                        // Go to vendors page
+                        // Go to vendors page
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => VendorScreen(vendorType: 'Bridal Gowns', vendors: vendorList,),
+                            )
+                        );
                       },
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -98,7 +115,12 @@ class _VendorsPageState extends State<VendorsPage>
                     height: 90.0,
                     child: ElevatedButton(
                       onPressed: () {
-                        // TODO: Go to vendors page
+                        // Go to vendors page
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => VendorScreen(vendorType: 'Photographers', vendors: vendorList,),
+                            )
+                        );
                       },
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -123,7 +145,12 @@ class _VendorsPageState extends State<VendorsPage>
                     height: 90.0,
                     child: ElevatedButton(
                       onPressed: () {
-                        // TODO: Go to vendors page
+                        // Go to vendors page
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => VendorScreen(vendorType: 'Florists', vendors: vendorList,),
+                            )
+                        );
                       },
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -148,7 +175,12 @@ class _VendorsPageState extends State<VendorsPage>
                     height: 90.0,
                     child: ElevatedButton(
                       onPressed: () {
-                        // TODO: Go to vendors page
+                        // Go to vendors page
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => VendorScreen(vendorType: 'Gifts', vendors: vendorList,),
+                            )
+                        );
                       },
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -203,15 +235,73 @@ class _VendorsPageState extends State<VendorsPage>
   }
 }
 
-class VendorScreen extends StatelessWidget {
+class VendorScreen extends StatefulWidget {
   // In the constructor, require a GuestInfo.
-  const VendorScreen({Key? key, required this.vendorType}) : super(key: key);
+  const VendorScreen({Key? key, required this.vendorType, required this.vendors}) : super(key: key);
 
   // Declare a field that holds the vendor type.
   final String vendorType;
+  final List<VendorInfo> vendors;
+
+  @override
+  State createState() {
+    return _VendorScreenState(vendorType: vendorType, vendors: vendors);
+  }
+}
+
+class _VendorScreenState extends State<VendorScreen> {
+  // In the constructor, require a vendor type.
+  _VendorScreenState({required this.vendorType, required this.vendors});
+
+  // Declare a field that holds the vendor type.
+  final String vendorType;
+  final List<VendorInfo> vendors;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Constants.lightPrimary,
+        centerTitle: true,
+        title: Text(vendorType,
+            style: Constants.appBarStyle
+        ),
+      ),
+      body: ListView.builder( // ListView that is built as it is scrolled onto the screen
+        itemCount: widget.vendors.length,
+        itemBuilder: (context, index) {
+          return Material(
+            // margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)
+            ),
+            color: Colors.white,
+            shadowColor: Colors.grey,
+            elevation: 3.0,
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(Icons.photo, size: 80.0),
+              minVerticalPadding: 50.0,
+              title: Text(widget.vendors[index].name,
+                  textAlign: TextAlign.left,
+                  style: Constants.listTitleStyle
+              ),
+              subtitle: Text(widget.vendors[index].description,
+                  textAlign: TextAlign.left,
+                  style: Constants.listSubtitleStyle
+              ),
+              trailing: Icon(Icons.favorite_border_rounded),
+              onTap: () { // Open up the Vendor info route
+                // Navigator.of(context).push(
+                //     MaterialPageRoute(
+                //       builder: (context) => GuestDetailsScreen(guestInfo: widget.guestList[index]),
+                //     )
+                // );
+              },
+            ),
+          );
+        },
+      ),
+    );
   }
 }
