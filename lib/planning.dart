@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:lovebirds_app/Task/create_task.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 class PlanningPage extends StatefulWidget {
@@ -246,8 +247,13 @@ class _PlanningPageState extends State<PlanningPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // TODO: Add a task when FAB is pressed
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CreateTask()),
+          );
         },
         backgroundColor: Constants.lightSecondary,
+        foregroundColor: Colors.white,
         child: Icon(Icons.add, size: 50.0),
       ),
     );
