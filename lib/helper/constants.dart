@@ -50,9 +50,9 @@ class Constants {
   /// AppBar title TextStyle
   static const appBarStyle = TextStyle(fontFamily: 'Roboto Slab', fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black);
   /// Card header TextStyle
-  static const cardHeaderStyle = TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Colors.black);
+  static const cardHeaderStyle = TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.black);
   /// Card content TextStyle
-  static const cardContentStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: Colors.black);
+  static const cardContentStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: Colors.black,);
   /// Card detail greyed TextStyle
   static const detailStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black);
   /// Card detail greyed TextStyle
@@ -102,5 +102,9 @@ class Constants {
     borderSide: BorderSide.none,
   );
 
-
+  //View Task
+  ///Heading
+  static const taskHeading = TextStyle(fontFamily: 'Roboto Slab', fontSize: 18, color: darkSecondary, fontWeight: FontWeight.w500);
+  ///Padding
+  static const taskPadding = Padding(padding: EdgeInsets.only(top: 30));
 }

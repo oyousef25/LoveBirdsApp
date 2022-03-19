@@ -5,6 +5,7 @@ import 'package:lovebirds_app/Task/create_task.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 import 'Task/edit_task.dart';
+import 'Task/view_task.dart';
 
 class PlanningPage extends StatefulWidget {
   PlanningPage({Key? key}) : super(key: key); // Planning page key identifier
@@ -187,7 +188,7 @@ class _PlanningPageState extends State<PlanningPage> {
                   return GestureDetector( //This helps to make the card clickable
                     onTap: () { // Open up the Guest Info route
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const EditTask()));
+                          MaterialPageRoute(builder: (context) => const ViewTask()));
                     },
 
                     child: Card(
