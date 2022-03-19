@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
-class CreateTask extends StatefulWidget {
-  const CreateTask({Key? key}) : super(key: key);
+class EditTask extends StatefulWidget {
+  const EditTask({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _CreateTask();
+    return _EditTask();
   }
 }
 
-class _CreateTask extends State<CreateTask> {
+class _EditTask extends State<EditTask> {
   bool isSwitched = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Task'),
+        title: const Text('Edit Task'),
         backgroundColor: Constants.lightPrimary,
         titleTextStyle: Constants.appBarStyle,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -29,7 +29,7 @@ class _CreateTask extends State<CreateTask> {
         //nesting in a container allows for margin on all sides
         child: Container(
           margin:
-              const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+          const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
           //column which contains all form elements
           child: Column(
             //aligning to the left
@@ -179,7 +179,7 @@ class _CreateTask extends State<CreateTask> {
                       child: TextField(
                         decoration: InputDecoration(
                             floatingLabelBehavior:
-                                Constants.floatingLabelBehaviour,
+                            Constants.floatingLabelBehaviour,
                             border: Constants.outlineInputBorder,
                             fillColor: Colors.white),
                       ),
@@ -210,7 +210,7 @@ class _CreateTask extends State<CreateTask> {
                     print("Information has been saved");
                     Navigator.pop(context);
                   },
-                  child: const Text("Create", style: Constants.buttonRedStyle),
+                  child: const Text("Save", style: Constants.buttonRedStyle),
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
@@ -218,7 +218,7 @@ class _CreateTask extends State<CreateTask> {
                       ),
                     ),
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Constants.buttonRed),
+                    MaterialStateProperty.all<Color>(Constants.buttonRed),
                     padding: MaterialStateProperty.all<EdgeInsets>(
                         const EdgeInsets.symmetric(
                             vertical: 25.0, horizontal: 150.0)),
