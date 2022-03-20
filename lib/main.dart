@@ -75,7 +75,7 @@ class _MainPageState extends State<MainPage> {
     // TODO: Replace seeded List with API list of guests
     GuestsPage(guestList: List<GuestInfo>.generate(1000, (i) => GuestInfo('Guest', '$i', 'Hummus', 'email$i@ex.com', 'XXX-XXXX'))),
     VendorsPage(vendorList: List<VendorInfo>.generate(100, (i) => VendorInfo('Hummus Wedding', '5.0', 'This vendor sells wedding hummus',))),
-    AccountPage()
+    AccountPage(),
   ];
 
   /// Trigger bottom nav item tap
