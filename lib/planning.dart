@@ -1,7 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:lovebirds_app/Task/create_task.dart';
 import 'package:lovebirds_app/helper/constants.dart';
+
+import 'Task/edit_task.dart';
+import 'Task/view_task.dart';
 
 class PlanningPage extends StatefulWidget {
   PlanningPage({Key? key}) : super(key: key); // Planning page key identifier
@@ -17,7 +21,11 @@ class PlanningPage extends StatefulWidget {
     "Buy Flowers"
   ];
   final List<String> taskPrices = <String>["\$500.00", "\$500.00", "\$150.00"];
-  final List<Color> colorCodes = <Color>[Constants.blueSpouse, Constants.pinkSpouse, Constants.blueSpouse];
+  final List<Color> colorCodes = <Color>[
+    Constants.blueSpouse,
+    Constants.pinkSpouse,
+    Constants.blueSpouse
+  ];
 
   /// Creates a state
   ///
@@ -177,64 +185,73 @@ class _PlanningPageState extends State<PlanningPage> {
                 itemCount: widget.taskNames.length,
                 itemBuilder: (BuildContext context, int index) {
                   //an individual list item is a card
-                  return Card(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 7.0,
-                        horizontal: 10.0), // Hack for shrinking card padding
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    color: Colors.white,
-                    shadowColor: Colors.grey,
-                    elevation: 5.0,
+                  return GestureDetector( //This helps to make the card clickable
+                    onTap: () { // Open up the Guest Info route
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => const ViewTask()));
+                    },
 
-                    //this card contains a row of the labels and widgets that make up a task item
-                    child: Row(
-                      children: [
-                        //this container is the spouse's color indicator
-                        Container(
-                          width: 15,
-                          height: 80,
-                          decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(10.0),
-                                bottomLeft: Radius.circular(10.0),
-                              ),
-                              color: widget.colorCodes[index]),
-                        ),
+                    child: Card(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 7.0,
+                          horizontal: 10.0), // Hack for shrinking card padding
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      color: Colors.white,
+                      shadowColor: Colors.grey,
+                      elevation: 5.0,
 
-                        const Padding(padding: EdgeInsets.only(left: 12)),
+                      //this card contains a row of the labels and widgets that make up a task item
+                      child: Row(
+                        children: [
+                          //this container is the spouse's color indicator
+                          Container(
+                            width: 15,
+                            height: 80,
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(10.0),
+                                  bottomLeft: Radius.circular(10.0),
+                                ),
+                                color: widget.colorCodes[index]),
+                          ),
 
-                        Expanded(
-                          //column containing task name and due date
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          const Padding(padding: EdgeInsets.only(left: 12)),
+
+                          Expanded(
+                            //column containing task name and due date
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                    padding: EdgeInsets.only(top: 12)),
+                                Text(widget.taskNames[index],
+                                    textAlign: TextAlign.left,
+                                    style: Constants.listTitleStyle),
+                                const Padding(
+                                    padding: EdgeInsets.only(bottom: 2)),
+                                Text(widget.dueDates[index],
+                                    textAlign: TextAlign.left,
+                                    style: Constants.listSubtitleStyle),
+                                const Padding(
+                                    padding: EdgeInsets.only(bottom: 12)),
+                              ],
+                            ),
+                          ),
+
+                          //row containing task price and arrow indicator
+                          Row(
                             children: [
-                              const Padding(padding: EdgeInsets.only(top: 12)),
-                              Text(widget.taskNames[index],
-                                  textAlign: TextAlign.left,
-                                  style: Constants.listTitleStyle),
+                              Text(widget.taskPrices[index],
+                                  textAlign: TextAlign.right,
+                                  style: Constants.taskPrice),
+                              const Icon(Icons.chevron_right_rounded),
                               const Padding(
-                                  padding: EdgeInsets.only(bottom: 2)),
-                              Text(widget.dueDates[index],
-                                  textAlign: TextAlign.left,
-                                  style: Constants.listSubtitleStyle),
-                              const Padding(
-                                  padding: EdgeInsets.only(bottom: 12)),
+                                  padding: EdgeInsets.only(right: 10)),
                             ],
                           ),
-                        ),
-
-                        //row containing task price and arrow indicator
-                        Row(
-                          children: [
-                            Text(widget.taskPrices[index],
-                                textAlign: TextAlign.right,
-                                style: Constants.taskPrice),
-                            const Icon(Icons.chevron_right_rounded),
-                            const Padding(padding: EdgeInsets.only(right: 10)),
-                          ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -246,8 +263,13 @@ class _PlanningPageState extends State<PlanningPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // TODO: Add a task when FAB is pressed
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CreateTask()),
+          );
         },
         backgroundColor: Constants.lightSecondary,
+        foregroundColor: Colors.white,
         child: Icon(Icons.add, size: 50.0),
       ),
     );

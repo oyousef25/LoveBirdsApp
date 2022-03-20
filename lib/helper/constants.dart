@@ -19,6 +19,8 @@ class Constants {
   static const Color highlight = Color(0xFFFFCF3E);
   /// Grey subtitle
   static const Color subtitleColor = Color(0xFF525252);
+  ///form field gray
+  static const Color formfieldColor = Color(0xFFCECECE);
 
   /// Spouse Color Codes
   static const Color pinkSpouse = Color(0xFFFFADAD);
@@ -46,11 +48,11 @@ class Constants {
 
   // Styles
   /// AppBar title TextStyle
-  static const appBarStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black);
+  static const appBarStyle = TextStyle(fontFamily: 'Roboto Slab', fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black);
   /// Card header TextStyle
-  static const cardHeaderStyle = TextStyle(fontSize: 23, fontWeight: FontWeight.w700, color: Colors.black);
+  static const cardHeaderStyle = TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.black);
   /// Card content TextStyle
-  static const cardContentStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: Colors.black);
+  static const cardContentStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: Colors.black,);
   /// Card detail greyed TextStyle
   static const detailStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black);
   /// Card detail greyed TextStyle
@@ -82,4 +84,27 @@ class Constants {
   static const buttonRedStyle = TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white);
   /// Button white TextStyle
   static const buttonWhiteStyle = TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.bold, color: buttonRed);
+
+  //Form Field
+  ///Form field TextStyle
+  static const sectionHeading = TextStyle(fontFamily: 'Roboto Slab', fontSize: 18, color: darkSecondary);
+  ///Border radius
+  static const borderRadius = BorderRadius.all(Radius.circular(5));
+  ///Padding
+  static const formPadding = Padding(padding: EdgeInsets.only(top: 10));
+  static const sectionPadding = Padding(padding: EdgeInsets.only(top: 20));
+  ///Elevation
+  static const elevation = 3.0;
+  ///Input Decoration
+  static const floatingLabelBehaviour = FloatingLabelBehavior.never;
+  ///Outline Input Border
+  static const outlineInputBorder = OutlineInputBorder(
+    borderSide: BorderSide.none,
+  );
+
+  //View Task
+  ///Heading
+  static const taskHeading = TextStyle(fontFamily: 'Roboto Slab', fontSize: 18, color: darkSecondary, fontWeight: FontWeight.w500);
+  ///Padding
+  static const taskPadding = Padding(padding: EdgeInsets.only(top: 30));
 }
