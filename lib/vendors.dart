@@ -248,7 +248,7 @@ class _VendorsPageState extends State<VendorsPage>
 }
 
 class VendorScreen extends StatefulWidget {
-  // In the constructor, require a GuestInfo.
+  // In the constructor, require a Vendor list and vendor type.
   const VendorScreen(
       {Key? key, required this.vendorType, required this.vendors})
       : super(key: key);
@@ -284,71 +284,116 @@ class _VendorScreenState extends State<VendorScreen> {
         // ListView that is built as it is scrolled onto the screen
         itemCount: widget.vendors.length,
         itemBuilder: (context, index) {
-          return Card(
-            margin: const EdgeInsets.symmetric(
-                vertical: 15.0,
-                horizontal: 10.0), // Hack for shrinking card padding
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            color: Colors.white,
-            shadowColor: Colors.grey,
-            elevation: 5.0,
-            //this card contains a row of the labels and widgets that make up a task item
-            child: Row(
-              children: [
-                const Padding(padding: EdgeInsets.only(left: 5)),
-
-                // Image of the vendor (can be cached)
-                Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: CachedNetworkImage(
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    imageUrl:
-                        'https://s3-media0.fl.yelpcdn.com/bphoto/7_n-ekeqhRei7YJ-_Nzfrw/o.jpg',
-                    // width: 120.0,
-                    height: 90.0,
-                  ),
+          return GestureDetector( // Makes content clickable
+            onTap: () {
+              // Go to Vendor Details page
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => VendorDetailScreen(
+                  vendorInfo: vendors[index],
                 ),
-
-                const Padding(padding: EdgeInsets.only(left: 12)),
-
-                Expanded(
-                  // Column containing vendor name, rating and description
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              ));
+            },
+            child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  color: Colors.white,
+                  shadowColor: Colors.grey,
+                  elevation: 5.0,
+                  //this card contains a row of the labels and widgets that make up a task item
+                  child: Row(
                     children: [
-                      const Padding(padding: EdgeInsets.only(top: 12)),
-                      Text(widget.vendors[index].name,
-                          textAlign: TextAlign.left,
-                          style: Constants.listTitleStyle),
-                      const Padding(padding: EdgeInsets.only(bottom: 9)),
-                      Text(widget.vendors[index].rating,
-                          textAlign: TextAlign.left,
-                          style: Constants.listSubtitleStyle),
-                      const Padding(padding: EdgeInsets.only(bottom: 9)),
-                      Text(widget.vendors[index].description,
-                          textAlign: TextAlign.left,
-                          style: Constants.listSubtitleStyle),
-                      const Padding(padding: EdgeInsets.only(bottom: 12)),
+                      const Padding(padding: EdgeInsets.only(left: 5)),
+
+                      // Image of the vendor (can be cached)
+                      Container(
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          imageUrl:
+                              'https://s3-media0.fl.yelpcdn.com/bphoto/7_n-ekeqhRei7YJ-_Nzfrw/o.jpg',
+                          // width: 120.0,
+                          height: 90.0,
+                        ),
+                      ),
+
+                      const Padding(padding: EdgeInsets.only(left: 12)),
+
+                      Expanded(
+                        // Column containing vendor name, rating and description
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(padding: EdgeInsets.only(top: 12)),
+                            Text(widget.vendors[index].name,
+                                textAlign: TextAlign.left,
+                                style: Constants.listTitleStyle),
+                            const Padding(padding: EdgeInsets.only(bottom: 9)),
+                            Text(widget.vendors[index].rating,
+                                textAlign: TextAlign.left,
+                                style: Constants.listSubtitleStyle),
+                            const Padding(padding: EdgeInsets.only(bottom: 9)),
+                            Text(widget.vendors[index].description,
+                                textAlign: TextAlign.left,
+                                style: Constants.listSubtitleStyle),
+                            const Padding(padding: EdgeInsets.only(bottom: 12)),
+                          ],
+                        ),
+                      ),
+
+                      // Icon containing saved vendor indicator
+                      Icon(
+                        widget.vendors[index].saved
+                            ? Icons.favorite
+                            : Icons.favorite_border_rounded,
+                        color: Constants.lightPrimary,
+                      ),
+
+                      const Padding(padding: EdgeInsets.only(left: 12)),
                     ],
                   ),
-                ),
-
-                // Icon containing saved vendor indicator
-                Icon(widget.vendors[index].saved
-                    ? Icons.favorite
-                    : Icons.favorite_border_rounded,
-                color: Constants.lightPrimary,),
-
-                const Padding(padding: EdgeInsets.only(left: 12)),
-              ],
-            ),
+                )),
           );
         },
+      ),
+    );
+  }
+}
+
+class VendorDetailScreen extends StatefulWidget {
+  // In the constructor, require a Vendor list and vendor type.
+  const VendorDetailScreen(
+      {Key? key, required this.vendorInfo})
+      : super(key: key);
+
+  // Declare a field that holds the vendor info.
+  final VendorInfo vendorInfo;
+
+  @override
+  State createState() {
+    return _VendorDetailScreenState(vendorInfo: vendorInfo);
+  }
+}
+
+class _VendorDetailScreenState extends State<VendorDetailScreen> {
+  // In the constructor, require a vendor type.
+  _VendorDetailScreenState({required this.vendorInfo});
+
+  // Declare a field that holds the vendor list.
+  final VendorInfo vendorInfo;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Constants.lightPrimary,
+        centerTitle: true,
+        title: Text('Explore Vendors', style: Constants.appBarStyle),
       ),
     );
   }
