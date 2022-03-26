@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
+import 'Account/edit_account.dart';
+
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key})
       : super(key: key); // Account page key identifier
@@ -136,8 +138,10 @@ class _AccountPageState extends State<AccountPage> {
                               style: Constants.cardHeaderStyle),
                           trailing: IconButton(
                             onPressed: () {
-                              //TODO: Fix this edit button
-                              print("Pressed");
+                              // Jump to edit screen
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const EditAccount(),
+                              ));
                             },
                             icon: const Icon(Icons.edit),
                           ),
