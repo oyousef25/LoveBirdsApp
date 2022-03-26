@@ -34,7 +34,7 @@ class _EditAccount extends State<EditAccount> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //form heading
-              Text(
+              const Text(
                 "Task",
                 textAlign: TextAlign.left,
                 style: Constants.sectionHeading,
@@ -43,7 +43,7 @@ class _EditAccount extends State<EditAccount> {
               Constants.formPadding,
 
               //Textfield
-              Material(
+              const Material(
                 borderRadius: Constants.borderRadius,
                 shadowColor: Constants.formfieldColor,
                 elevation: Constants.elevation,
@@ -59,7 +59,7 @@ class _EditAccount extends State<EditAccount> {
 
               Constants.sectionPadding,
 
-              Text(
+              const Text(
                 "Email",
                 textAlign: TextAlign.left,
                 style: Constants.sectionHeading,
@@ -67,7 +67,7 @@ class _EditAccount extends State<EditAccount> {
 
               Constants.formPadding,
 
-              Material(
+              const Material(
                 borderRadius: Constants.borderRadius,
                 shadowColor: Constants.formfieldColor,
                 elevation: Constants.elevation,
@@ -83,7 +83,7 @@ class _EditAccount extends State<EditAccount> {
 
               Constants.sectionPadding,
 
-              Text(
+              const Text(
                 "Password",
                 textAlign: TextAlign.left,
                 style: Constants.sectionHeading,
@@ -91,7 +91,7 @@ class _EditAccount extends State<EditAccount> {
 
               Constants.formPadding,
 
-              Material(
+              const Material(
                 borderRadius: Constants.borderRadius,
                 shadowColor: Constants.formfieldColor,
                 elevation: Constants.elevation,
@@ -107,7 +107,7 @@ class _EditAccount extends State<EditAccount> {
 
               Constants.sectionPadding,
 
-              Text(
+              const Text(
                 "Role",
                 textAlign: TextAlign.left,
                 style: Constants.sectionHeading,
@@ -115,7 +115,7 @@ class _EditAccount extends State<EditAccount> {
 
               Constants.formPadding,
 
-              Material(
+              const Material(
                 borderRadius: Constants.borderRadius,
                 shadowColor: Constants.formfieldColor,
                 elevation: Constants.elevation,
@@ -131,7 +131,7 @@ class _EditAccount extends State<EditAccount> {
 
               Constants.sectionPadding,
 
-              Text(
+              const Text(
                 "Wedding Day",
                 textAlign: TextAlign.left,
                 style: Constants.sectionHeading,
@@ -139,7 +139,7 @@ class _EditAccount extends State<EditAccount> {
 
               Constants.formPadding,
 
-              Material(
+              const Material(
                 borderRadius: Constants.borderRadius,
                 shadowColor: Constants.formfieldColor,
                 elevation: Constants.elevation,
