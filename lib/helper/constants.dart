@@ -53,6 +53,7 @@ class Constants {
   static const cardHeaderStyle = TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: Colors.black);
   /// Card content TextStyle
   static const cardContentStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: Colors.black,);
+  static const cardContentStyle2 = TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: Colors.grey,);
   /// Card detail greyed TextStyle
   static const detailStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black);
   /// Card detail greyed TextStyle
@@ -82,6 +83,10 @@ class Constants {
   /// Big card subtitle TextStyle
   static const bigListSubtitleStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: subtitleColor);
 
+  ///Form task number style
+  static const taskNumber = TextStyle(fontWeight: FontWeight.w500, fontSize: 23.0, color: Colors.black);
+
+
   /// Budget Expense TextStyle
   static const budgetExpense = TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0, color: darkSecondary);
   ///List item task price textStyle
@@ -98,6 +103,7 @@ class Constants {
   static const borderRadius = BorderRadius.all(Radius.circular(5));
   ///Padding
   static const formPadding = Padding(padding: EdgeInsets.only(top: 10));
+  static const formPadding2 = Padding(padding: EdgeInsets.only(top: 5));
   static const sectionPadding = Padding(padding: EdgeInsets.only(top: 20));
   ///Elevation
   static const elevation = 3.0;
