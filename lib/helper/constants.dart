@@ -76,12 +76,14 @@ class Constants {
   static const formHintStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.black26);
   /// Form hint TextStyle
   static const formDropdownStyle = TextStyle(fontFamily: 'Roboto Slab', fontSize: 18, fontWeight: FontWeight.normal, color: Colors.black);
+
   /// Tab label TextStyle
   static const tabLabelStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black);
   /// Big card title TextStyle
   static const bigListTitleStyle = TextStyle(fontSize: 23, fontWeight: FontWeight.bold, color: Colors.black);
   /// Big card subtitle TextStyle
   static const bigListSubtitleStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: subtitleColor);
+
 
   ///Form task number style
   static const taskNumber = TextStyle(fontWeight: FontWeight.w500, fontSize: 23.0, color: Colors.black);
