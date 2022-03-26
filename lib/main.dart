@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lovebirds_app/account.dart';
 import 'package:lovebirds_app/guests.dart';
 import 'package:lovebirds_app/helper/guestInfo.dart';
+import 'package:lovebirds_app/helper/vendorInfo.dart';
 import 'package:lovebirds_app/home.dart';
 import 'package:lovebirds_app/planning.dart';
 import 'package:lovebirds_app/vendors.dart';
@@ -73,7 +74,7 @@ class _MainPageState extends State<MainPage> {
     PlanningPage(),
     // TODO: Replace seeded List with API list of guests
     GuestsPage(guestList: List<GuestInfo>.generate(1000, (i) => GuestInfo('Guest', '$i', 'Hummus', 'email$i@ex.com', 'XXX-XXXX'))),
-    VendorsPage(),
+    VendorsPage(vendorList: List<VendorInfo>.generate(50, (i) => VendorInfo('Hummus Wedding', '5.0', 'This vendor sells wedding hummus', true, '12pm-5pm', 'abc.com', '(890)123-4567', "Windsor, ON"))),
     AccountPage(),
   ];
 
