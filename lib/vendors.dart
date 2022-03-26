@@ -41,184 +41,189 @@ class _VendorsPageState extends State<VendorsPage>
   /// Given the build [context], return the Vendors page Widget.
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Stack(
         children: <Widget>[
-          TabBarView(
-            // Tab bar contents
-            controller: _tabController,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Padding(padding: EdgeInsets.symmetric(vertical: 55.0)),
-                  Container(
-                    width: 400.0,
-                    height: 90.0,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Go to vendors page
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => VendorScreen(
-                            vendorType: 'Venues',
-                            vendors: vendorList,
+          SizedBox(
+            height: 800.0,
+            child: TabBarView(
+              // Tab bar contents
+              controller: _tabController,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Padding(padding: EdgeInsets.symmetric(vertical: 55.0)),
+                    Container(
+                      width: 400.0,
+                      height: 90.0,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Go to vendors page
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => VendorScreen(
+                              vendorType: 'Venues',
+                              vendors: vendorList,
+                            ),
+                          ));
+                        },
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
                           ),
-                        ));
-                      },
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0)),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.lightSecondary),
+                          // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Constants.lightSecondary),
-                        // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
-                      ),
-                      child: Text(
-                        'Venues',
-                        textAlign: TextAlign.center,
-                        style: Constants.cardHeaderStyle,
+                        child: Text(
+                          'Venues',
+                          textAlign: TextAlign.center,
+                          style: Constants.cardHeaderStyle,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
-                  ),
-                  Container(
-                    width: 400.0,
-                    height: 90.0,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Go to vendors page
-                        // Go to vendors page
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => VendorScreen(
-                            vendorType: 'Bridal Gowns',
-                            vendors: vendorList,
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.0),
+                    ),
+                    Container(
+                      width: 400.0,
+                      height: 90.0,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Go to vendors page
+                          // Go to vendors page
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => VendorScreen(
+                              vendorType: 'Bridal Gowns',
+                              vendors: vendorList,
+                            ),
+                          ));
+                        },
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
                           ),
-                        ));
-                      },
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0)),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.lightSecondary),
+                          // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Constants.lightSecondary),
-                        // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
-                      ),
-                      child: Text(
-                        'Bridal Gowns',
-                        textAlign: TextAlign.center,
-                        style: Constants.cardHeaderStyle,
+                        child: Text(
+                          'Bridal Gowns',
+                          textAlign: TextAlign.center,
+                          style: Constants.cardHeaderStyle,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
-                  ),
-                  Container(
-                    width: 400.0,
-                    height: 90.0,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Go to vendors page
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => VendorScreen(
-                            vendorType: 'Photographers',
-                            vendors: vendorList,
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.0),
+                    ),
+                    Container(
+                      width: 400.0,
+                      height: 90.0,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Go to vendors page
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => VendorScreen(
+                              vendorType: 'Photographers',
+                              vendors: vendorList,
+                            ),
+                          ));
+                        },
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
                           ),
-                        ));
-                      },
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0)),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.lightSecondary),
+                          // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Constants.lightSecondary),
-                        // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
-                      ),
-                      child: Text(
-                        'Photographers',
-                        textAlign: TextAlign.center,
-                        style: Constants.cardHeaderStyle,
+                        child: Text(
+                          'Photographers',
+                          textAlign: TextAlign.center,
+                          style: Constants.cardHeaderStyle,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
-                  ),
-                  Container(
-                    width: 400.0,
-                    height: 90.0,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Go to vendors page
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => VendorScreen(
-                            vendorType: 'Florists',
-                            vendors: vendorList,
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.0),
+                    ),
+                    Container(
+                      width: 400.0,
+                      height: 90.0,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Go to vendors page
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => VendorScreen(
+                              vendorType: 'Florists',
+                              vendors: vendorList,
+                            ),
+                          ));
+                        },
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
                           ),
-                        ));
-                      },
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0)),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.lightSecondary),
+                          // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Constants.lightSecondary),
-                        // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
-                      ),
-                      child: Text(
-                        'Florists',
-                        textAlign: TextAlign.center,
-                        style: Constants.cardHeaderStyle,
+                        child: Text(
+                          'Florists',
+                          textAlign: TextAlign.center,
+                          style: Constants.cardHeaderStyle,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12.0),
-                  ),
-                  Container(
-                    width: 400.0,
-                    height: 90.0,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Go to vendors page
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => VendorScreen(
-                            vendorType: 'Gifts',
-                            vendors: vendorList,
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 12.0),
+                    ),
+                    Container(
+                      width: 400.0,
+                      height: 90.0,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Go to vendors page
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => VendorScreen(
+                              vendorType: 'Gifts',
+                              vendors: vendorList,
+                            ),
+                          ));
+                        },
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
                           ),
-                        ));
-                      },
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0)),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.lightSecondary),
+                          // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                         ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Constants.lightSecondary),
-                        // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
-                      ),
-                      child: Text(
-                        'Gifts',
-                        textAlign: TextAlign.center,
-                        style: Constants.cardHeaderStyle,
+                        child: Text(
+                          'Gifts',
+                          textAlign: TextAlign.center,
+                          style: Constants.cardHeaderStyle,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Center(
-                child: Text("It's rainy here"),
-              ),
-              Center(
-                child: Text("It's sunny here"),
-              ),
-            ],
+                  ],
+                ),
+                Center(
+                  child: Text("It's rainy here"),
+                ),
+                Center(
+                  child: Text("It's sunny here"),
+                ),
+              ],
+            ),
           ),
+
           DefaultTabController(
             // Tab controller
             length: 3,
@@ -280,7 +285,7 @@ class _VendorScreenState extends State<VendorScreen> {
         title: Text(vendorType, style: Constants.appBarStyle),
       ),
       body: ListView.builder(
-        padding: EdgeInsets.only(top: 20.0),
+        padding: EdgeInsets.only(top: 10.0),
         // ListView that is built as it is scrolled onto the screen
         itemCount: widget.vendors.length,
         itemBuilder: (context, index) {
@@ -295,7 +300,7 @@ class _VendorScreenState extends State<VendorScreen> {
               ));
             },
             child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                 child: Card(
                   // This card contains a row of the labels and widgets that make up a vendor item
                   shape: RoundedRectangleBorder(
@@ -395,119 +400,123 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
         centerTitle: true,
         title: Text('Explore Vendors', style: Constants.appBarStyle),
       ),
-      body: Card(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-        margin: EdgeInsets.symmetric(vertical: 100.0, horizontal: 20.0),
-        color: Colors.white,
-        shadowColor: Colors.grey,
-        elevation: 5.0,
-        child: Column(
-          children: [
-            // Image of the vendor (can be cached)
-            Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(10.0),
-                    topLeft: Radius.circular(10.0)),
+      body: ListView(
+        scrollDirection: Axis.vertical,
+        children: [
+        Card(
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+          color: Colors.white,
+          shadowColor: Colors.grey,
+          elevation: 5.0,
+          child: Column(
+            children: [
+              // Image of the vendor (can be cached)
+              Container(
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10.0),
+                      topLeft: Radius.circular(10.0)),
+                ),
+                child: FittedBox(
+                  // clipBehavior: Clip.antiAlias,
+                  fit: BoxFit.cover,
+                  child: CachedNetworkImage(
+                    placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                    imageUrl:
+                    'https://s3-media0.fl.yelpcdn.com/bphoto/7_n-ekeqhRei7YJ-_Nzfrw/o.jpg',
+                  ),
+                ),
+                height: 250.0,
+                width: double.infinity, // Stretch width as much as possible
               ),
-              child: FittedBox(
-                // clipBehavior: Clip.antiAlias,
-                fit: BoxFit.cover,
-                child: CachedNetworkImage(
-                  placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
-                  imageUrl:
-                      'https://s3-media0.fl.yelpcdn.com/bphoto/7_n-ekeqhRei7YJ-_Nzfrw/o.jpg',
+              ListTile( // Vendor name, rating, saved or not saved
+                title: Text(widget.vendorInfo.name,
+                    textAlign: TextAlign.left,
+                    style: Constants.bigListTitleStyle),
+                subtitle: Text(widget.vendorInfo.rating,
+                    textAlign: TextAlign.left,
+                    style: Constants.bigListSubtitleStyle),
+                trailing: Icon(
+                  widget.vendorInfo.saved
+                      ? Icons.favorite
+                      : Icons.favorite_border_rounded,
+                  color: Constants.lightPrimary,
+                  size: 40.0,
+                ),
+                contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+              ),
+              ListTile( // Vendor location
+                leading: Icon(Icons.pin_drop_rounded, color: Colors.black,),
+                title: Text(widget.vendorInfo.location,
+                    textAlign: TextAlign.left,
+                    style: Constants.bigListSubtitleStyle),
+                contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                minLeadingWidth: 0.0,
+              ),
+              ListTile( // Vendor description
+                leading: Icon(Icons.storefront_rounded, color: Colors.black,),
+                title: Text(widget.vendorInfo.description,
+                    textAlign: TextAlign.left,
+                    style: Constants.bigListSubtitleStyle),
+                contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                minLeadingWidth: 0.0,
+              ),
+              ListTile( // Vendor hours of operations
+                leading: Icon(Icons.access_time_rounded, color: Colors.black,),
+                title: Text(widget.vendorInfo.hours,
+                    textAlign: TextAlign.left,
+                    style: Constants.bigListSubtitleStyle),
+                contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                minLeadingWidth: 0.0,
+              ),
+              ListTile( // Vendor website
+                leading: Icon(Icons.link_rounded, color: Colors.black,),
+                title: Text(widget.vendorInfo.website,
+                    textAlign: TextAlign.left,
+                    style: Constants.bigListSubtitleStyle),
+                contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                minLeadingWidth: 0.0,
+              ),
+              ListTile( // Vendor phone num
+                leading: Icon(Icons.phone_rounded, color: Colors.black,),
+                title: Text(widget.vendorInfo.phoneNum,
+                    textAlign: TextAlign.left,
+                    style: Constants.bigListSubtitleStyle),
+                contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
+                minLeadingWidth: 0.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: ElevatedButton(
+                    onPressed: () {
+                      if(widget.vendorInfo.saved) { // Case where vendor is already saved
+                        // TODO: Remove a saved vendor
+                      }
+                      else { // Case where vendor is not saved yet
+                        // TODO: Save a vendor
+                      }
+                    },
+                    child: Text(
+                        widget.vendorInfo.saved ? 'Remove from Saved' : 'Save Vendor', style: Constants.buttonRedStyle),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)
+                        ),
+                      ),
+                      backgroundColor: MaterialStateProperty.all<Color>(Constants.buttonRed),
+                      padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 25.0, horizontal: 120.0)),
+                    )
                 ),
               ),
-              height: 250.0,
-              width: double.infinity, // Stretch width as much as possible
-            ),
-            ListTile( // Vendor name, rating, saved or not saved
-              title: Text(widget.vendorInfo.name,
-                  textAlign: TextAlign.left,
-                  style: Constants.bigListTitleStyle),
-              subtitle: Text(widget.vendorInfo.rating,
-                  textAlign: TextAlign.left,
-                  style: Constants.bigListSubtitleStyle),
-              trailing: Icon(
-                widget.vendorInfo.saved
-                    ? Icons.favorite
-                    : Icons.favorite_border_rounded,
-                color: Constants.lightPrimary,
-                size: 40.0,
-              ),
-              contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
-            ),
-            ListTile( // Vendor location
-              leading: Icon(Icons.pin_drop_rounded, color: Colors.black,),
-              title: Text(widget.vendorInfo.location,
-                  textAlign: TextAlign.left,
-                  style: Constants.bigListSubtitleStyle),
-              contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
-              minLeadingWidth: 0.0,
-            ),
-            ListTile( // Vendor description
-              leading: Icon(Icons.storefront_rounded, color: Colors.black,),
-              title: Text(widget.vendorInfo.description,
-                  textAlign: TextAlign.left,
-                  style: Constants.bigListSubtitleStyle),
-              contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
-              minLeadingWidth: 0.0,
-            ),
-            ListTile( // Vendor hours of operations
-              leading: Icon(Icons.access_time_rounded, color: Colors.black,),
-              title: Text(widget.vendorInfo.hours,
-                  textAlign: TextAlign.left,
-                  style: Constants.bigListSubtitleStyle),
-              contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
-              minLeadingWidth: 0.0,
-            ),
-            ListTile( // Vendor website
-              leading: Icon(Icons.link_rounded, color: Colors.black,),
-              title: Text(widget.vendorInfo.website,
-                  textAlign: TextAlign.left,
-                  style: Constants.bigListSubtitleStyle),
-              contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
-              minLeadingWidth: 0.0,
-            ),
-            ListTile( // Vendor phone num
-              leading: Icon(Icons.phone_rounded, color: Colors.black,),
-              title: Text(widget.vendorInfo.phoneNum,
-                  textAlign: TextAlign.left,
-                  style: Constants.bigListSubtitleStyle),
-              contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
-              minLeadingWidth: 0.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    if(widget.vendorInfo.saved) { // Case where vendor is already saved
-                      // TODO: Remove a saved vendor
-                    }
-                    else { // Case where vendor is not saved yet
-                      // TODO: Save a vendor
-                    }
-                  },
-                  child: Text(
-                      widget.vendorInfo.saved ? 'Remove from Saved' : 'Save Vendor', style: Constants.buttonRedStyle),
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)
-                      ),
-                    ),
-                    backgroundColor: MaterialStateProperty.all<Color>(Constants.buttonRed),
-                    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 25.0, horizontal: 120.0)),
-                  )
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+      ],)
     );
   }
 }
