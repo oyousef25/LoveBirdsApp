@@ -8,7 +8,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'helper/customVendorInfo.dart';
 
 class VendorsPage extends StatefulWidget {
-  const VendorsPage({Key? key, required this.vendorList, required this.customVendorList})
+  const VendorsPage(
+      {Key? key, required this.vendorList, required this.customVendorList})
       : super(key: key); // Vendors page key identifier
 
   // Require vendor data to be passed into this Widget
@@ -20,12 +21,14 @@ class VendorsPage extends StatefulWidget {
   /// Return the Vendors page State
   @override
   State<StatefulWidget> createState() {
-    return _VendorsPageState(vendorList: vendorList, customVendorList: customVendorList);
+    return _VendorsPageState(
+        vendorList: vendorList, customVendorList: customVendorList);
   }
 }
 
 class _VendorsPageState extends State<VendorsPage>
     with TickerProviderStateMixin {
+  // Need a vendor list and custom vendor list
   _VendorsPageState({required this.vendorList, required this.customVendorList});
   final List<VendorInfo> vendorList;
   final List<CustomVendorInfo> customVendorList;
@@ -262,12 +265,12 @@ class _VendorsPageState extends State<VendorsPage>
 }
 
 class VendorScreen extends StatefulWidget {
-  // In the constructor, require a Vendor list and vendor type.
+  // In the constructor, require a Vendor type and vendor list.
   const VendorScreen(
       {Key? key, required this.vendorType, required this.vendors})
       : super(key: key);
 
-  // Declare a field that holds the vendor type.
+  // Declare a field that holds the vendor type and vendor list.
   final String vendorType;
   final List<VendorInfo> vendors;
 
@@ -278,10 +281,10 @@ class VendorScreen extends StatefulWidget {
 }
 
 class _VendorScreenState extends State<VendorScreen> {
-  // In the constructor, require a vendor type.
+  // In the constructor, require a vendor type and vendors list.
   _VendorScreenState({required this.vendorType, required this.vendors});
 
-  // Declare a field that holds the vendor type.
+  // Declare a field that holds the vendor type and vendors list.
   final String vendorType;
   final List<VendorInfo> vendors;
 
@@ -381,7 +384,7 @@ class _VendorScreenState extends State<VendorScreen> {
 }
 
 class VendorDetailScreen extends StatefulWidget {
-  // In the constructor, require a Vendor list and vendor type.
+  // In the constructor, require a vendor info.
   const VendorDetailScreen({Key? key, required this.vendorInfo})
       : super(key: key);
 
@@ -395,10 +398,10 @@ class VendorDetailScreen extends StatefulWidget {
 }
 
 class _VendorDetailScreenState extends State<VendorDetailScreen> {
-  // In the constructor, require a vendor type.
+  // In the constructor, require a vendor info.
   _VendorDetailScreenState({required this.vendorInfo});
 
-  // Declare a field that holds the vendor list.
+  // Declare a field that holds the vendor info.
   final VendorInfo vendorInfo;
 
   @override
@@ -556,7 +559,7 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
 }
 
 class SavedVendorScreen extends StatefulWidget {
-  // In the constructor, require a Vendor list and vendor type.
+  // In the constructor, require a saved vendors list.
   const SavedVendorScreen({Key? key, required this.savedVendors})
       : super(key: key);
 
@@ -570,7 +573,7 @@ class SavedVendorScreen extends StatefulWidget {
 }
 
 class _SavedVendorScreenState extends State<SavedVendorScreen> {
-  // In the constructor, require a vendor type.
+  // In the constructor, require a saved vendors list.
   _SavedVendorScreenState({required this.savedVendors});
 
   // Declare a field that holds the saved vendor list.
@@ -667,7 +670,7 @@ class _SavedVendorScreenState extends State<SavedVendorScreen> {
 }
 
 class CustomVendorScreen extends StatefulWidget {
-  // In the constructor, require a Vendor list and vendor type.
+  // In the constructor, require a custom vendors list.
   const CustomVendorScreen({Key? key, required this.customVendors})
       : super(key: key);
 
@@ -681,7 +684,7 @@ class CustomVendorScreen extends StatefulWidget {
 }
 
 class _CustomVendorScreenState extends State<CustomVendorScreen> {
-  // In the constructor, require a vendor type.
+  // In the constructor, require a custom vendors list.
   _CustomVendorScreenState({required this.customVendors});
 
   // Declare a field that holds the custom vendors list.
@@ -696,32 +699,236 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
         itemCount: widget.customVendors.length,
         itemBuilder: (context, index) {
           return Card(
-            margin: const EdgeInsets.symmetric(
-                vertical: 7.0, horizontal: 10.0),
+            margin: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
             color: Colors.white,
             shadowColor: Colors.grey,
             elevation: 5.0,
             child: ListTile(
-              title: Text(
-                  widget.customVendors[index].name,
-                  textAlign: TextAlign.left,
-                  style: Constants.listTitleStyle),
+              title: Text(widget.customVendors[index].name,
+                  textAlign: TextAlign.left, style: Constants.listTitleStyle),
               subtitle: Text(widget.customVendors[index].location,
                   textAlign: TextAlign.left,
                   style: Constants.listSubtitleStyle),
               trailing: Icon(Icons.phone_rounded, size: 40),
               onTap: () {
-                // Open up the Vendors Info route
-                // Navigator.of(context).push(MaterialPageRoute(
-                //   builder: (context) => GuestDetailsScreen(
-                //       guestInfo: widget.guestList[index]),
-                // ));
+                // Open up the custom vendor info route
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => CustomVendorDetailScreen(
+                      customVendor: widget.customVendors[index]),
+                ));
               },
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class CustomVendorDetailScreen extends StatefulWidget {
+  // In the constructor, require a custom vendor.
+  const CustomVendorDetailScreen({Key? key, required this.customVendor})
+      : super(key: key);
+
+  // Declare a field that holds the custom vendor info.
+  final CustomVendorInfo customVendor;
+
+  @override
+  State createState() {
+    return _CustomVendorDetailScreenState(customVendor: customVendor);
+  }
+}
+
+class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
+  // In the constructor, require a custom vendor.
+  _CustomVendorDetailScreenState({required this.customVendor});
+
+  // Declare a field that holds the custom vendors info.
+  final CustomVendorInfo customVendor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Explore Vendors'),
+        centerTitle: true,
+        backgroundColor: Constants.lightPrimary,
+        titleTextStyle: Constants.appBarStyle,
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Padding(padding: EdgeInsets.only(bottom: 15)),
+          Card(
+            shadowColor: Colors.grey,
+            elevation: 5.0,
+            margin:
+                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            child: Column(
+              children: <Widget>[
+                ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                  trailing: IconButton(
+                    onPressed: () {
+                      // Jump to edit screen
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //   builder: (context) => const EditTask(),
+                      // ));
+                    },
+                    icon: const Icon(Icons.edit),
+                  ),
+                ),
+
+                // Custom vendor name
+                const Text("Vendor", style: Constants.taskHeading),
+                Constants.formPadding,
+                Text(customVendor.name,
+                    style: Constants.cardContentStyle),
+                Constants.taskPadding,
+
+                // Custom vendor location
+                const Text("Location", style: Constants.taskHeading),
+                Constants.formPadding,
+                Text(customVendor.location,
+                    style: Constants.cardContentStyle),
+                Constants.taskPadding,
+
+                // Custom vendor phone number
+                const Text("Phone Number", style: Constants.taskHeading),
+                Constants.formPadding,
+                Text(customVendor.phoneNum,
+                    style: Constants.cardContentStyle),
+                Constants.taskPadding,
+
+                // Description of custom vendor
+                const Text("Description", style: Constants.taskHeading),
+                Constants.formPadding,
+                Container(
+                  padding: const EdgeInsets.only(left: 40, right: 40),
+                  child: Text(
+                    customVendor.description,
+                    style: Constants.cardContentStyle,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
+                Constants.taskPadding,
+
+                // Type of vendor
+                const Text("Vendor Type", style: Constants.taskHeading),
+                Constants.formPadding,
+                Text(customVendor.vendorType,
+                    style: Constants.cardContentStyle),
+                Constants.taskPadding,
+
+                // Remove custom vendor button
+                ElevatedButton(
+                    onPressed: () => showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            titlePadding: EdgeInsets.zero,
+                            title: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10),
+                                        bottomLeft: Radius.zero,
+                                        bottomRight: Radius.zero)),
+                                margin: EdgeInsets.zero,
+                                color: Constants.lightSecondary,
+                                child: ListTile(
+                                  title: Text('Deletion Confirmation',
+                                      textAlign: TextAlign.center,
+                                      style: Constants.cardHeaderStyle),
+                                )),
+                            contentPadding: EdgeInsets.only(
+                                top: 20.0,
+                                bottom: 0.0,
+                                left: 25.0,
+                                right: 25.0),
+                            content: Text(
+                                'Are you sure you want to remove the vendor ' +
+                                    customVendor.name +
+                                    '?',
+                                style: Constants.dialogContentStyle),
+                            actionsAlignment: MainAxisAlignment.center,
+                            buttonPadding:
+                                EdgeInsets.symmetric(horizontal: 25.0),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'Cancel'),
+                                  child: const Text('Cancel',
+                                      style: Constants.buttonRedStyle),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                        OutlinedBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                    ),
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Constants.buttonRed),
+                                    padding:
+                                        MaterialStateProperty.all<EdgeInsets>(
+                                            EdgeInsets.symmetric(
+                                                vertical: 25.0,
+                                                horizontal: 40.0)),
+                                  )),
+                              ElevatedButton(
+                                onPressed: () => {
+                                  // TODO: Delete custom vendor functionality
+                                  Navigator.pop(context),
+                                  Navigator.pop(context)
+                                },
+                                child: const Text('Confirm',
+                                    style: Constants.buttonRedStyle),
+                                style: ButtonStyle(
+                                  shape:
+                                      MaterialStateProperty.all<OutlinedBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  ),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Constants.buttonGreen),
+                                  padding:
+                                      MaterialStateProperty.all<EdgeInsets>(
+                                          EdgeInsets.symmetric(
+                                              vertical: 25.0,
+                                              horizontal: 35.0)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    child: Text('Delete', style: Constants.buttonRedStyle),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                      ),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Constants.buttonRed),
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                          EdgeInsets.symmetric(
+                              vertical: 25.0, horizontal: 150.0)),
+                    )),
+
+                Constants.taskPadding,
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
