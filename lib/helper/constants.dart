@@ -97,6 +97,7 @@ class Constants {
   static const buttonRedStyle = TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white);
   /// Button white TextStyle
   static const buttonWhiteStyle = TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.bold, color: buttonRed);
+  /// Button green TextStyle
 
   //Form Field
   ///Form field TextStyle
