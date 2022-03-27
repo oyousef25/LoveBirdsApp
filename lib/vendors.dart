@@ -761,7 +761,7 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Padding(padding: EdgeInsets.only(bottom: 15)),
+          const Padding(padding: EdgeInsets.only(bottom: 0)),
           Card(
             shadowColor: Colors.grey,
             elevation: 5.0,

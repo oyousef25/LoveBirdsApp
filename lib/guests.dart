@@ -410,8 +410,18 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
             // New guest form
             key: _guestFormKey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(padding: EdgeInsets.symmetric(vertical: 15.0)),
+
+                // Form heading
+                const Text(
+                  "First Name",
+                  textAlign: TextAlign.left,
+                  style: Constants.sectionHeading,
+                ),
+
+                Constants.formPadding,
 
                 /// Guest's first name
                 Material(
@@ -424,10 +434,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
-                      labelText: 'First Name',
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelStyle: Constants.formLabelStyle,
-                      hintText: 'John',
+                      hintText: 'Enter their first name (ie. John)',
                       hintStyle: Constants.formHintStyle,
                       fillColor: Colors.white,
                       filled: true,
@@ -441,7 +448,17 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                     },
                   ),
                 ),
-                Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+
+                Constants.sectionPadding,
+
+                // Form heading
+                const Text(
+                  "Last Name",
+                  textAlign: TextAlign.left,
+                  style: Constants.sectionHeading,
+                ),
+
+                Constants.formPadding,
 
                 /// Guest's last name
                 Material(
@@ -454,10 +471,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
-                      labelText: 'Last Name',
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelStyle: Constants.formLabelStyle,
-                      hintText: 'Smith',
+                      hintText: 'Enter their last name (ie. Smith)',
                       hintStyle: Constants.formHintStyle,
                       fillColor: Colors.white,
                       filled: true,
@@ -471,7 +485,17 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                     },
                   ),
                 ),
-                Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+
+                Constants.sectionPadding,
+
+                // Form heading
+                const Text(
+                  "Relationship",
+                  textAlign: TextAlign.left,
+                  style: Constants.sectionHeading,
+                ),
+
+                Constants.formPadding,
 
                 /// Guest's relationship
                 Material(
@@ -483,9 +507,6 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
-                      labelText: 'Relationship',
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelStyle: Constants.formLabelStyle,
                       fillColor: Colors.white,
                       filled: true,
                       isDense: true,
@@ -520,7 +541,17 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                     }).toList(),
                   ),
                 ),
-                Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+
+                Constants.sectionPadding,
+
+                // Form heading
+                const Text(
+                  "E-mail",
+                  textAlign: TextAlign.left,
+                  style: Constants.sectionHeading,
+                ),
+
+                Constants.formPadding,
 
                 /// Guest's email
                 Material(
@@ -533,9 +564,6 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
-                      labelText: 'E-mail',
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelStyle: Constants.formLabelStyle,
                       hintText: 'email@example.com',
                       hintStyle: Constants.formHintStyle,
                       fillColor: Colors.white,
@@ -550,7 +578,17 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                     },
                   ),
                 ),
-                Padding(padding: EdgeInsets.symmetric(vertical: 25.0)),
+
+                Constants.sectionPadding,
+
+                // Form heading
+                const Text(
+                  "Phone Number",
+                  textAlign: TextAlign.left,
+                  style: Constants.sectionHeading,
+                ),
+
+                Constants.formPadding,
 
                 /// Guest's phone number
                 Material(
@@ -563,9 +601,6 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
-                      labelText: 'Phone',
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelStyle: Constants.formLabelStyle,
                       hintText: '(123)456-7890',
                       hintStyle: Constants.formHintStyle,
                       fillColor: Colors.white,
@@ -580,37 +615,39 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                     },
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 50.0),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        // Validate will return true if the form is valid, or false if
-                        // the form is invalid.
-                        if (_guestFormKey.currentState!.validate()) {
-                          // Process data.
-                          if (widget.guestInfo == null) {
-                            // Case where adding a guest
-                            // TODO: Add a guest
-                          } else {
-                            // Case where editing a guest
-                            // TODO: Edit a guest's info
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 50.0),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          // Validate will return true if the form is valid, or false if
+                          // the form is invalid.
+                          if (_guestFormKey.currentState!.validate()) {
+                            // Process data.
+                            if (widget.guestInfo == null) {
+                              // Case where adding a guest
+                              // TODO: Add a guest
+                            } else {
+                              // Case where editing a guest
+                              // TODO: Edit a guest's info
+                            }
                           }
-                        }
-                      },
-                      child: Text(
-                          widget.guestInfo == null ? 'Add Guest' : 'Save',
-                          style: Constants.buttonRedStyle),
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                        ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Constants.buttonRed),
-                        padding: MaterialStateProperty.all<EdgeInsets>(
-                            EdgeInsets.symmetric(
-                                vertical: 25.0, horizontal: 150.0)),
-                      )),
+                        },
+                        child: Text(
+                            widget.guestInfo == null ? 'Add Guest' : 'Save',
+                            style: Constants.buttonRedStyle),
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                          ),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.buttonRed),
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                              EdgeInsets.symmetric(
+                                  vertical: 25.0, horizontal: 150.0)),
+                        )),
+                  ),
                 ),
               ],
             ),
