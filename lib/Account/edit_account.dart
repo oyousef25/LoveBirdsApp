@@ -35,7 +35,7 @@ class _EditAccount extends State<EditAccount> {
             children: [
               //form heading
               const Text(
-                "Task",
+                "Name",
                 textAlign: TextAlign.left,
                 style: Constants.sectionHeading,
               ),
@@ -164,6 +164,7 @@ class _EditAccount extends State<EditAccount> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
+                    //TODO: Fix save functionality
                     print("Information has been saved");
                     Navigator.pop(context);
                   },
