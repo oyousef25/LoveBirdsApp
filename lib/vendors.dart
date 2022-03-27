@@ -5,26 +5,30 @@ import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/vendorInfo.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'helper/customVendorInfo.dart';
+
 class VendorsPage extends StatefulWidget {
-  const VendorsPage({Key? key, required this.vendorList})
+  const VendorsPage({Key? key, required this.vendorList, required this.customVendorList})
       : super(key: key); // Vendors page key identifier
 
-  // Require guest data to be passed into this Widget
+  // Require vendor data to be passed into this Widget
   final List<VendorInfo> vendorList;
+  final List<CustomVendorInfo> customVendorList;
 
   /// Creates a state
   ///
   /// Return the Vendors page State
   @override
   State<StatefulWidget> createState() {
-    return _VendorsPageState(vendorList: vendorList);
+    return _VendorsPageState(vendorList: vendorList, customVendorList: customVendorList);
   }
 }
 
 class _VendorsPageState extends State<VendorsPage>
     with TickerProviderStateMixin {
-  _VendorsPageState({required this.vendorList});
+  _VendorsPageState({required this.vendorList, required this.customVendorList});
   final List<VendorInfo> vendorList;
+  final List<CustomVendorInfo> customVendorList;
 
   // Lazy load the tab bar
   late TabController _tabController;
@@ -216,10 +220,15 @@ class _VendorsPageState extends State<VendorsPage>
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 90.0),
-                  child: SavedVendorScreen(savedVendors: vendorList,),
+                  child: SavedVendorScreen(
+                    savedVendors: vendorList,
+                  ),
                 ),
-                Center(
-                  child: Text("It's sunny here"),
+                Padding(
+                  padding: EdgeInsets.only(top: 90.0),
+                  child: CustomVendorScreen(
+                    customVendors: customVendorList,
+                  ),
                 ),
               ],
             ),
@@ -548,8 +557,7 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
 
 class SavedVendorScreen extends StatefulWidget {
   // In the constructor, require a Vendor list and vendor type.
-  const SavedVendorScreen(
-      {Key? key, required this.savedVendors})
+  const SavedVendorScreen({Key? key, required this.savedVendors})
       : super(key: key);
 
   // Declare a field that holds the saved vendor list.
@@ -571,89 +579,150 @@ class _SavedVendorScreenState extends State<SavedVendorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView.builder(
-          padding: EdgeInsets.only(top: 10.0),
-          // ListView that is built as it is scrolled onto the screen
-          itemCount: widget.savedVendors.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              // Makes content clickable
-              onTap: () {
-                // Go to Vendor Details page
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => VendorDetailScreen(
-                    vendorInfo: savedVendors[index],
+      body: ListView.builder(
+        padding: EdgeInsets.only(top: 10.0),
+        // ListView that is built as it is scrolled onto the screen
+        itemCount: widget.savedVendors.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            // Makes content clickable
+            onTap: () {
+              // Go to Vendor Details page
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => VendorDetailScreen(
+                  vendorInfo: savedVendors[index],
+                ),
+              ));
+            },
+            child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                child: Card(
+                  // This card contains a row of the labels and widgets that make up a vendor item
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  color: Colors.white,
+                  shadowColor: Colors.grey,
+                  elevation: 5.0,
+                  child: Row(
+                    children: [
+                      const Padding(padding: EdgeInsets.only(left: 5)),
+
+                      // Image of the vendor (can be cached)
+                      Container(
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          imageUrl:
+                              'https://s3-media0.fl.yelpcdn.com/bphoto/7_n-ekeqhRei7YJ-_Nzfrw/o.jpg',
+                          // width: 120.0,
+                          height: 90.0,
+                        ),
+                      ),
+
+                      const Padding(padding: EdgeInsets.only(left: 12)),
+
+                      Expanded(
+                        // Column containing vendor name, rating and description
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(padding: EdgeInsets.only(top: 12)),
+                            Text(widget.savedVendors[index].name,
+                                textAlign: TextAlign.left,
+                                style: Constants.listTitleStyle),
+                            const Padding(padding: EdgeInsets.only(bottom: 9)),
+                            Text(widget.savedVendors[index].rating,
+                                textAlign: TextAlign.left,
+                                style: Constants.listSubtitleStyle),
+                            const Padding(padding: EdgeInsets.only(bottom: 9)),
+                            Text(widget.savedVendors[index].description,
+                                textAlign: TextAlign.left,
+                                style: Constants.listSubtitleStyle),
+                            const Padding(padding: EdgeInsets.only(bottom: 12)),
+                          ],
+                        ),
+                      ),
+
+                      // Icon containing saved vendor indicator
+                      Icon(
+                        widget.savedVendors[index].saved
+                            ? Icons.favorite
+                            : Icons.favorite_border_rounded,
+                        color: Constants.lightPrimary,
+                      ),
+
+                      const Padding(padding: EdgeInsets.only(left: 12)),
+                    ],
                   ),
-                ));
+                )),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class CustomVendorScreen extends StatefulWidget {
+  // In the constructor, require a Vendor list and vendor type.
+  const CustomVendorScreen({Key? key, required this.customVendors})
+      : super(key: key);
+
+  // Declare a field that holds the custom vendors list.
+  final List<CustomVendorInfo> customVendors;
+
+  @override
+  State createState() {
+    return _CustomVendorScreenState(customVendors: customVendors);
+  }
+}
+
+class _CustomVendorScreenState extends State<CustomVendorScreen> {
+  // In the constructor, require a vendor type.
+  _CustomVendorScreenState({required this.customVendors});
+
+  // Declare a field that holds the custom vendors list.
+  final List<CustomVendorInfo> customVendors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView.builder(
+        // ListView that is built as it is scrolled onto the screen
+        padding: EdgeInsets.only(top: 10.0),
+        itemCount: widget.customVendors.length,
+        itemBuilder: (context, index) {
+          return Card(
+            margin: const EdgeInsets.symmetric(
+                vertical: 7.0, horizontal: 10.0),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            color: Colors.white,
+            shadowColor: Colors.grey,
+            elevation: 5.0,
+            child: ListTile(
+              title: Text(
+                  widget.customVendors[index].name,
+                  textAlign: TextAlign.left,
+                  style: Constants.listTitleStyle),
+              subtitle: Text(widget.customVendors[index].location,
+                  textAlign: TextAlign.left,
+                  style: Constants.listSubtitleStyle),
+              trailing: Icon(Icons.phone_rounded, size: 40),
+              onTap: () {
+                // Open up the Vendors Info route
+                // Navigator.of(context).push(MaterialPageRoute(
+                //   builder: (context) => GuestDetailsScreen(
+                //       guestInfo: widget.guestList[index]),
+                // ));
               },
-              child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                  child: Card(
-                    // This card contains a row of the labels and widgets that make up a vendor item
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    color: Colors.white,
-                    shadowColor: Colors.grey,
-                    elevation: 5.0,
-                    child: Row(
-                      children: [
-                        const Padding(padding: EdgeInsets.only(left: 5)),
-
-                        // Image of the vendor (can be cached)
-                        Container(
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: CachedNetworkImage(
-                            placeholder: (context, url) =>
-                            const CircularProgressIndicator(),
-                            imageUrl:
-                            'https://s3-media0.fl.yelpcdn.com/bphoto/7_n-ekeqhRei7YJ-_Nzfrw/o.jpg',
-                            // width: 120.0,
-                            height: 90.0,
-                          ),
-                        ),
-
-                        const Padding(padding: EdgeInsets.only(left: 12)),
-
-                        Expanded(
-                          // Column containing vendor name, rating and description
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(padding: EdgeInsets.only(top: 12)),
-                              Text(widget.savedVendors[index].name,
-                                  textAlign: TextAlign.left,
-                                  style: Constants.listTitleStyle),
-                              const Padding(padding: EdgeInsets.only(bottom: 9)),
-                              Text(widget.savedVendors[index].rating,
-                                  textAlign: TextAlign.left,
-                                  style: Constants.listSubtitleStyle),
-                              const Padding(padding: EdgeInsets.only(bottom: 9)),
-                              Text(widget.savedVendors[index].description,
-                                  textAlign: TextAlign.left,
-                                  style: Constants.listSubtitleStyle),
-                              const Padding(padding: EdgeInsets.only(bottom: 12)),
-                            ],
-                          ),
-                        ),
-
-                        // Icon containing saved vendor indicator
-                        Icon(
-                          widget.savedVendors[index].saved
-                              ? Icons.favorite
-                              : Icons.favorite_border_rounded,
-                          color: Constants.lightPrimary,
-                        ),
-
-                        const Padding(padding: EdgeInsets.only(left: 12)),
-                      ],
-                    ),
-                  )),
-            );
-          },
-        ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
