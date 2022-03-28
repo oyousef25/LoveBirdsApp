@@ -48,217 +48,219 @@ class _VendorsPageState extends State<VendorsPage>
   /// Given the build [context], return the Vendors page Widget.
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Stack(
-        children: <Widget>[
-          SizedBox(
-            height: 800.0,
-            child: TabBarView(
-              // Tab bar contents
-              controller: _tabController,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Padding(padding: EdgeInsets.symmetric(vertical: 55.0)),
-                    Container(
-                      width: 400.0,
-                      height: 90.0,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Go to vendors page
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => VendorScreen(
-                              vendorType: 'Venues',
-                              vendors: vendorList,
+    return Scaffold(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Stack(
+          children: <Widget>[
+            SizedBox(
+              height: 800.0,
+              child: TabBarView(
+                // Tab bar contents
+                controller: _tabController,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Padding(padding: EdgeInsets.symmetric(vertical: 55.0)),
+                      Container(
+                        width: 400.0,
+                        height: 90.0,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Go to vendors page
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => VendorScreen(
+                                vendorType: 'Venues',
+                                vendors: vendorList,
+                              ),
+                            ));
+                          },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0)),
                             ),
-                          ));
-                        },
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0)),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Constants.lightSecondary),
+                            // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                           ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Constants.lightSecondary),
-                          // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
-                        ),
-                        child: Text(
-                          'Venues',
-                          textAlign: TextAlign.center,
-                          style: Constants.cardHeaderStyle,
+                          child: Text(
+                            'Venues',
+                            textAlign: TextAlign.center,
+                            style: Constants.cardHeaderStyle,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12.0),
-                    ),
-                    Container(
-                      width: 400.0,
-                      height: 90.0,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Go to vendors page
-                          // Go to vendors page
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => VendorScreen(
-                              vendorType: 'Bridal Gowns',
-                              vendors: vendorList,
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12.0),
+                      ),
+                      Container(
+                        width: 400.0,
+                        height: 90.0,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Go to vendors page
+                            // Go to vendors page
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => VendorScreen(
+                                vendorType: 'Bridal Gowns',
+                                vendors: vendorList,
+                              ),
+                            ));
+                          },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0)),
                             ),
-                          ));
-                        },
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0)),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Constants.lightSecondary),
+                            // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                           ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Constants.lightSecondary),
-                          // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
-                        ),
-                        child: Text(
-                          'Bridal Gowns',
-                          textAlign: TextAlign.center,
-                          style: Constants.cardHeaderStyle,
+                          child: Text(
+                            'Bridal Gowns',
+                            textAlign: TextAlign.center,
+                            style: Constants.cardHeaderStyle,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12.0),
-                    ),
-                    Container(
-                      width: 400.0,
-                      height: 90.0,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Go to vendors page
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => VendorScreen(
-                              vendorType: 'Photographers',
-                              vendors: vendorList,
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12.0),
+                      ),
+                      Container(
+                        width: 400.0,
+                        height: 90.0,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Go to vendors page
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => VendorScreen(
+                                vendorType: 'Photographers',
+                                vendors: vendorList,
+                              ),
+                            ));
+                          },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0)),
                             ),
-                          ));
-                        },
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0)),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Constants.lightSecondary),
+                            // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                           ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Constants.lightSecondary),
-                          // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
-                        ),
-                        child: Text(
-                          'Photographers',
-                          textAlign: TextAlign.center,
-                          style: Constants.cardHeaderStyle,
+                          child: Text(
+                            'Photographers',
+                            textAlign: TextAlign.center,
+                            style: Constants.cardHeaderStyle,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12.0),
-                    ),
-                    Container(
-                      width: 400.0,
-                      height: 90.0,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Go to vendors page
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => VendorScreen(
-                              vendorType: 'Florists',
-                              vendors: vendorList,
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12.0),
+                      ),
+                      Container(
+                        width: 400.0,
+                        height: 90.0,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Go to vendors page
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => VendorScreen(
+                                vendorType: 'Florists',
+                                vendors: vendorList,
+                              ),
+                            ));
+                          },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0)),
                             ),
-                          ));
-                        },
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0)),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Constants.lightSecondary),
+                            // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                           ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Constants.lightSecondary),
-                          // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
-                        ),
-                        child: Text(
-                          'Florists',
-                          textAlign: TextAlign.center,
-                          style: Constants.cardHeaderStyle,
+                          child: Text(
+                            'Florists',
+                            textAlign: TextAlign.center,
+                            style: Constants.cardHeaderStyle,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12.0),
-                    ),
-                    Container(
-                      width: 400.0,
-                      height: 90.0,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Go to vendors page
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => VendorScreen(
-                              vendorType: 'Gifts',
-                              vendors: vendorList,
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12.0),
+                      ),
+                      Container(
+                        width: 400.0,
+                        height: 90.0,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Go to vendors page
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => VendorScreen(
+                                vendorType: 'Gifts',
+                                vendors: vendorList,
+                              ),
+                            ));
+                          },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0)),
                             ),
-                          ));
-                        },
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0)),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Constants.lightSecondary),
+                            // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                           ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Constants.lightSecondary),
-                          // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
-                        ),
-                        child: Text(
-                          'Gifts',
-                          textAlign: TextAlign.center,
-                          style: Constants.cardHeaderStyle,
+                          child: Text(
+                            'Gifts',
+                            textAlign: TextAlign.center,
+                            style: Constants.cardHeaderStyle,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 90.0),
-                  child: SavedVendorScreen(
-                    savedVendors: vendorList,
+                    ],
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 90.0),
-                  child: CustomVendorScreen(
-                    customVendors: customVendorList,
+                  Padding(
+                    padding: EdgeInsets.only(top: 90.0),
+                    child: SavedVendorScreen(
+                      savedVendors: vendorList,
+                    ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.only(top: 90.0),
+                    child: CustomVendorScreen(
+                      customVendors: customVendorList,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          DefaultTabController(
-            // Tab controller
-            length: 3,
-            child: TabBar(
-              controller: _tabController,
-              padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
-              indicatorColor: Constants.lightPrimary,
-              indicatorWeight: 4.0,
-              indicatorPadding: EdgeInsets.symmetric(horizontal: 10.0),
-              tabs: [
-                Tab(
-                  child: Text('Vendors', style: Constants.tabLabelStyle),
-                ),
-                Tab(
-                  child: Text('Saved', style: Constants.tabLabelStyle),
-                ),
-                Tab(
-                  child: Text('My Vendors', style: Constants.tabLabelStyle),
-                ),
-              ],
+            DefaultTabController(
+              // Tab controller
+              length: 3,
+              child: TabBar(
+                controller: _tabController,
+                padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
+                indicatorColor: Constants.lightPrimary,
+                indicatorWeight: 4.0,
+                indicatorPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                tabs: [
+                  Tab(
+                    child: Text('Vendors', style: Constants.tabLabelStyle),
+                  ),
+                  Tab(
+                    child: Text('Saved', style: Constants.tabLabelStyle),
+                  ),
+                  Tab(
+                    child: Text('My Vendors', style: Constants.tabLabelStyle),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -723,6 +725,22 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Go to add guest page
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ModifyVendorScreen(
+              customVendor: null,
+            ),
+          ));
+        },
+        backgroundColor: Constants.lightSecondary,
+        child: Icon(
+          Icons.add,
+          size: 50.0,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }
@@ -776,9 +794,10 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
                   trailing: IconButton(
                     onPressed: () {
                       // Jump to edit screen
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //   builder: (context) => const EditTask(),
-                      // ));
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            ModifyVendorScreen(customVendor: customVendor),
+                      ));
                     },
                     icon: const Icon(Icons.edit),
                   ),
@@ -787,22 +806,19 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
                 // Custom vendor name
                 const Text("Vendor", style: Constants.taskHeading),
                 Constants.formPadding,
-                Text(customVendor.name,
-                    style: Constants.cardContentStyle),
+                Text(customVendor.name, style: Constants.cardContentStyle),
                 Constants.taskPadding,
 
                 // Custom vendor location
                 const Text("Location", style: Constants.taskHeading),
                 Constants.formPadding,
-                Text(customVendor.location,
-                    style: Constants.cardContentStyle),
+                Text(customVendor.location, style: Constants.cardContentStyle),
                 Constants.taskPadding,
 
                 // Custom vendor phone number
                 const Text("Phone Number", style: Constants.taskHeading),
                 Constants.formPadding,
-                Text(customVendor.phoneNum,
-                    style: Constants.cardContentStyle),
+                Text(customVendor.phoneNum, style: Constants.cardContentStyle),
                 Constants.taskPadding,
 
                 // Description of custom vendor
@@ -929,6 +945,282 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ModifyVendorScreen extends StatefulWidget {
+  const ModifyVendorScreen({Key? key, required this.customVendor})
+      : super(key: key);
+
+  // Will be null if adding a guest
+  // Otherwise it will contain the guest info to edit.
+  final CustomVendorInfo? customVendor;
+
+  @override
+  State<StatefulWidget> createState() {
+    return _ModifyVendorState();
+  }
+}
+
+class _ModifyVendorState extends State<ModifyVendorScreen> {
+  /// Form key for validation of custom vendor form
+  final GlobalKey<FormState> _vendorFormKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    // Populate the custom vendor info text, if any
+    CustomVendorInfo? customVendor = widget.customVendor;
+    CustomVendorInfo customVendorTextValue =
+        CustomVendorInfo('', '', '', '', ''); // Default
+    if (customVendor != null) {
+      // Make sure custom vendor info exists
+      customVendorTextValue = customVendor;
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Constants.lightPrimary,
+        centerTitle: true,
+        title: Text(
+            widget.customVendor == null ? 'Create Vendor' : 'Edit Vendor',
+            style: Constants.appBarStyle),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 30.0),
+          child: Form(
+            // New guest form
+            key: _vendorFormKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(padding: EdgeInsets.symmetric(vertical: 15.0)),
+
+                // Form heading
+                const Text(
+                  "Vendor",
+                  textAlign: TextAlign.left,
+                  style: Constants.sectionHeading,
+                ),
+
+                Constants.formPadding,
+
+                /// Custom vendor name
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: TextFormField(
+                    initialValue: customVendorTextValue.name,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: "Enter a name (ie. Caboto Club)",
+                      hintStyle: Constants.formHintStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Name cannot be empty';
+                      }
+                      // TODO: Vendor name validation code
+                      return null;
+                    },
+                  ),
+                ),
+
+                Constants.sectionPadding,
+
+                // Form heading
+                const Text(
+                  "Location",
+                  textAlign: TextAlign.left,
+                  style: Constants.sectionHeading,
+                ),
+
+                Constants.formPadding,
+
+                /// Custom vendor location
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: TextFormField(
+                    initialValue: customVendorTextValue.location,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: 'Enter a location (ie. Windsor, ON)',
+                      hintStyle: Constants.formHintStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Location cannot be empty';
+                      }
+                      // TODO: Location validation code
+                      return null;
+                    },
+                  ),
+                ),
+
+                Constants.sectionPadding,
+
+                // Form heading
+                const Text(
+                  "Phone Number",
+                  textAlign: TextAlign.left,
+                  style: Constants.sectionHeading,
+                ),
+
+                Constants.formPadding,
+
+                /// Custom vendor phone number
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: TextFormField(
+                    initialValue: customVendorTextValue.phoneNum,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: '(123)456-7890',
+                      hintStyle: Constants.formHintStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Phone number cannot be empty';
+                      }
+                      // TODO: Phone number validation code
+                      return null;
+                    },
+                  ),
+                ),
+
+                Constants.sectionPadding,
+
+                // Form heading
+                const Text(
+                  "E-mail",
+                  textAlign: TextAlign.left,
+                  style: Constants.sectionHeading,
+                ),
+
+                Constants.formPadding,
+
+                /// Custom vendor description
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: TextFormField(
+                    minLines: 2,
+                    maxLines: 4,
+                    maxLength: 255,
+                    initialValue: customVendorTextValue.description,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: 'Enter a brief description of the vendor',
+                      hintStyle: Constants.formHintStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Description cannot be empty';
+                      }
+                      // TODO: Vendor description validation code
+                      return null;
+                    },
+                  ),
+                ),
+
+                Constants.sectionPadding,
+
+                // Form heading
+                const Text(
+                  "Phone Number",
+                  textAlign: TextAlign.left,
+                  style: Constants.sectionHeading,
+                ),
+
+                Constants.formPadding,
+
+                /// Custom vendor type
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: TextFormField(
+                    initialValue: customVendorTextValue.vendorType,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: 'Enter the type of vendor (e.g. Hair Salon)',
+                      hintStyle: Constants.formHintStyle,
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Vendor type cannot be empty';
+                      }
+                      // TODO: Vendor type validation code
+                      return null;
+                    },
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 50.0),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          // Validate will return true if the form is valid, or false if
+                          // the form is invalid.
+                          if (_vendorFormKey.currentState!.validate()) {
+                            // Process data.
+                            if (widget.customVendor == null) {
+                              // Case where adding a custom vendor
+                              // TODO: Add a custom vendor
+                            } else {
+                              // Case where editing a custom vendor
+                              // TODO: Edit a custom vendor
+                            }
+                          }
+                        },
+                        child: Text(
+                            widget.customVendor == null ? 'Create' : 'Save',
+                            style: Constants.buttonRedStyle),
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                          ),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.buttonRed),
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                              EdgeInsets.symmetric(
+                                  vertical: 25.0, horizontal: 150.0)),
+                        )),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
