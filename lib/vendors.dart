@@ -35,12 +35,21 @@ class _VendorsPageState extends State<VendorsPage>
 
   // Lazy load the tab bar
   late TabController _tabController;
+  int currentTab = 0; // Keep track of current tab
 
   // Initialize the tab bar
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(_tabIndexChanged);
+  }
+
+  /// Observe when the current tab index changes
+  _tabIndexChanged() {
+    setState(() => {
+          currentTab = _tabController.index,
+        });
   }
 
   /// This Widget builds out the Vendors page
@@ -262,6 +271,26 @@ class _VendorsPageState extends State<VendorsPage>
           ],
         ),
       ),
+
+      // Show the FAB only on the My Vendors tab
+      floatingActionButton: currentTab == 2
+          ? FloatingActionButton(
+              onPressed: () {
+                // Go to add guest page
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ModifyVendorScreen(
+                    customVendor: null,
+                  ),
+                ));
+              },
+              backgroundColor: Constants.lightSecondary,
+              child: Icon(
+                Icons.add,
+                size: 50.0,
+                color: Colors.white,
+              ),
+            )
+          : null,
     );
   }
 }
@@ -725,22 +754,22 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Go to add guest page
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ModifyVendorScreen(
-              customVendor: null,
-            ),
-          ));
-        },
-        backgroundColor: Constants.lightSecondary,
-        child: Icon(
-          Icons.add,
-          size: 50.0,
-          color: Colors.white,
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     // Go to add guest page
+      //     Navigator.of(context).push(MaterialPageRoute(
+      //       builder: (context) => ModifyVendorScreen(
+      //         customVendor: null,
+      //       ),
+      //     ));
+      //   },
+      //   backgroundColor: Constants.lightSecondary,
+      //   child: Icon(
+      //     Icons.add,
+      //     size: 50.0,
+      //     color: Colors.white,
+      //   ),
+      // ),
     );
   }
 }
