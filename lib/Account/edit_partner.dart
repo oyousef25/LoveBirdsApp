@@ -27,7 +27,7 @@ class _EditPartner extends State<EditPartner> {
         //nesting in a container allows for margin on all sides
         child: Container(
           margin:
-          const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+              const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
           //column which contains all form elements
           child: Column(
             //aligning to the left
@@ -85,54 +85,56 @@ class _EditPartner extends State<EditPartner> {
               Constants.formPadding,
 
               Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      //TODO: Remove partner functionality
-                      print("remove partner");
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Remove", style: Constants.buttonRedStyle),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          //TODO: Remove partner functionality
+                          print("remove partner");
+                          Navigator.pop(context);
+                        },
+                        child: const Text("Remove",
+                            style: Constants.buttonRedStyle),
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.buttonRed),
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                              const EdgeInsets.symmetric(vertical: 25.0)),
                         ),
                       ),
-                      backgroundColor:
-                      MaterialStateProperty.all<Color>(Constants.buttonRed),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.symmetric(
-                              vertical: 25.0, horizontal: 70.0)),
                     ),
-                  ),
-
-                  const Padding(padding: EdgeInsets.only(right: 30)),
-
-                  ElevatedButton(
-                    onPressed: () {
-                      //TODO: Invite partner functionality
-                      print("Invite partner");
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Invite", style: Constants.buttonRedStyle),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                    const Padding(padding: EdgeInsets.only(right: 30)),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          //TODO: Invite partner functionality
+                          print("Invite partner");
+                          Navigator.pop(context);
+                        },
+                        child: const Text("Invite",
+                            style: Constants.buttonRedStyle),
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.buttonGreen),
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                              const EdgeInsets.symmetric(vertical: 25.0)),
                         ),
                       ),
-                      backgroundColor:
-                      MaterialStateProperty.all<Color>(Constants.buttonGreen),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.symmetric(
-                              vertical: 25.0, horizontal: 70.0)),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
               ),
             ],
           ),

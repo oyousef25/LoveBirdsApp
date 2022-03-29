@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lovebirds_app/Account/login.dart';
+import 'package:lovebirds_app/Account/register_account.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 import 'Account/edit_account.dart';
