@@ -87,14 +87,91 @@ class _EditPartner extends State<EditPartner> {
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget> [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {
-                          //TODO: Remove partner functionality
-                          print("remove partner");
-                          Navigator.pop(context);
-                        },
+                        onPressed: () => showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            titlePadding: EdgeInsets.zero,
+                            title: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10),
+                                        bottomLeft: Radius.zero,
+                                        bottomRight: Radius.zero)),
+                                margin: EdgeInsets.zero,
+                                color: Constants.lightSecondary,
+                                child: ListTile(
+                                  title: Text('Deletion Confirmation',
+                                      textAlign: TextAlign.center,
+                                      style: Constants.cardHeaderStyle),
+                                )),
+                            contentPadding: EdgeInsets.only(
+                                top: 20.0,
+                                bottom: 0.0,
+                                left: 25.0,
+                                right: 25.0),
+                            content: Text(
+                                'Are you sure you want to remove your partner Alexa Pear?',
+                                style: Constants.dialogContentStyle),
+                            actionsAlignment: MainAxisAlignment.center,
+                            // actionsPadding: ,
+                            buttonPadding:
+                            EdgeInsets.symmetric(horizontal: 25.0),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'Cancel'),
+                                  child: const Text('Cancel',
+                                      style: Constants.buttonRedStyle),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                        OutlinedBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                    ),
+                                    backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Constants.buttonRed),
+                                    padding:
+                                    MaterialStateProperty.all<EdgeInsets>(
+                                        EdgeInsets.symmetric(
+                                            vertical: 25.0,
+                                            horizontal: 40.0)),
+                                  )),
+                              ElevatedButton(
+                                onPressed: () => {
+                                  // TODO: Delete guest functionality
+                                  Navigator.pop(context),
+                                  Navigator.pop(context)
+                                },
+                                child: const Text('Confirm',
+                                    style: Constants.buttonRedStyle),
+                                style: ButtonStyle(
+                                  shape:
+                                  MaterialStateProperty.all<OutlinedBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  ),
+                                  backgroundColor:
+                                  MaterialStateProperty.all<Color>(
+                                      Constants.buttonGreen),
+                                  padding:
+                                  MaterialStateProperty.all<EdgeInsets>(
+                                      EdgeInsets.symmetric(
+                                          vertical: 25.0,
+                                          horizontal: 35.0)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         child: const Text("Remove",
                             style: Constants.buttonRedStyle),
                         style: ButtonStyle(
@@ -113,11 +190,88 @@ class _EditPartner extends State<EditPartner> {
                     const Padding(padding: EdgeInsets.only(right: 30)),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {
-                          //TODO: Invite partner functionality
-                          print("Invite partner");
-                          Navigator.pop(context);
-                        },
+                        onPressed: () => showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            titlePadding: EdgeInsets.zero,
+                            title: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10),
+                                        bottomLeft: Radius.zero,
+                                        bottomRight: Radius.zero)),
+                                margin: EdgeInsets.zero,
+                                color: Constants.lightSecondary,
+                                child: ListTile(
+                                  title: Text('Invite Confirmation',
+                                      textAlign: TextAlign.center,
+                                      style: Constants.cardHeaderStyle),
+                                )),
+                            contentPadding: EdgeInsets.only(
+                                top: 20.0,
+                                bottom: 0.0,
+                                left: 25.0,
+                                right: 25.0),
+                            content: Text(
+                                'Are you sure you want to invite Alexa Pear as your partner?',
+                                style: Constants.dialogContentStyle),
+                            actionsAlignment: MainAxisAlignment.center,
+                            // actionsPadding: ,
+                            buttonPadding:
+                            EdgeInsets.symmetric(horizontal: 25.0),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'Cancel'),
+                                  child: const Text('Cancel',
+                                      style: Constants.buttonRedStyle),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                        OutlinedBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                    ),
+                                    backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Constants.buttonRed),
+                                    padding:
+                                    MaterialStateProperty.all<EdgeInsets>(
+                                        EdgeInsets.symmetric(
+                                            vertical: 25.0,
+                                            horizontal: 40.0)),
+                                  )),
+                              ElevatedButton(
+                                onPressed: () => {
+                                  // TODO: Delete guest functionality
+                                  Navigator.pop(context),
+                                  Navigator.pop(context)
+                                },
+                                child: const Text('Confirm',
+                                    style: Constants.buttonRedStyle),
+                                style: ButtonStyle(
+                                  shape:
+                                  MaterialStateProperty.all<OutlinedBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                  ),
+                                  backgroundColor:
+                                  MaterialStateProperty.all<Color>(
+                                      Constants.buttonGreen),
+                                  padding:
+                                  MaterialStateProperty.all<EdgeInsets>(
+                                      EdgeInsets.symmetric(
+                                          vertical: 25.0,
+                                          horizontal: 35.0)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         child: const Text("Invite",
                             style: Constants.buttonRedStyle),
                         style: ButtonStyle(
