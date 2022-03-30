@@ -160,15 +160,17 @@ class _EditAccount extends State<EditAccount> {
 
               const Padding(padding: EdgeInsets.only(bottom: 27)),
 
-              //Create Button
+              //Save Changes
               Center(
+              child: Expanded(
                 child: ElevatedButton(
                   onPressed: () {
                     //TODO: Fix save functionality
                     print("Information has been saved");
                     Navigator.pop(context);
                   },
-                  child: const Text("Apply Changes", style: Constants.buttonRedStyle),
+                  child: const Text("Apply Changes",
+                      style: Constants.buttonRedStyle),
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
@@ -178,10 +180,11 @@ class _EditAccount extends State<EditAccount> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Constants.buttonRed),
                     padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.symmetric(
-                            vertical: 25.0, horizontal: 150.0)),
+                      const EdgeInsets.symmetric(vertical: 25.0, horizontal: 170),
+                    ),
                   ),
                 ),
+              ),
               ),
             ],
           ),
