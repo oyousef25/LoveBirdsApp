@@ -463,7 +463,6 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                         topLeft: Radius.circular(10.0)),
                   ),
                   child: FittedBox(
-                    // clipBehavior: Clip.antiAlias,
                     fit: BoxFit.cover,
                     child: CachedNetworkImage(
                       placeholder: (context, url) =>
