@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import 'Task/view_task.dart';
 import 'helper/constants.dart';
 
 class HomePage extends StatefulWidget {
@@ -162,10 +163,10 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (BuildContext context, int index) {
                     //an individual list item is a card
                     return GestureDetector( //This helps to make the card clickable
-                      // onTap: () { // Open up the Guest Info route
-                      //   Navigator.of(context).push(
-                      //       MaterialPageRoute(builder: (context) => const ViewTask()));
-                      // },
+                      onTap: () { // Open up the view task route
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => const ViewTask()));
+                      },
 
                       child: Card(
                         margin: const EdgeInsets.symmetric(
