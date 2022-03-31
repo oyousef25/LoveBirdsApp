@@ -57,9 +57,9 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                     fit: BoxFit.cover,
                     child: CachedNetworkImage(
                       placeholder: (context, url) =>
-                      const CircularProgressIndicator(),
+                          const CircularProgressIndicator(),
                       imageUrl:
-                      'https://s3-media0.fl.yelpcdn.com/bphoto/7_n-ekeqhRei7YJ-_Nzfrw/o.jpg',
+                          'https://s3-media0.fl.yelpcdn.com/bphoto/7_n-ekeqhRei7YJ-_Nzfrw/o.jpg',
                     ),
                   ),
                   height: 250.0,
@@ -81,7 +81,7 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                     size: 40.0,
                   ),
                   contentPadding:
-                  EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
                 ),
                 ListTile(
                   // Vendor location
@@ -150,6 +150,90 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                         if (widget.vendorInfo.saved) {
                           // Case where vendor is already saved
                           // TODO: Remove a saved vendor
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              titlePadding: EdgeInsets.zero,
+                              title: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          topRight: Radius.circular(10),
+                                          bottomLeft: Radius.zero,
+                                          bottomRight: Radius.zero)),
+                                  margin: EdgeInsets.zero,
+                                  color: Constants.lightSecondary,
+                                  child: ListTile(
+                                    title: Text('Deletion Confirmation',
+                                        textAlign: TextAlign.center,
+                                        style: Constants.cardHeaderStyle),
+                                  )),
+                              contentPadding: EdgeInsets.only(
+                                  top: 20.0,
+                                  bottom: 0.0,
+                                  left: 25.0,
+                                  right: 25.0),
+                              content: Text(
+                                  'Are you sure you want to remove the vendor ' +
+                                      vendorInfo.name +
+                                      '?',
+                                  style: Constants.dialogContentStyle),
+                              actionsAlignment: MainAxisAlignment.center,
+                              buttonPadding:
+                                  EdgeInsets.symmetric(horizontal: 25.0),
+                              actions: <Widget>[
+                                ElevatedButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'Cancel'),
+                                    child: const Text('Cancel',
+                                        style: Constants.buttonRedStyle),
+                                    style: ButtonStyle(
+                                      shape: MaterialStateProperty.all<
+                                          OutlinedBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0)),
+                                      ),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Constants.buttonRed),
+                                      padding:
+                                          MaterialStateProperty.all<EdgeInsets>(
+                                              EdgeInsets.symmetric(
+                                                  vertical: 25.0,
+                                                  horizontal: 40.0)),
+                                    )),
+                                ElevatedButton(
+                                  onPressed: () => {
+                                    // TODO: Delete custom vendor functionality
+                                    Navigator.pop(context),
+                                    Navigator.pop(context)
+                                  },
+                                  child: const Text('Confirm',
+                                      style: Constants.buttonRedStyle),
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                        OutlinedBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                    ),
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Constants.buttonGreen),
+                                    padding:
+                                        MaterialStateProperty.all<EdgeInsets>(
+                                            EdgeInsets.symmetric(
+                                                vertical: 25.0,
+                                                horizontal: 35.0)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         } else {
                           // Case where vendor is not saved yet
                           // TODO: Save a vendor
