@@ -44,7 +44,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   /// This Widget builds out the Home page
   ///
   /// Given the build [context], return the Home page Widget.
@@ -53,7 +52,7 @@ class _HomePageState extends State<HomePage> {
     final List<VendorInfo> recentlySavedVendors = [];
     // Get a list of the 3 most recently saved vendors
     int savedVendorSize = widget.vendorList.length;
-    switch(savedVendorSize) {
+    switch (savedVendorSize) {
       case 1:
         recentlySavedVendors.add(widget.vendorList[0]);
         break;
@@ -79,22 +78,41 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Image of the vendor (can be cached)
-                Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration:
-                      const BoxDecoration(), // Need this to preserve container shape
-                  child: FittedBox(
-                    // clipBehavior: Clip.antiAlias,
-                    fit: BoxFit.cover,
-                    child: CachedNetworkImage(
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
-                      imageUrl:
-                          'https://pbs.twimg.com/media/CXzwtfFWMAAdtLa?format=jpg&name=4096x4096',
+                Stack(
+                  children: [
+                    Container(
+                      clipBehavior: Clip.antiAlias,
+                      decoration:
+                          const BoxDecoration(), // Need this to preserve container shape
+                      child: FittedBox(
+                        // clipBehavior: Clip.antiAlias,
+                        fit: BoxFit.cover,
+                        child: CachedNetworkImage(
+                          // Custom tint
+                          color: Color.fromRGBO(123, 96, 0, 0.3),
+                          colorBlendMode: BlendMode.darken,
+                          placeholder: (context, url) =>
+                              const CircularProgressIndicator(),
+                          imageUrl:
+                              'https://pbs.twimg.com/media/CXzwtfFWMAAdtLa?format=jpg&name=4096x4096',
+                        ),
+                      ),
+                      height: 150.0,
+                      width:
+                          double.infinity, // Stretch width as much as possible
                     ),
-                  ),
-                  height: 150.0,
-                  width: double.infinity, // Stretch width as much as possible
+                    ListTile(
+                        minVerticalPadding: 40.0,
+                        title: Padding(
+                            padding: EdgeInsets.only(bottom: 15.0),
+                            child: Text('10 days remaining',
+                            textAlign: TextAlign.center,
+                            style: Constants.homeHeaderStyle,)),
+                        subtitle: Text('April 1st, 2022',
+                            textAlign: TextAlign.center,
+                            style: Constants.homeSubheaderStyle)
+                    ),
+                  ],
                 ),
                 Container(
                   margin: const EdgeInsets.only(
@@ -276,6 +294,9 @@ class _HomePageState extends State<HomePage> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      ),
                       Container(
                         width: Constants.exploreWidth,
                         height: Constants.exploreHeight,
@@ -448,7 +469,9 @@ class _HomePageState extends State<HomePage> {
                 // List of recently saved vendors
                 SizedBox(
                   height: 350,
-                  child: SavedVendorScreen(savedVendors: recentlySavedVendors,),
+                  child: SavedVendorScreen(
+                    savedVendors: recentlySavedVendors,
+                  ),
                 )
               ],
             ),
