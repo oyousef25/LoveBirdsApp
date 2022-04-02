@@ -122,4 +122,8 @@ class Constants {
   static const taskHeading = TextStyle(fontFamily: 'Roboto Slab', fontSize: 18, color: darkSecondary, fontWeight: FontWeight.w500);
   ///Padding
   static const taskPadding = Padding(padding: EdgeInsets.only(top: 30));
+
+  // Explore vendor icon height
+  static const exploreHeight = 90.0;
+  static const exploreWidth = 150.0;
 }

@@ -1,10 +1,12 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/vendorInfo.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'Vendor/customVendor.dart';
+import 'Vendor/modifyVendor.dart';
+import 'Vendor/savedVendor.dart';
+import 'Vendor/vendorScreen.dart';
 import 'helper/customVendorInfo.dart';
 
 class VendorsPage extends StatefulWidget {
