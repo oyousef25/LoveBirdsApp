@@ -90,11 +90,11 @@ class Constants {
 
 
   /// Budget Expense TextStyle
-  static const budgetExpense = TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0, color: darkSecondary);
+  static const budgetExpense = TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0, color: Colors.black);
   ///List item task price textStyle
   static const taskPrice = TextStyle(fontWeight: FontWeight.bold, fontSize: 23.0, color: Colors.black);
   /// Button red TextStyle
-  static const buttonRedStyle = TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white);
+  static const buttonRedStyle = TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white);
   /// Button white TextStyle
   static const buttonWhiteStyle = TextStyle(fontFamily: 'Roboto', fontSize: 18, fontWeight: FontWeight.bold, color: buttonRed);
   /// Button green TextStyle

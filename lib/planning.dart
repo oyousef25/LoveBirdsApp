@@ -21,11 +21,6 @@ class PlanningPage extends StatefulWidget {
     "Buy Flowers"
   ];
   final List<String> taskPrices = <String>["\$500.00", "\$500.00", "\$150.00"];
-  final List<Color> colorCodes = <Color>[
-    Constants.blueSpouse,
-    Constants.pinkSpouse,
-    Constants.blueSpouse
-  ];
 
   /// Creates a state
   ///
@@ -38,7 +33,7 @@ class PlanningPage extends StatefulWidget {
 
 class _PlanningPageState extends State<PlanningPage> {
   int? _selectedIndex = 0; // Index of selected chip
-  final List<String> _chips = ['All', 'To Do', 'Done']; // List of chip options
+  final List<String> _chips = ['Me', 'Partner', 'All']; // List of chip options
 
   /// This Widget builds out the Planning page
   ///
@@ -54,48 +49,79 @@ class _PlanningPageState extends State<PlanningPage> {
         child: Column(
           children: [
             //container for the budget overview
-            Container(
-              padding: const EdgeInsets.all(20),
-              child: IntrinsicHeight(
-                //row containing overview texts and vertical divider
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    //Budget Total Overview
-                    Column(children: const [
-                      Text("Budget Total",
-                          textAlign: TextAlign.center, style: Constants.title),
+            Row(
+              children: [
+                //Budget Total Overview
+                Expanded(
+                child: Card(
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 15.0,
+                      horizontal: 25.0), // Hack for shrinking card padding
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  color: Constants.lightSecondary,
+                  child: Column(
+                    children: [
+                      Padding(padding: EdgeInsets.only(top: 20)),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                          Text("Budget Total ",
+                              textAlign: TextAlign.center,
+                              style: Constants.title),
+                          // IconButton(
+                          //   //TODO: Add Edit Budget Functionality
+                          //   onPressed: null,
+                          //   icon: Icon(Icons.edit),
+                          // ),
+                      ],
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 5)),
                       Text(
                         "\$20,000",
                         textAlign: TextAlign.center,
                         style: Constants.budgetExpense,
                       ),
-                    ]),
-
-                    //Vertical Divider
-                    const VerticalDivider(
-                      color: Colors.black,
-                      thickness: 1.3,
-                      width: 20,
-                      indent: 7,
-                    ),
-
-                    //Total Spent Overview
-                    Column(
-                      children: const [
-                        Text("Total Spent",
-                            textAlign: TextAlign.center,
-                            style: Constants.title),
-                        Text(
-                          "\$10,000",
-                          textAlign: TextAlign.center,
-                          style: Constants.budgetExpense,
-                        ),
-                      ],
-                    ),
-                  ],
+                      Padding(padding: EdgeInsets.only(bottom: 20)),
+                    ],
+                  ),
                 ),
-              ),
+                ),
+                //Total Spent Overview
+                Expanded(child:
+                Card(
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 15.0,
+                      horizontal: 25.0), // Hack for shrinking card padding
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  color: Constants.lightSecondary,
+                  child: Column(
+                    children: [
+                      Padding(padding: EdgeInsets.only(top:20)),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Total Spent",
+                          textAlign: TextAlign.center,
+                          style: Constants.title),
+                      ],
+                      ),
+                      Padding(padding: EdgeInsets.only(bottom: 5)),
+                      Text(
+                        "\$10,000",
+                        textAlign: TextAlign.center,
+                        style: Constants.budgetExpense,
+                      ),
+
+                      Padding(padding: EdgeInsets.only(bottom: 20)),
+                    ],
+                  ),
+                ),
+                ),
+              ],
             ),
 
             const Text(
@@ -185,10 +211,12 @@ class _PlanningPageState extends State<PlanningPage> {
                 itemCount: widget.taskNames.length,
                 itemBuilder: (BuildContext context, int index) {
                   //an individual list item is a card
-                  return GestureDetector( //This helps to make the card clickable
-                    onTap: () { // Open up the Guest Info route
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const ViewTask()));
+                  return GestureDetector(
+                    //This helps to make the card clickable
+                    onTap: () {
+                      // Open up the Guest Info route
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const ViewTask()));
                     },
 
                     child: Card(
@@ -204,18 +232,6 @@ class _PlanningPageState extends State<PlanningPage> {
                       //this card contains a row of the labels and widgets that make up a task item
                       child: Row(
                         children: [
-                          //this container is the spouse's color indicator
-                          Container(
-                            width: 15,
-                            height: 80,
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(10.0),
-                                  bottomLeft: Radius.circular(10.0),
-                                ),
-                                color: widget.colorCodes[index]),
-                          ),
-
                           const Padding(padding: EdgeInsets.only(left: 12)),
 
                           Expanded(
