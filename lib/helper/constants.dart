@@ -84,6 +84,10 @@ class Constants {
   /// Big card subtitle TextStyle
   static const bigListSubtitleStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: subtitleColor);
 
+  /// Homepage header TextStyle
+  static const homeHeaderStyle = TextStyle(fontSize: 27, fontWeight: FontWeight.w700, color: Colors.white);
+  /// Homepage subheader TextStyle
+  static const homeSubheaderStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.normal, color: Colors.white,);
 
   ///Form task number style
   static const taskNumber = TextStyle(fontWeight: FontWeight.w500, fontSize: 23.0, color: Colors.black);
