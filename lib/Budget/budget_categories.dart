@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lovebirds_app/Budget/create_budget_category.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 import '../helper/constants.dart';
 
 class BudgetPage extends StatefulWidget {
-  BudgetPage({Key? key}) : super(key: key);
+  const BudgetPage({Key? key}) : super(key: key);
 
   /// Creates a state
   ///
@@ -84,7 +85,13 @@ class _BudgetPageState extends State<BudgetPage> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: () {
+          // TODO: Add a budget category when FAB is pressed
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CreateBudgetPage()),
+          );
+        },
         backgroundColor: Constants.lightSecondary,
         child: Icon(
           Icons.add,
