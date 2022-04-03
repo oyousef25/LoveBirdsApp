@@ -6,7 +6,7 @@ class CreateBudgetPage extends StatefulWidget {
 
   /// Creates a state
   ///
-  /// Return the Budget Categories page State
+  /// Return the Create Budget Category page State
   @override
   State<StatefulWidget> createState() {
     return _CreateBudgetPageState();
@@ -60,8 +60,8 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
           Center(
             child: ElevatedButton(
               onPressed: () {
-                //TODO: Save Budget Category Information
-                print("Information has been saved");
+                //TODO: Create Budget Category Object
+                print("Budget Category Created");
                 Navigator.pop(context);
               },
               child:
@@ -82,16 +82,6 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
           ),
         ],
       ),
-      ),
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: null,
-        backgroundColor: Constants.lightSecondary,
-        child: Icon(
-          Icons.add,
-          size: 50.0,
-          color: Colors.white,
-        ),
       ),
     );
   }

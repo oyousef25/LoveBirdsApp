@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/Budget/create_budget_category.dart';
+import 'package:lovebirds_app/Budget/edit_budget_category.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 import '../helper/constants.dart';
@@ -66,11 +67,16 @@ class _BudgetPageState extends State<BudgetPage> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Align(
+                        Align(
                           alignment: Alignment.topRight,
                           child: IconButton(
-                            onPressed: null,
-                            icon: Icon(Icons.edit),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const EditBudgetPage()),
+                              );
+                            },
+                            icon: const Icon(Icons.edit),
                           ),
                         ),
                         const Padding(padding: EdgeInsets.only(bottom:40)),
