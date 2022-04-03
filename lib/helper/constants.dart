@@ -76,6 +76,8 @@ class Constants {
   static const formHintStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Colors.black26);
   /// Form hint TextStyle
   static const formDropdownStyle = TextStyle(fontFamily: 'Roboto Slab', fontSize: 18, fontWeight: FontWeight.normal, color: Colors.black);
+  /// Pie chart legend TextStyle
+  static const legendTextStyle = TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black);
 
   /// Tab label TextStyle
   static const tabLabelStyle = TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black);
