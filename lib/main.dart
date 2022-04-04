@@ -76,7 +76,7 @@ class _MainPageState extends State<MainPage> {
     HomePage(vendorList: List<VendorInfo>.generate(50, (i) => VendorInfo('Hummus Wedding', '5.0', 'This vendor sells wedding hummus', true, '12pm-5pm', 'abc.com', '(890)123-4567', "Windsor, ON"))),
 
     //TODO: Change this page back to Planning Page
-    PlanningPage(),
+    BudgetPage(),
 
     // TODO: Replace seeded List with API list of guests
     GuestsPage(guestList: List<GuestInfo>.generate(1000, (i) => GuestInfo('Guest', '$i', 'Hummus', 'email$i@ex.com', 'XXX-XXXX'))),
