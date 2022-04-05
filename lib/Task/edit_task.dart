@@ -2,19 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 class EditTask extends StatefulWidget {
-  const EditTask({Key? key}) : super(key: key);
+  const EditTask({Key? key, required this.dataMap}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     return _EditTask();
   }
+
+  final Map<String, double>? dataMap;
 }
 
 class _EditTask extends State<EditTask> {
   bool isSwitched = false;
+  int? _selectedIndex = 0; // Index of selected chip
+  final List<String> _chips = ['Sammy', 'Walter']; // List of chip options
 
   @override
   Widget build(BuildContext context) {
+    String category = widget.dataMap?.keys.elementAt(0) ?? "none";
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Task'),
@@ -110,11 +116,69 @@ class _EditTask extends State<EditTask> {
                         border: Constants.outlineInputBorder,
                         labelText: 'Enter a brief description of the task',
                         fillColor: Colors.white),
-                    minLines: 2,
+                    minLines: 1,
                     maxLines: 3,
                     maxLength: 255,
                   ),
                 ),
+
+                Constants.sectionPadding,
+
+                const Text(
+                  "Budget Category",
+                  textAlign: TextAlign.left,
+                  style: Constants.sectionHeading,
+                ),
+
+                Constants.formPadding,
+
+                //Drop down of Categories
+                Material(
+                  shadowColor: Colors.grey,
+                  elevation: 3.0,
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      fillColor: Colors.white,
+                      filled: true,
+                      isDense: true,
+                      contentPadding: EdgeInsets.only(
+                          left: 12.0, top: 12.0, right: 12.0, bottom: 2.0),
+                    ),
+                    iconSize: 50.0,
+                    value: category,
+                    focusNode:
+                    FocusNode(), // Hack to not focus dropdown after selection
+                    icon: const Icon(Icons.arrow_drop_down_rounded),
+                    elevation: 16,
+                    style: Constants.formDropdownStyle,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        category = newValue!;
+                      });
+                    },
+                    items: <String>[
+                      'Food',
+                      'Venue',
+                      'Photos',
+                      'Hummus',
+                      'Bride',
+                      'Other',
+                    ].map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: Constants.formDropdownStyle,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+
 
                 Constants.sectionPadding,
 
@@ -126,38 +190,35 @@ class _EditTask extends State<EditTask> {
 
                 Constants.formPadding,
 
-                Row(
-                  children: [
-                    //the spouse chips
-                    InputChip(
-                      isEnabled: true,
-                      backgroundColor: Constants.pinkSpouse,
-                      label: const Text("Sammy"),
-                      labelStyle: Constants.chipSelectedStyle,
-                      padding: const EdgeInsets.only(
-                          top: 10, left: 40, right: 40, bottom: 10),
-                      //TODO: Assign spouse 1 the task
-                      onPressed: () {
-                        print("Spouse 1 has been selected");
+                Wrap(
+                    spacing: 30.0,
+                    // Creates a list of 2 chips that will highlight the selected ones
+                    children: List<Widget>.generate(
+                      2,
+                          (int index) {
+                        return ChoiceChip(
+                          label: Text(_chips[index]),
+                          labelStyle: _selectedIndex == index
+                              ? Constants.chipSelectedStyle
+                              : Constants.chipUnselectedStyle,
+                          selected: _selectedIndex ==
+                              index, // If selected index IS the index then it is selected
+                          backgroundColor: Colors.white,
+                          shadowColor: Colors.grey,
+                          elevation: 3.0,
+                          selectedColor: Constants.darkSecondary,
+                          onSelected: (bool selected) {
+                            // Toggles selected chip only if the user presses on an unselected chip
+                            if (_selectedIndex != index) {
+                              setState(() {
+                                _selectedIndex = selected ? index : null;
+                              });
+                            }
+                          },
+                        );
                       },
-                    ),
+                    ).toList()),
 
-                    const Padding(padding: EdgeInsets.only(right: 20)),
-
-                    InputChip(
-                      isEnabled: true,
-                      backgroundColor: Constants.blueSpouse,
-                      label: const Text("Walter"),
-                      labelStyle: Constants.chipSelectedStyle,
-                      padding: const EdgeInsets.only(
-                          top: 10, left: 40, right: 40, bottom: 10),
-                      //TODO: Assign spouse 2 the task
-                      onPressed: () {
-                        print("Spouse 2 has been selected");
-                      },
-                    )
-                  ],
-                ),
 
                 Constants.sectionPadding,
 

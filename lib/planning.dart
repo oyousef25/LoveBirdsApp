@@ -1,10 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/Task/create_task.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
-import 'Task/edit_task.dart';
+import 'Budget/budget_categories.dart';
 import 'Task/view_task.dart';
 
 class PlanningPage extends StatefulWidget {
@@ -35,6 +33,15 @@ class _PlanningPageState extends State<PlanningPage> {
   int? _selectedIndex = 0; // Index of selected chip
   final List<String> _chips = ['Me', 'Partner', 'All']; // List of chip options
 
+  Map<String, double> dataMap = {
+    "Food": 5,
+    "Venue": 3,
+    "Photos": 2,
+    "Hummus": 7,
+    "Bride": 1,
+    "Other": 2,
+  };
+
   /// This Widget builds out the Planning page
   ///
   /// Given the build [context], return the Planning page Widget.
@@ -53,6 +60,14 @@ class _PlanningPageState extends State<PlanningPage> {
               children: [
                 //Budget Total Overview
                 Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      // TODO: Add a budget category when FAB is pressed
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const BudgetPage()),
+                      );
+                    },
                 child: Card(
                   margin: const EdgeInsets.symmetric(
                       vertical: 15.0,
@@ -60,31 +75,27 @@ class _PlanningPageState extends State<PlanningPage> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
                   color: Constants.lightSecondary,
-                  child: Column(
+                    child: Column(
                     children: [
-                      Padding(padding: EdgeInsets.only(top: 20)),
+                      const Padding(padding: EdgeInsets.only(top: 20)),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                          Text("Budget Total ",
+                          children: const[
+                          Text("Budget Total",
                               textAlign: TextAlign.center,
                               style: Constants.title),
-                          // IconButton(
-                          //   //TODO: Add Edit Budget Functionality
-                          //   onPressed: null,
-                          //   icon: Icon(Icons.edit),
-                          // ),
                       ],
                       ),
-                      Padding(padding: EdgeInsets.only(bottom: 5)),
-                      Text(
+                      const Padding(padding: EdgeInsets.only(bottom: 5)),
+                      const Text(
                         "\$20,000",
                         textAlign: TextAlign.center,
                         style: Constants.budgetExpense,
                       ),
-                      Padding(padding: EdgeInsets.only(bottom: 20)),
+                      const Padding(padding: EdgeInsets.only(bottom: 20)),
                     ],
+                  ),
                   ),
                 ),
                 ),
@@ -99,24 +110,24 @@ class _PlanningPageState extends State<PlanningPage> {
                   color: Constants.lightSecondary,
                   child: Column(
                     children: [
-                      Padding(padding: EdgeInsets.only(top:20)),
+                      const Padding(padding: EdgeInsets.only(top:20)),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Text("Total Spent",
                           textAlign: TextAlign.center,
                           style: Constants.title),
                       ],
                       ),
-                      Padding(padding: EdgeInsets.only(bottom: 5)),
-                      Text(
+                      const Padding(padding: EdgeInsets.only(bottom: 5)),
+                      const Text(
                         "\$10,000",
                         textAlign: TextAlign.center,
                         style: Constants.budgetExpense,
                       ),
 
-                      Padding(padding: EdgeInsets.only(bottom: 20)),
+                      const Padding(padding: EdgeInsets.only(bottom: 20)),
                     ],
                   ),
                 ),
@@ -281,12 +292,12 @@ class _PlanningPageState extends State<PlanningPage> {
           // TODO: Add a task when FAB is pressed
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const CreateTask()),
+            MaterialPageRoute(builder: (context) => CreateTask(dataMap: dataMap,)),
           );
         },
         backgroundColor: Constants.lightSecondary,
         foregroundColor: Colors.white,
-        child: Icon(Icons.add, size: 50.0),
+        child: const Icon(Icons.add, size: 50.0),
       ),
     );
   }

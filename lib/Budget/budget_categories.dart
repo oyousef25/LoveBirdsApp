@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/Budget/create_budget_category.dart';
 import 'package:lovebirds_app/Budget/edit_budget_category.dart';
+import 'package:lovebirds_app/Budget/view_budget_category.dart';
+import 'package:lovebirds_app/helper/BudgetCategoryInfo.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 import '../helper/constants.dart';
+import 'delete_budget_categories.dart';
 
 class BudgetPage extends StatefulWidget {
   const BudgetPage({Key? key}) : super(key: key);
@@ -30,6 +33,12 @@ class _BudgetPageState extends State<BudgetPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Budget'),
+        backgroundColor: Constants.lightPrimary,
+        titleTextStyle: Constants.appBarStyle,
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -56,7 +65,14 @@ class _BudgetPageState extends State<BudgetPage> {
                 ),
                 itemCount: dataMap.keys.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Card(
+                  return GestureDetector(
+                    onTap: () {
+                      // Jump to edit screen
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ViewBudgetCategory(),
+                      ));
+                    },
+                    child: Card(
                     margin: const EdgeInsets.symmetric(
                         vertical: 30.0, horizontal: 30.0),
                     shape: RoundedRectangleBorder(
@@ -65,24 +81,12 @@ class _BudgetPageState extends State<BudgetPage> {
                     shadowColor: Colors.grey,
                     elevation: 5.0,
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const EditBudgetPage()),
-                              );
-                            },
-                            icon: const Icon(Icons.edit),
-                          ),
-                        ),
-                        const Padding(padding: EdgeInsets.only(bottom:40)),
                         Text(dataMap.keys.elementAt(index),
                             style: Constants.title),
                       ],
+                    ),
                     ),
                   );
                 }),
