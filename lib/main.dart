@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/Budget/budget_categories.dart';
 import 'package:lovebirds_app/account.dart';
 import 'package:lovebirds_app/guests.dart';
+import 'package:lovebirds_app/helper/BudgetCategoryInfo.dart';
 import 'package:lovebirds_app/helper/guestInfo.dart';
 import 'package:lovebirds_app/helper/vendorInfo.dart';
 import 'package:lovebirds_app/home.dart';
@@ -74,9 +76,8 @@ class _MainPageState extends State<MainPage> {
   int _selectedPage = 0; // Current selected page index of the bottom nav
   static List<Widget> _widgetOptions = <Widget>[
     HomePage(vendorList: List<VendorInfo>.generate(50, (i) => VendorInfo('Hummus Wedding', '5.0', 'This vendor sells wedding hummus', true, '12pm-5pm', 'abc.com', '(890)123-4567', "Windsor, ON"))),
-
-    //TODO: Change this page back to Planning Page
-    BudgetPage(),
+    
+    PlanningPage(),
 
     // TODO: Replace seeded List with API list of guests
     GuestsPage(guestList: List<GuestInfo>.generate(1000, (i) => GuestInfo('Guest', '$i', 'Hummus', 'email$i@ex.com', 'XXX-XXXX'))),

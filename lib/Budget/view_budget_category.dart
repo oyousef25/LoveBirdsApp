@@ -1,33 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:lovebirds_app/Budget/edit_budget_category.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
-import 'edit_task.dart';
-
-class ViewTask extends StatefulWidget {
-  const ViewTask({Key? key}) : super(key: key);
+class ViewBudgetCategory extends StatefulWidget {
+  const ViewBudgetCategory({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ViewTask();
+    return _ViewBudgetCategory();
   }
 }
 
-class _ViewTask extends State<ViewTask> {
-
-  Map<String, double> dataMap = {
-    "Food": 5,
-    "Venue": 3,
-    "Photos": 2,
-    "Hummus": 7,
-    "Bride": 1,
-    "Other": 2,
-  };
-
+class _ViewBudgetCategory extends State<ViewBudgetCategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Planning'),
+        title: const Text('Budget'),
         backgroundColor: Constants.lightPrimary,
         titleTextStyle: Constants.appBarStyle,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -41,7 +30,7 @@ class _ViewTask extends State<ViewTask> {
               shadowColor: Colors.grey,
               elevation: 5.0,
               margin:
-                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+              const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Column(
@@ -56,68 +45,26 @@ class _ViewTask extends State<ViewTask> {
                       margin: EdgeInsets.zero,
                       color: Constants.lightSecondary,
                       child: ListTile(
-                        title: const Text("Walter\'s Task",
+                        title: const Text("Budget Category",
                             textAlign: TextAlign.center,
                             style: Constants.cardHeaderStyle),
                         trailing: IconButton(
                           onPressed: () {
                             // Jump to edit screen
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => EditTask(dataMap: dataMap,),
+                              builder: (context) => const EditBudgetPage(),
                             ));
                           },
                           icon: const Icon(Icons.edit),
                         ),
                       )),
 
-                  //Task Name
+                  //Category
                   Constants.sectionPadding,
-                  const Text("Task", style: Constants.taskHeading),
+                  const Text("Category", style: Constants.taskHeading),
                   Constants.formPadding,
-                  const Text("Buy a Wedding Dress",
+                  const Text("Food",
                       style: Constants.cardContentStyle),
-                  Constants.taskPadding,
-
-                  //Due Date of Task
-                  const Text("Due Date", style: Constants.taskHeading),
-                  Constants.formPadding,
-                  const Text("January 13th, 2022",
-                      style: Constants.cardContentStyle),
-                  Constants.taskPadding,
-
-                  //Description of Task
-                  const Text("Description", style: Constants.taskHeading),
-                  Constants.formPadding,
-                  Container(
-                    padding: const EdgeInsets.only(left: 40, right: 40),
-                    child: const Text(
-                      "Go to Sam's Wedding Dresses at the Hotel Plaza",
-                      style: Constants.cardContentStyle,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-
-                  Constants.taskPadding,
-
-                  //Description of Task
-                  const Text("Budget Category", style: Constants.taskHeading),
-                  Constants.formPadding,
-                  Container(
-                    padding: const EdgeInsets.only(left: 40, right: 40),
-                    child: const Text(
-                      "Food",
-                      style: Constants.cardContentStyle,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-
-
-                  Constants.taskPadding,
-
-                  //Cost
-                  const Text("Cost", style: Constants.taskHeading),
-                  Constants.formPadding,
-                  const Text("\$500.00", style: Constants.cardContentStyle),
                   Constants.taskPadding,
 
                   ElevatedButton(
@@ -144,8 +91,8 @@ class _ViewTask extends State<ViewTask> {
                         contentPadding: EdgeInsets.only(
                             top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
                         content: Text(
-                            'Are you sure you want to delete this task?',
-                            style: Constants.dialogContentStyle),
+                            'Are you sure you want to delete this category? All tasks that are associated will also be removed.',
+                            style: Constants.dialogContentStyle, textAlign: TextAlign.center,),
                         actionsAlignment: MainAxisAlignment.center,
                         // actionsPadding: ,
                         buttonPadding: EdgeInsets.symmetric(horizontal: 25.0),
@@ -156,14 +103,14 @@ class _ViewTask extends State<ViewTask> {
                                   style: Constants.buttonRedStyle),
                               style: ButtonStyle(
                                 shape:
-                                    MaterialStateProperty.all<OutlinedBorder>(
+                                MaterialStateProperty.all<OutlinedBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius:
-                                          BorderRadius.circular(10.0)),
+                                      BorderRadius.circular(10.0)),
                                 ),
                                 backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Constants.buttonRed),
+                                MaterialStateProperty.all<Color>(
+                                    Constants.buttonRed),
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                     EdgeInsets.symmetric(
                                         vertical: 25.0, horizontal: 40.0)),
@@ -193,7 +140,7 @@ class _ViewTask extends State<ViewTask> {
                       ),
                     ),
                     child:
-                        const Text('Delete', style: Constants.buttonRedStyle),
+                    const Text('Delete', style: Constants.buttonRedStyle),
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<OutlinedBorder>(
                         RoundedRectangleBorder(
@@ -201,7 +148,7 @@ class _ViewTask extends State<ViewTask> {
                         ),
                       ),
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Constants.buttonRed),
+                      MaterialStateProperty.all<Color>(Constants.buttonRed),
                       padding: MaterialStateProperty.all<EdgeInsets>(
                           const EdgeInsets.symmetric(
                               vertical: 25.0, horizontal: 161.0)),
@@ -209,28 +156,6 @@ class _ViewTask extends State<ViewTask> {
                   ),
 
                   Constants.formPadding,
-
-                  ElevatedButton(
-                    onPressed: () => {
-                      // TODO: Provide
-                      Navigator.pop(context),
-                    },
-                    child:
-                        const Text('Complete', style: Constants.buttonRedStyle),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Constants.buttonGreen),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.symmetric(
-                              vertical: 25.0, horizontal: 150.0)),
-                    ),
-                  ),
-
                   Constants.taskPadding,
                 ],
               ),
