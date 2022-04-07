@@ -54,7 +54,7 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
                           onPressed: () {
                             // Jump to edit screen
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const EditBudgetPage(),
+                              builder: (context) => EditBudgetPage(category: widget.category,),
                             ));
                           },
                           icon: const Icon(Icons.edit),
