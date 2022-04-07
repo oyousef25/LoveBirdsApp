@@ -48,52 +48,58 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-        future: getCustomVendors(),
-        // Takes the snapshotted data
-        builder: (context, AsyncSnapshot snapshot) {
-          // If the data retrieval went wrong
-          if(snapshot.hasError) {
-            return Center(child: Text('There was an error fetching the custom vendor data'),);
-          } else if (snapshot.hasData) { // Successful data retrieval
-            return ListView.builder(
-              // ListView that is built as it is scrolled onto the screen
-              padding: EdgeInsets.only(top: 10.0),
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  color: Colors.white,
-                  shadowColor: Colors.grey,
-                  elevation: 5.0,
-                  child: ListTile(
-                    title: Text(snapshot.data[index].name,
-                        textAlign: TextAlign.left, style: Constants.listTitleStyle),
-                    subtitle: Text(snapshot.data[index].location,
-                        textAlign: TextAlign.left,
-                        style: Constants.listSubtitleStyle),
-                    trailing: Icon(Icons.phone_rounded, size: 40),
-                    onTap: () {
-                      // Open up the custom vendor info route
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => CustomVendorDetailScreen(
-                            customVendor: snapshot.data[index]),
-                      ));
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: SizedBox(
+          height: 800.0,
+          child: FutureBuilder(
+              future: getCustomVendors(),
+              // Takes the snapshotted data
+              builder: (context, AsyncSnapshot snapshot) {
+                // If the data retrieval went wrong
+                if(snapshot.hasError) {
+                  return Center(child: Text('There was an error fetching the custom vendor data'),);
+                } else if (snapshot.hasData) { // Successful data retrieval
+                  return ListView.builder(
+                    // ListView that is built as it is scrolled onto the screen
+                    padding: EdgeInsets.only(top: 10.0),
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        color: Colors.white,
+                        shadowColor: Colors.grey,
+                        elevation: 5.0,
+                        child: ListTile(
+                          title: Text(snapshot.data[index].name,
+                              textAlign: TextAlign.left, style: Constants.listTitleStyle),
+                          subtitle: Text(snapshot.data[index].location,
+                              textAlign: TextAlign.left,
+                              style: Constants.listSubtitleStyle),
+                          trailing: Icon(Icons.phone_rounded, size: 40),
+                          onTap: () {
+                            // Open up the custom vendor info route
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => CustomVendorDetailScreen(
+                                  customVendor: snapshot.data[index]),
+                            ));
+                          },
+                        ),
+                      );
                     },
-                  ),
-                );
-              },
-            );
-          } else {
-            // Loading data animation
-            return const Center(
-                child: CircularProgressIndicator(),
-            );
-          }
-        }
-      )
+                  );
+                } else {
+                  // Loading data animation
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }
+          ),
+        ),
+      ),
     );
   }
 }
