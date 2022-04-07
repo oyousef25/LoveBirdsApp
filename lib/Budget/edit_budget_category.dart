@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../helper/constants.dart';
 
 class EditBudgetPage extends StatefulWidget {
-  const EditBudgetPage({Key? key}) : super(key: key);
+  const EditBudgetPage({Key? key, required this.category}) : super(key: key);
 
   /// Creates a state
   ///
@@ -11,6 +11,8 @@ class EditBudgetPage extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _EditBudgetPageState();
   }
+
+  final String category;
 }
 
 class _EditBudgetPageState extends State<EditBudgetPage> {
@@ -40,13 +42,14 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
             Constants.formPadding,
 
             //Textfield
-            const Material(
+            Material(
               borderRadius: Constants.borderRadius,
               shadowColor: Constants.formfieldColor,
               elevation: Constants.elevation,
               color: Colors.white,
-              child: TextField(
-                decoration: InputDecoration(
+              child: TextFormField(
+                initialValue: widget.category,
+                decoration: const InputDecoration(
                     floatingLabelBehavior: Constants.floatingLabelBehaviour,
                     border: Constants.outlineInputBorder,
                     fillColor: Colors.white),

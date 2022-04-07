@@ -30,6 +30,8 @@ class _BudgetPageState extends State<BudgetPage> {
     "Other": 2,
   };
 
+  String category = ""; //will hold the current category selected
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,9 +69,10 @@ class _BudgetPageState extends State<BudgetPage> {
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () {
-                      // Jump to edit screen
+                      // Jump to view budget category screen
+                      category = dataMap.keys.elementAt(index);
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const ViewBudgetCategory(),
+                        builder: (context) => ViewBudgetCategory(category: category,),
                       ));
                     },
                     child: Card(
