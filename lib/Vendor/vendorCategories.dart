@@ -41,10 +41,10 @@ class _VendorCategoriesScreenState extends State<VendorCategoriesScreen> {
         itemBuilder: (context, index) {
           return Column(
             children: <Widget>[
-              Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+              Padding(padding: EdgeInsets.symmetric(vertical: 7.0)),
               Container(
-                width: 400.0,
-                height: 90.0,
+                width: 350.0,
+                height: 70.0,
                 child: ElevatedButton(
                   onPressed: () {
                     // Go to vendors page
@@ -70,9 +70,6 @@ class _VendorCategoriesScreenState extends State<VendorCategoriesScreen> {
                     style: Constants.cardHeaderStyle,
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 12.0),
               ),
             ],
           );

@@ -46,8 +46,8 @@ class _GuestsPageState extends State<GuestsPage> {
           return <Widget>[
             SliverAppBar(
               floating: true,
-              expandedHeight: 203.0,
-              collapsedHeight: 203.0,
+              expandedHeight: 230.0,
+              collapsedHeight: 230.0,
               backgroundColor: Colors.white,
               forceElevated: innerBoxIsScrolled,
               flexibleSpace: Stack(
@@ -58,7 +58,8 @@ class _GuestsPageState extends State<GuestsPage> {
                       Card(
                           margin: const EdgeInsets.symmetric(
                               vertical: 25.0,
-                              horizontal: 100.0), // Hack for shrinking card padding
+                              horizontal:
+                                  100.0), // Hack for shrinking card padding
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)),
                           color: Constants.lightSecondary,
@@ -75,7 +76,7 @@ class _GuestsPageState extends State<GuestsPage> {
                           // Creates a list of 3 chips that will highlight the selected ones
                           children: List<Widget>.generate(
                             3,
-                                (int index) {
+                            (int index) {
                               return ChoiceChip(
                                 label: Text(_chips[index]),
                                 labelStyle: _selectedIndex == index
@@ -99,9 +100,7 @@ class _GuestsPageState extends State<GuestsPage> {
                             },
                           ).toList()),
                       // Some padding before the guest list
-                      Padding(
-                          padding:
-                          EdgeInsets.all(5.0)),
+                      Padding(padding: EdgeInsets.all(5.0)),
                     ],
                   ),
                 ],
@@ -109,54 +108,40 @@ class _GuestsPageState extends State<GuestsPage> {
             ),
           ];
         },
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: SizedBox(
-            height: 800,
-            child: Column(
-              // Column containing 4 rows:
-              // 1. Total guests card, 2. Choice chips for filtering, 3. Padding, 4. Guest list
-              children: <Widget>[
-                Expanded(
-                  // Makes sure that ListView expands to fit inside the column
-                  child: ListView.builder(
-                    // ListView that is built as it is scrolled onto the screen
-                    itemCount: widget.guestList.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 7.0, horizontal: 10.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        color: Colors.white,
-                        shadowColor: Colors.grey,
-                        elevation: 5.0,
-                        child: ListTile(
-                          leading: Icon(Icons.person_outline_rounded, size: 40.0),
-                          title: Text(
-                              widget.guestList[index].firstName +
-                                  ' ' +
-                                  widget.guestList[index].lastName,
-                              textAlign: TextAlign.left,
-                              style: Constants.listTitleStyle),
-                          subtitle: Text(widget.guestList[index].relationship,
-                              textAlign: TextAlign.left,
-                              style: Constants.listSubtitleStyle),
-                          trailing: Icon(Icons.chevron_right_rounded),
-                          onTap: () {
-                            // Open up the Guest Info route
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => GuestDetailsScreen(
-                                  guestInfo: widget.guestList[index]),
-                            ));
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                )
-              ],
-            ),),
+        body: ListView.builder(
+          // ListView that is built as it is scrolled onto the screen
+          itemCount: widget.guestList.length,
+          itemBuilder: (context, index) {
+            return Card(
+              margin:
+                  const EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              color: Colors.white,
+              shadowColor: Colors.grey,
+              elevation: 5.0,
+              child: ListTile(
+                leading: Icon(Icons.person_outline_rounded, size: 40.0),
+                title: Text(
+                    widget.guestList[index].firstName +
+                        ' ' +
+                        widget.guestList[index].lastName,
+                    textAlign: TextAlign.left,
+                    style: Constants.listTitleStyle),
+                subtitle: Text(widget.guestList[index].relationship,
+                    textAlign: TextAlign.left,
+                    style: Constants.listSubtitleStyle),
+                trailing: Icon(Icons.chevron_right_rounded),
+                onTap: () {
+                  // Open up the Guest Info route
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        GuestDetailsScreen(guestInfo: widget.guestList[index]),
+                  ));
+                },
+              ),
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -178,4 +163,3 @@ class _GuestsPageState extends State<GuestsPage> {
     );
   }
 }
-
