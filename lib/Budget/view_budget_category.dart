@@ -3,12 +3,14 @@ import 'package:lovebirds_app/Budget/edit_budget_category.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 class ViewBudgetCategory extends StatefulWidget {
-  const ViewBudgetCategory({Key? key}) : super(key: key);
+  const ViewBudgetCategory({Key? key, required this.category}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     return _ViewBudgetCategory();
   }
+
+  final String category;
 }
 
 class _ViewBudgetCategory extends State<ViewBudgetCategory> {
@@ -63,7 +65,7 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
                   Constants.sectionPadding,
                   const Text("Category", style: Constants.taskHeading),
                   Constants.formPadding,
-                  const Text("Food",
+                  Text(widget.category,
                       style: Constants.cardContentStyle),
                   Constants.taskPadding,
 
