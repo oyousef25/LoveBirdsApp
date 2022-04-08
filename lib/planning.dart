@@ -65,72 +65,70 @@ class _PlanningPageState extends State<PlanningPage> {
                       // TODO: Add a budget category when FAB is pressed
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const BudgetPage()),
+                        MaterialPageRoute(
+                            builder: (context) => const BudgetPage()),
                       );
                     },
-                child: Card(
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 15.0,
-                      horizontal: 25.0), // Hack for shrinking card padding
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  color: Constants.lightSecondary,
-                    child: Column(
-                    children: [
-                      const Padding(padding: EdgeInsets.only(top: 20)),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                          children: const[
-                          Text("Budget Total",
-                              textAlign: TextAlign.center,
-                              style: Constants.title),
-                      ],
+                    child: Card(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 15.0,
+                          horizontal: 25.0), // Hack for shrinking card padding
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      color: Constants.lightSecondary,
+                      child: Column(
+                        children: [
+                          const Padding(padding: EdgeInsets.only(top: 20)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text("Budget Total",
+                                  textAlign: TextAlign.center,
+                                  style: Constants.title),
+                            ],
+                          ),
+                          const Padding(padding: EdgeInsets.only(bottom: 5)),
+                          const Text(
+                            "\$20,000",
+                            textAlign: TextAlign.center,
+                            style: Constants.budgetExpense,
+                          ),
+                          const Padding(padding: EdgeInsets.only(bottom: 20)),
+                        ],
                       ),
-                      const Padding(padding: EdgeInsets.only(bottom: 5)),
-                      const Text(
-                        "\$20,000",
-                        textAlign: TextAlign.center,
-                        style: Constants.budgetExpense,
-                      ),
-                      const Padding(padding: EdgeInsets.only(bottom: 20)),
-                    ],
+                    ),
                   ),
-                  ),
-                ),
                 ),
                 //Total Spent Overview
-                Expanded(child:
-                Card(
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 15.0,
-                      horizontal: 25.0), // Hack for shrinking card padding
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0)),
-                  color: Constants.lightSecondary,
-                  child: Column(
-                    children: [
-                      const Padding(padding: EdgeInsets.only(top:20)),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text("Total Spent",
+                Expanded(
+                  child: Card(
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 15.0,
+                        horizontal: 25.0), // Hack for shrinking card padding
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    color: Constants.lightSecondary,
+                    child: Column(
+                      children: [
+                        const Padding(padding: EdgeInsets.only(top: 20)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text("Total Spent",
+                                textAlign: TextAlign.center,
+                                style: Constants.title),
+                          ],
+                        ),
+                        const Padding(padding: EdgeInsets.only(bottom: 5)),
+                        const Text(
+                          "\$10,000",
                           textAlign: TextAlign.center,
-                          style: Constants.title),
+                          style: Constants.budgetExpense,
+                        ),
+                        const Padding(padding: EdgeInsets.only(bottom: 20)),
                       ],
-                      ),
-                      const Padding(padding: EdgeInsets.only(bottom: 5)),
-                      const Text(
-                        "\$10,000",
-                        textAlign: TextAlign.center,
-                        style: Constants.budgetExpense,
-                      ),
-
-                      const Padding(padding: EdgeInsets.only(bottom: 20)),
-                    ],
+                    ),
                   ),
-                ),
                 ),
               ],
             ),
@@ -225,7 +223,7 @@ class _PlanningPageState extends State<PlanningPage> {
                   return GestureDetector(
                     //This helps to make the card clickable
                     onTap: () {
-                      // Open up the Guest Info route
+                      // Open up the View Task route
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const ViewTask()));
                     },
@@ -292,7 +290,10 @@ class _PlanningPageState extends State<PlanningPage> {
           // TODO: Add a task when FAB is pressed
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CreateTask(dataMap: dataMap,)),
+            MaterialPageRoute(
+                builder: (context) => CreateTask(
+                      dataMap: dataMap,
+                    )),
           );
         },
         backgroundColor: Constants.lightSecondary,
