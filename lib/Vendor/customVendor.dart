@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
-import 'package:http/http.dart' as http;
 
-import '../helper/customVendorInfo.dart';
+import 'package:lovebirds_app/helper/fetchCustomVendorInfo.dart';
+
+import '../helper/fetchAllCustomVendors.dart';
 import 'customVendorDetail.dart';
 
 class CustomVendorScreen extends StatefulWidget {
@@ -18,30 +17,13 @@ class CustomVendorScreen extends StatefulWidget {
 }
 
 class _CustomVendorScreenState extends State<CustomVendorScreen> {
-  /// Gets custom vendor list from API
-  getCustomVendors() async {
-    // Request the custom vendor data, convert to JSon
-    var request = await http
-        .get(Uri.https('oyousef.scweb.ca', '/lovebirds/api/v1/custom-vendors'));
-    var jsonData = jsonDecode(request.body);
-    List<CustomVendorInfo> customVendorsList = [];
-
-    // With the json data, convert it to a CustomVendorInfo and add it to our custom vendors list
-    for (var vendor in jsonData) {
-      CustomVendorInfo customVendor = CustomVendorInfo.fromJson(vendor);
-      customVendorsList.add(customVendor);
-    }
-
-    // Return the list of custom vendors
-    return customVendorsList;
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // Build a list out of the custom vendors taken from an API
       body: FutureBuilder(
-          future: getCustomVendors(),
+          future: fetchAllCustomVendors(),
           // Takes the snapshotted data
           builder: (context, AsyncSnapshot snapshot) {
             // If the data retrieval went wrong
