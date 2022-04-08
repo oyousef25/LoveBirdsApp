@@ -20,10 +20,10 @@ class _EditAccount extends State<EditAccount> {
         titleTextStyle: Constants.appBarStyle,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: Align(
+      body: SingleChildScrollView(
+        child: Align(
         //top left aligned
-        alignment: const Alignment(-1.0, 1.0),
-
+          alignment: const Alignment(-1.0, 1.0),
         //nesting in a container allows for margin on all sides
         child: Container(
           margin:
@@ -132,6 +132,30 @@ class _EditAccount extends State<EditAccount> {
               Constants.sectionPadding,
 
               const Text(
+                "Budget",
+                textAlign: TextAlign.left,
+                style: Constants.sectionHeading,
+              ),
+
+              Constants.formPadding,
+
+              const Material(
+                borderRadius: Constants.borderRadius,
+                shadowColor: Constants.formfieldColor,
+                elevation: Constants.elevation,
+                color: Colors.white,
+                child: TextField(
+                  decoration: InputDecoration(
+                      floatingLabelBehavior: Constants.floatingLabelBehaviour,
+                      border: Constants.outlineInputBorder,
+                      labelText: "\$20,000",
+                      fillColor: Colors.white),
+                ),
+              ),
+
+              Constants.sectionPadding,
+
+              const Text(
                 "Wedding Day",
                 textAlign: TextAlign.left,
                 style: Constants.sectionHeading,
@@ -188,6 +212,7 @@ class _EditAccount extends State<EditAccount> {
               ),
             ],
           ),
+        ),
         ),
       ),
     );
