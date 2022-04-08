@@ -12,12 +12,11 @@ import 'helper/customVendorInfo.dart';
 
 class VendorsPage extends StatefulWidget {
   const VendorsPage(
-      {Key? key, required this.vendorList, required this.customVendorList})
+      {Key? key, required this.vendorList})
       : super(key: key); // Vendors page key identifier
 
   // Require vendor data to be passed into this Widget
   final List<VendorInfo> vendorList;
-  final List<CustomVendorInfo> customVendorList;
 
   /// Creates a state
   ///
@@ -25,16 +24,15 @@ class VendorsPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _VendorsPageState(
-        vendorList: vendorList, customVendorList: customVendorList);
+        vendorList: vendorList);
   }
 }
 
 class _VendorsPageState extends State<VendorsPage>
     with TickerProviderStateMixin {
   // Need a vendor list and custom vendor list
-  _VendorsPageState({required this.vendorList, required this.customVendorList});
+  _VendorsPageState({required this.vendorList});
   final List<VendorInfo> vendorList;
-  final List<CustomVendorInfo> customVendorList;
 
   // Lazy load the tab bar
   late TabController _tabController;
@@ -81,9 +79,7 @@ class _VendorsPageState extends State<VendorsPage>
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 90.0),
-                    child: CustomVendorScreen(
-                      customVendors: customVendorList,
-                    ),
+                    child: CustomVendorScreen(),
                   ),
                 ],
               ),

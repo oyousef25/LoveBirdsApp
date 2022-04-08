@@ -8,26 +8,16 @@ import '../helper/customVendorInfo.dart';
 import 'customVendorDetail.dart';
 
 class CustomVendorScreen extends StatefulWidget {
-  // In the constructor, require a custom vendors list.
-  const CustomVendorScreen({Key? key, required this.customVendors})
+  const CustomVendorScreen({Key? key})
       : super(key: key);
-
-  // Declare a field that holds the custom vendors list.
-  final List<CustomVendorInfo> customVendors;
 
   @override
   State createState() {
-    return _CustomVendorScreenState(customVendors: customVendors);
+    return _CustomVendorScreenState();
   }
 }
 
 class _CustomVendorScreenState extends State<CustomVendorScreen> {
-  // In the constructor, require a custom vendors list.
-  _CustomVendorScreenState({required this.customVendors});
-
-  // Declare a field that holds the custom vendors list.
-  final List<CustomVendorInfo> customVendors;
-
   /// Gets custom vendor list from API
   getCustomVendors() async {
     // Request the custom vendor data, convert to JSon
@@ -38,12 +28,7 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
 
     // With the json data, convert it to a CustomVendorInfo and add it to our custom vendors list
     for (var vendor in jsonData) {
-      CustomVendorInfo customVendor = CustomVendorInfo(
-          vendor['vendor_name'],
-          vendor['vendor_description'],
-          vendor['phone_number'],
-          'Placeholder',
-          vendor['job_title']);
+      CustomVendorInfo customVendor = CustomVendorInfo.fromJson(vendor);
       customVendorsList.add(customVendor);
     }
 
@@ -54,6 +39,7 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Build a list out of the custom vendors taken from an API
       body: FutureBuilder(
           future: getCustomVendors(),
           // Takes the snapshotted data
@@ -83,7 +69,7 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
                       title: Text(snapshot.data[index].name,
                           textAlign: TextAlign.left,
                           style: Constants.listTitleStyle),
-                      subtitle: Text(snapshot.data[index].location,
+                      subtitle: Text(snapshot.data[index].vendorType,
                           textAlign: TextAlign.left,
                           style: Constants.listSubtitleStyle),
                       trailing: Icon(Icons.phone_rounded, size: 40),

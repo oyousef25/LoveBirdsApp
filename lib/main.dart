@@ -83,7 +83,6 @@ class _MainPageState extends State<MainPage> {
     GuestsPage(guestList: List<GuestInfo>.generate(1000, (i) => GuestInfo('Guest', '$i', 'Hummus', 'email$i@ex.com', 'XXX-XXXX'))),
     VendorsPage(
         vendorList: List<VendorInfo>.generate(50, (i) => VendorInfo('Hummus Wedding', '5.0', 'This vendor sells wedding hummus', true, '12pm-5pm', 'abc.com', '(890)123-4567', "Windsor, ON")),
-        customVendorList: List<CustomVendorInfo>.generate(10, (i) => CustomVendorInfo('Hummus Wedding', 'This vendor sells custom wedding hummus', '(890)123-4567', "Windsor, ON", "Restaurant"))
     ),
     AccountPage(),
   ];
