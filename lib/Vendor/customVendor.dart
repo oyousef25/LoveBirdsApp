@@ -16,8 +16,6 @@ class CustomVendorScreen extends StatefulWidget {
 
 class _CustomVendorScreenState extends State<CustomVendorScreen> {
   late Future<List<CustomVendorInfo>> _futureCustomVendors;
-  // If this changes then the custom vendor list has changed
-  final ValueNotifier<int> _listChanged = ValueNotifier<int>(0);
 
   @override
   void initState() {
