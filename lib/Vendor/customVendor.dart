@@ -6,8 +6,7 @@ import '../helper/fetchAllCustomVendors.dart';
 import 'customVendorDetail.dart';
 
 class CustomVendorScreen extends StatefulWidget {
-  const CustomVendorScreen({Key? key})
-      : super(key: key);
+  const CustomVendorScreen({Key? key}) : super(key: key);
 
   @override
   State createState() {
@@ -17,6 +16,8 @@ class CustomVendorScreen extends StatefulWidget {
 
 class _CustomVendorScreenState extends State<CustomVendorScreen> {
   late Future<List<CustomVendorInfo>> _futureCustomVendors;
+  // If this changes then the custom vendor list has changed
+  final ValueNotifier<int> _listChanged = ValueNotifier<int>(0);
 
   @override
   void initState() {
@@ -62,13 +63,13 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
                           textAlign: TextAlign.left,
                           style: Constants.listSubtitleStyle),
                       trailing: Icon(Icons.phone_rounded, size: 40),
-                      onTap: () async {
-                          // Open up the custom vendor info route which
-                          // should return an updated list of custom vendors
-                          _futureCustomVendors = await Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CustomVendorDetailScreen(
-                                customVendor: snapshot.data[index]),
-                          ));
+                      onTap: () {
+                        // Open up the custom vendor info route which
+                        // should return an updated list of custom vendors
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CustomVendorDetailScreen(
+                              customVendor: snapshot.data[index]),
+                        ));
                       },
                     ),
                   );
