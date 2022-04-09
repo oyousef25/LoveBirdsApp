@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
-
-import 'package:lovebirds_app/helper/fetchCustomVendorInfo.dart';
+import 'package:lovebirds_app/helper/customVendorInfo.dart';
 
 import '../helper/fetchAllCustomVendors.dart';
 import 'customVendorDetail.dart';
@@ -17,13 +16,21 @@ class CustomVendorScreen extends StatefulWidget {
 }
 
 class _CustomVendorScreenState extends State<CustomVendorScreen> {
+  late Future<List<CustomVendorInfo>> _futureCustomVendors;
+
+  @override
+  void initState() {
+    super.initState();
+    // Get a list of all custom vendors
+    _futureCustomVendors = fetchAllCustomVendors();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // Build a list out of the custom vendors taken from an API
       body: FutureBuilder(
-          future: fetchAllCustomVendors(),
+          future: _futureCustomVendors,
           // Takes the snapshotted data
           builder: (context, AsyncSnapshot snapshot) {
             // If the data retrieval went wrong
@@ -55,12 +62,13 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
                           textAlign: TextAlign.left,
                           style: Constants.listSubtitleStyle),
                       trailing: Icon(Icons.phone_rounded, size: 40),
-                      onTap: () {
-                        // Open up the custom vendor info route
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CustomVendorDetailScreen(
-                              customVendor: snapshot.data[index]),
-                        ));
+                      onTap: () async {
+                          // Open up the custom vendor info route which
+                          // should return an updated list of custom vendors
+                          _futureCustomVendors = await Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => CustomVendorDetailScreen(
+                                customVendor: snapshot.data[index]),
+                          ));
                       },
                     ),
                   );

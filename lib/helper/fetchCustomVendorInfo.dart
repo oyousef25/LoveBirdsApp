@@ -1,12 +1,11 @@
 import 'dart:convert';
-
 import 'package:lovebirds_app/helper/customVendorInfo.dart';
 import 'package:http/http.dart' as http;
 
 /// Fetch custom vendor info from API
-Future<CustomVendorInfo> fetchCustomVendorInfo() async {
+Future<CustomVendorInfo> fetchCustomVendorInfo(int id) async {
   final response = await http.get(
-    Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/custom-vendors/'),
+    Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/custom-vendors/$id'),
   );
 
   if (response.statusCode == 200) {

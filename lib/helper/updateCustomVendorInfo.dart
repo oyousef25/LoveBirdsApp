@@ -4,9 +4,9 @@ import 'customVendorInfo.dart';
 import 'package:http/http.dart' as http;
 
 /// Posts a custom vendor to an API
-Future<CustomVendorInfo> updateCustomVendorInfo(String name, String description, String phoneNum, String vendorType, int userID) async {
-  final response = await http.post(
-    Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/custom-vendors'),
+Future<CustomVendorInfo> updateCustomVendorInfo(int id, String name, String description, String phoneNum, String vendorType, int userID) async {
+  final response = await http.put(
+    Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/custom-vendors/$id'),
     headers: <String, String>{ // Metadata
       'Content-Type': 'application/json; charset=UTF-8',
     }, // Encode the custom vendor

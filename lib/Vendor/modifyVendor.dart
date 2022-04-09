@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/createCustomVendorInfo.dart';
+import 'package:lovebirds_app/helper/fetchAllCustomVendors.dart';
+import 'package:lovebirds_app/helper/fetchCustomVendorInfo.dart';
+import 'package:lovebirds_app/helper/updateCustomVendorInfo.dart';
 
 import '../helper/customVendorInfo.dart';
 
@@ -23,22 +26,20 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
   final GlobalKey<FormState> _vendorFormKey = GlobalKey<FormState>();
   Future<CustomVendorInfo>? _futureCustomVendor;
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _futureCustomVendor = fetchCustomVendorInfo(widget.customVendor?.id ?? 0);
+  // }
+
   @override
   Widget build(BuildContext context) {
-    // Populate the custom vendor info text, if any
-    CustomVendorInfo? customVendor = widget.customVendor;
-    CustomVendorInfo customVendorTextValue =
-    CustomVendorInfo(name: '', description: '', phoneNum: '', vendorType: ''); // Default
-    if (customVendor != null) {
-      // Make sure custom vendor info exists
-      customVendorTextValue = customVendor;
-    }
-
-    // Custom vendor info
-    String customVendorName = '';
-    String customVendorDescription = '';
-    String customVendorPhone = '';
-    String customVendorType = '';
+    // Break the custom vendor info apart, if null then set defaults
+    int customVendorId = widget.customVendor?.id ?? 0;
+    String customVendorName = widget.customVendor?.name ?? '';
+    String customVendorDescription = widget.customVendor?.description ?? '';
+    String customVendorPhone = widget.customVendor?.phoneNum ?? '';
+    String customVendorType = widget.customVendor?.vendorType ?? '';
 
     return Scaffold(
       appBar: AppBar(
@@ -74,7 +75,7 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                   elevation: 3.0,
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   child: TextFormField(
-                    initialValue: customVendorTextValue.name,
+                    initialValue: customVendorName,
                     onSaved: (String? value) {
                       customVendorName = value ?? '';
                     },
@@ -99,43 +100,6 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
 
                 Constants.sectionPadding,
 
-                // // Form heading
-                // const Text(
-                //   "Location",
-                //   textAlign: TextAlign.left,
-                //   style: Constants.sectionHeading,
-                // ),
-                //
-                // Constants.formPadding,
-
-                /// Custom vendor location (removed until further notice)
-                // Material(
-                //   shadowColor: Colors.grey,
-                //   elevation: 3.0,
-                //   borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                //   child: TextFormField(
-                //     initialValue: customVendorTextValue.location,
-                //     decoration: const InputDecoration(
-                //       border: OutlineInputBorder(
-                //         borderSide: BorderSide.none,
-                //       ),
-                //       hintText: 'Enter a location (ie. Windsor, ON)',
-                //       hintStyle: Constants.formHintStyle,
-                //       fillColor: Colors.white,
-                //       filled: true,
-                //     ),
-                //     validator: (String? value) {
-                //       if (value == null || value.isEmpty) {
-                //         return 'Location cannot be empty';
-                //       }
-                //       // TODO: Location validation code
-                //       return null;
-                //     },
-                //   ),
-                // ),
-                //
-                // Constants.sectionPadding,
-
                 // Form heading
                 const Text(
                   "Phone Number",
@@ -151,7 +115,7 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                   elevation: 3.0,
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   child: TextFormField(
-                    initialValue: customVendorTextValue.phoneNum,
+                    initialValue: customVendorPhone,
                     onSaved: (String? value) {
                       customVendorPhone = value ?? '';
                     },
@@ -197,7 +161,7 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                     onSaved: (String? value) {
                       customVendorDescription = value ?? '';
                     },
-                    initialValue: customVendorTextValue.description,
+                    initialValue: customVendorDescription,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -237,7 +201,7 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                     onSaved: (String? value) {
                       customVendorType = value ?? '';
                     },
-                    initialValue: customVendorTextValue.vendorType,
+                    initialValue: customVendorType,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -268,9 +232,13 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                             // Process data.
                             if (widget.customVendor == null) {
                               // Case where adding a custom vendor
-                              _futureCustomVendor = createCustomVendorInfo(customVendorName, customVendorDescription, customVendorPhone, customVendorType, 1);
 
-                              // Add a custom vendor to database
+                              // Add a custom vendor to API
+                              _futureCustomVendor = createCustomVendorInfo(customVendorName, customVendorDescription, customVendorPhone, customVendorType, 1);
+                              // Pass the new custom vendor list back to the previous page
+                              Navigator.pop(context, fetchAllCustomVendors());
+
+                              // Report the result
                               FutureBuilder<CustomVendorInfo>(
                                 future: _futureCustomVendor,
                                 builder: (context, snapshot) {
@@ -285,7 +253,25 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                               );
                             } else {
                               // Case where editing a custom vendor
-                              // TODO: Edit a custom vendor
+
+                              // Update custom vendor to API
+                              _futureCustomVendor = updateCustomVendorInfo(customVendorId, customVendorName, customVendorDescription, customVendorPhone, customVendorType, 1);
+
+                              // Report the result
+                              FutureBuilder<CustomVendorInfo>(
+                                future: _futureCustomVendor,
+                                builder: (context, snapshot) {
+                                  if(snapshot.connectionState == ConnectionState.done) {
+                                    if (snapshot.hasData) {
+                                      return Text(snapshot.data!.name + " vendor successfully updated!");
+                                    } else if (snapshot.hasError) {
+                                      return Text('${snapshot.error}');
+                                    }
+                                  }
+
+                                  return const CircularProgressIndicator();
+                                },
+                              );
                             }
                           }
                         },
