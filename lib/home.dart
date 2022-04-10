@@ -128,6 +128,7 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Budget and guest overview
                   Container(
                     margin: const EdgeInsets.only(
                         top: 15, left: 20, right: 20, bottom: 0),
@@ -214,6 +215,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
 
+                  // Task overview
                   Container(
                     margin: const EdgeInsets.only(
                         top: 10, left: 20, right: 20, bottom: 10),
@@ -296,6 +298,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
 
+                  // Vendor overview
                   Container(
                     margin: const EdgeInsets.only(
                         top: 15, left: 20, right: 20, bottom: 10),

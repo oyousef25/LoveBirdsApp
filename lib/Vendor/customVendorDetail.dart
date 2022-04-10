@@ -69,12 +69,12 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
                   Text(customVendor.name, style: Constants.cardContentStyle),
                   Constants.taskPadding,
 
-                  // Custom vendor location
-                  const Text("Location", style: Constants.taskHeading),
-                  Constants.formPadding,
-                  Text(customVendor.location,
-                      style: Constants.cardContentStyle),
-                  Constants.taskPadding,
+                  // Custom vendor location (removed until further notice)
+                  // const Text("Location", style: Constants.taskHeading),
+                  // Constants.formPadding,
+                  // Text(customVendor.location,
+                  //     style: Constants.cardContentStyle),
+                  // Constants.taskPadding,
 
                   // Custom vendor phone number
                   const Text("Phone Number", style: Constants.taskHeading),
