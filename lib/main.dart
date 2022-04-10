@@ -10,7 +10,9 @@ import 'package:lovebirds_app/home.dart';
 import 'package:lovebirds_app/planning.dart';
 import 'package:lovebirds_app/vendors.dart';
 import 'package:lovebirds_app/helper/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Login/login.dart';
 import 'helper/customVendorInfo.dart';
 
 /// Main app
@@ -45,10 +47,49 @@ class MyApp extends StatelessWidget {
         primaryTextTheme:
             const TextTheme(titleSmall: TextStyle(color: Colors.black)),
       ),
-      home: const MainPage(title: 'LoveBirds'),
+      // home: const MainPage(title: 'LoveBirds'),
+      home: CheckAuth(),
     );
   }
 }
+
+//Authentication Class
+class CheckAuth extends StatefulWidget {
+  @override
+  _CheckAuthState createState() => _CheckAuthState();
+}
+
+class _CheckAuthState extends State<CheckAuth> {
+  bool isAuth = false;
+  @override
+  void initState() {
+    _checkIfLoggedIn();
+    super.initState();
+  }
+
+  void _checkIfLoggedIn() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var token = localStorage.getString('token');
+    if(token != null){
+      setState(() {
+        isAuth = true;
+      });
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    Widget child;
+    if (isAuth) {
+      child = MainPage(title: 'LoveBirds');
+    } else {
+      child = Login();
+    }
+    return Scaffold(
+      body: child,
+    );
+  }
+}
+
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key, required this.title})

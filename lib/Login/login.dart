@@ -1,5 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:lovebirds_app/Login/register_account.dart';
 import 'package:lovebirds_app/helper/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Network_Utils/api.dart';
+import '../main.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -11,9 +18,32 @@ class Login extends StatefulWidget {
 }
 
 class _Login extends State<Login> {
+  //login variables
+  bool _isLoading = false;
+  final _formKey = GlobalKey<FormState>();
+  var email;
+  var password;
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  _showMsg(msg){
+    final snackBar = SnackBar(
+      content: Text(msg),
+      action: SnackBarAction(
+        label: 'Close',
+        onPressed: () {
+          // Some code to undo the change!
+        },
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+   // _scaffoldKey.currentState?.showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Account Login'),
         backgroundColor: Constants.lightPrimary,
@@ -29,13 +59,15 @@ class _Login extends State<Login> {
           margin:
           const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
           //column which contains all form elements
+          child: Form(
+            key: _formKey,
           child: Column(
             //aligning to the left
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //form heading
               const Text(
-                "Username",
+                "Email",
                 textAlign: TextAlign.left,
                 style: Constants.sectionHeading,
               ),
@@ -43,17 +75,25 @@ class _Login extends State<Login> {
               Constants.formPadding,
 
               //Textfield
-              const Material(
+              Material(
                 borderRadius: Constants.borderRadius,
                 shadowColor: Constants.formfieldColor,
                 elevation: Constants.elevation,
                 color: Colors.white,
-                child: TextField(
+                child: TextFormField(
                   decoration: InputDecoration(
                       floatingLabelBehavior: Constants.floatingLabelBehaviour,
                       border: Constants.outlineInputBorder,
-                      labelText: 'Enter your username',
+                      labelText: 'Enter your email',
                       fillColor: Colors.white),
+
+                  validator: (String? emailValue) {
+                    if (emailValue != null && emailValue.isEmpty) {
+                      return 'Please enter email';
+                    }
+                    email = emailValue;
+                    return null;
+                  },
                 ),
               ),
 
@@ -67,17 +107,25 @@ class _Login extends State<Login> {
 
               Constants.formPadding,
 
-              const Material(
+              Material(
                 borderRadius: Constants.borderRadius,
                 shadowColor: Constants.formfieldColor,
                 elevation: Constants.elevation,
                 color: Colors.white,
-                child: TextField(
+                child: TextFormField(
                   decoration: InputDecoration(
                       floatingLabelBehavior: Constants.floatingLabelBehaviour,
                       border: Constants.outlineInputBorder,
                       labelText: 'Enter your password',
                       fillColor: Colors.white),
+
+                  validator: (String? passwordValue) {
+                    if (passwordValue != null && passwordValue.isEmpty) {
+                      return 'Please enter email';
+                    }
+                    password = passwordValue;
+                    return null;
+                  },
                 ),
               ),
 
@@ -90,10 +138,13 @@ class _Login extends State<Login> {
                   child: ElevatedButton(
                     onPressed: () {
                       //TODO: Fix create account functionality
-                      print("Sign In");
-                      Navigator.pop(context);
+                      if(_formKey.currentState?.validate() != null) {
+                        _login();
+                        Navigator.pop(context);
+                      }
                     },
-                    child: const Text("Sign In",
+                    child: Text(
+                        _isLoading? 'Processing' : 'Sign In',
                         style: Constants.buttonRedStyle),
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -124,7 +175,11 @@ class _Login extends State<Login> {
                   ElevatedButton(
                     // Contact guest button
                     onPressed: () {
-                      // TODO: Contact guest functionality goes here
+                      // TODO: Register Account Functionality goes here
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => RegisterAccount()));
                     },
                     child:
                     const Text('Register', style: Constants.buttonWhiteStyle),
@@ -145,7 +200,39 @@ class _Login extends State<Login> {
             ],
           ),
         ),
+        ),
       ),
     );
+  }
+
+  void _login() async{
+    setState(() {
+      _isLoading = true;
+    });
+    var data = {
+      'email' : email,
+      'password' : password
+    };
+
+    var res = await Network().authData(data, '/login');
+    var body = json.decode(res.body);
+    if(body['success']){
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.setString('token', json.encode(body['token']));
+      localStorage.setString('user', json.encode(body['user']));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const MainPage(title: 'LoveBirds')
+        ),
+      );
+    }else{
+      _showMsg(body['message']);
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+
   }
 }
