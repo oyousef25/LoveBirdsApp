@@ -15,7 +15,7 @@ class CreateTask extends StatefulWidget {
 class _CreateTask extends State<CreateTask> {
   bool isSwitched = false;
   int? _selectedIndex = 0; // Index of selected chip
-  final List<String> _chips = ['Sammy', 'Walter']; // List of chip options
+  final List<String> _chips = ['Me', 'Partner']; // List of chip options
 
   @override
   Widget build(BuildContext context) {

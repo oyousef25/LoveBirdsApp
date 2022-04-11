@@ -56,7 +56,7 @@ class _ViewTask extends State<ViewTask> {
                       margin: EdgeInsets.zero,
                       color: Constants.lightSecondary,
                       child: ListTile(
-                        title: const Text("Walter\'s Task",
+                        title: const Text("My Task",
                             textAlign: TextAlign.center,
                             style: Constants.cardHeaderStyle),
                         trailing: IconButton(

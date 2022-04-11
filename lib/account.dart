@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:lovebirds_app/Account/login.dart';
-import 'package:lovebirds_app/Account/register_account.dart';
+import 'package:lovebirds_app/Login/login.dart';
+import 'package:lovebirds_app/Login/register_account.dart';
 import 'package:lovebirds_app/helper/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Account/edit_account.dart';
 import 'Account/edit_partner.dart';
+import 'Network_Utils/api.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key})
@@ -20,6 +24,23 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
+  String name = "";
+
+  void initState(){
+    _loadUserData();
+    super.initState();
+  }
+  _loadUserData() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user') ?? "nothing");
+
+    if(user != null) {
+      setState(() {
+        name = user['username'];
+      });
+    }
+  }
+
   /// This Widget builds out the Account page
   ///
   /// Given the build [context], return the Account page Widget.
@@ -35,8 +56,8 @@ class _AccountPageState extends State<AccountPage> {
             Container(
               margin: const EdgeInsets.only(
                   top: 40, left: 20, right: 20, bottom: 20),
-              child: const Text(
-                "Welcome, Alex Apple!",
+              child: Text(
+                "Welcome, " + name + "!",
                 style: Constants.title,
               ),
             ),
@@ -239,7 +260,7 @@ class _AccountPageState extends State<AccountPage> {
               child: ElevatedButton(
                 onPressed: () => {
                   // TODO: Provide sign out functionality
-                  print("you have signed out")
+                  logout()
                 },
                 child: const Text('Sign Out', style: Constants.buttonRedStyle),
                 style: ButtonStyle(
@@ -260,5 +281,18 @@ class _AccountPageState extends State<AccountPage> {
         ),
       ),
     );
+  }
+
+  void logout() async{
+    var res = await Network().getData('/logout');
+    var body = json.decode(res.body);
+    if(body['success']){
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('user');
+      localStorage.remove('token');
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context)=>Login()));
+    }
   }
 }
