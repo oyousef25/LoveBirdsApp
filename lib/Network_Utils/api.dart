@@ -6,7 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Network{
 
   //the base URL of our laravel api
-  final String _url = 'http://oyousef.scweb.ca/lovebirds/api/v1';
+  // final String _url = 'http://oyousef.scweb.ca/lovebirds/api/v1';
+  final String _url = 'https://oyousef.scweb.ca/lovebirds/api/v1';
   //if you are using android studio emulator, change localhost to 10.0.2.2
 
   //this will store API token for authentication and attached to every authentication request
@@ -49,7 +50,7 @@ class Network{
     'Content-type' : 'application/json',
     'Accept' : 'application/json',
     'Authorization' : 'Bearer $token',
-    'Access-Control': "Access-Control-Allow-Origin"
+    'Access-Control-Allow-Origin': '*', // Need this to allow Flutter web emulator to work
   };
 
 }

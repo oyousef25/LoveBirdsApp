@@ -36,7 +36,7 @@ class _AccountPageState extends State<AccountPage> {
 
     if(user != null) {
       setState(() {
-        name = user['username'];
+        name = user['name'];
       });
     }
   }
@@ -259,7 +259,7 @@ class _AccountPageState extends State<AccountPage> {
             Center(
               child: ElevatedButton(
                 onPressed: () => {
-                  // TODO: Provide sign out functionality
+                  // Provide sign out functionality
                   logout()
                 },
                 child: const Text('Sign Out', style: Constants.buttonRedStyle),
@@ -290,9 +290,11 @@ class _AccountPageState extends State<AccountPage> {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('user');
       localStorage.remove('token');
-      Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context)=>Login()));
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(builder: (context)=>Login()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => Login()));
     }
   }
 }
