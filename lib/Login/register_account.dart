@@ -17,17 +17,31 @@ class RegisterAccount extends StatefulWidget {
 }
 
 class _RegisterAccount extends State<RegisterAccount> {
-  bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   var username;
   var email;
   var password;
+
+  _showMsg(msg) {
+    final snackBar = SnackBar(
+      content: Text(msg),
+      action: SnackBarAction(
+        label: 'Close',
+        onPressed: () {
+          // Some code to undo the change!
+        },
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    // _scaffoldKey.currentState?.showSnackBar(snackBar);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Account Registration'),
+        centerTitle: true,
         backgroundColor: Constants.lightPrimary,
         titleTextStyle: Constants.appBarStyle,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -174,13 +188,12 @@ class _RegisterAccount extends State<RegisterAccount> {
 
               //Create account button
               Center(
-                child: Expanded(
+                child: Container(
                   child: ElevatedButton(
                     onPressed: () {
                       //TODO: Fix create account functionality
                       if(_formKey.currentState?.validate() != null) {
                         _register();
-                        Navigator.pop(context);
                       }
                     },
                     child: const Text("Create Account",
@@ -208,32 +221,30 @@ class _RegisterAccount extends State<RegisterAccount> {
     );
   }
 
-  void _register()async{
-    setState(() {
-      _isLoading = true;
-    });
+  void _register() async{
     var data = {
       'email' : email,
       'password': password,
-      'username' : username,
+      'name' : username,
     };
 
     var res = await Network().authData(data, '/register');
     var body = json.decode(res.body);
     if(body['success']){
+      // Store the user tokens so user can be automatically logged in
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', json.encode(body['token']));
       localStorage.setString('user', json.encode(body['user']));
-      Navigator.push(
+
+      // Message to show that user was successful in creating an account
+      _showMsg('Successfully created account!');
+
+      Navigator.pushReplacement(
         context,
         new MaterialPageRoute(
             builder: (context) => MainPage(title: 'LoveBirds')
         ),
       );
     }
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 }

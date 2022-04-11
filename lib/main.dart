@@ -48,13 +48,15 @@ class MyApp extends StatelessWidget {
             const TextTheme(titleSmall: TextStyle(color: Colors.black)),
       ),
       // home: const MainPage(title: 'LoveBirds'),
-      home: CheckAuth(),
+      home: const CheckAuth(),
     );
   }
 }
 
 //Authentication Class
 class CheckAuth extends StatefulWidget {
+  const CheckAuth({Key? key}) : super(key: key);
+
   @override
   _CheckAuthState createState() => _CheckAuthState();
 }
