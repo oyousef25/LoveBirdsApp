@@ -143,4 +143,11 @@ class Constants {
   static const minPasswordLength = 6;
   static const maxPasswordLength = 100;
   static const maxEmailLength = 100;
+
+  // Vendor Categories
+  static const venueCategory = "Wedding Venue";
+  static const photoCategory = "Photography";
+  static const gownCategory = "Bridal";
+  static const floristCategory = "Flower Store";
+  static const giftCategory = "Wedding Gift";
 }
