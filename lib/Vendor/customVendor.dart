@@ -1,15 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
-import 'package:http/http.dart' as http;
+import 'package:lovebirds_app/helper/customVendorInfo.dart';
 
-import '../helper/customVendorInfo.dart';
+import '../helper/fetchAllCustomVendors.dart';
 import 'customVendorDetail.dart';
 
 class CustomVendorScreen extends StatefulWidget {
-  const CustomVendorScreen({Key? key})
-      : super(key: key);
+  const CustomVendorScreen({Key? key}) : super(key: key);
 
   @override
   State createState() {
@@ -18,22 +15,18 @@ class CustomVendorScreen extends StatefulWidget {
 }
 
 class _CustomVendorScreenState extends State<CustomVendorScreen> {
-  /// Gets custom vendor list from API
-  getCustomVendors() async {
-    // Request the custom vendor data, convert to JSon
-    var request = await http
-        .get(Uri.https('oyousef.scweb.ca', '/lovebirds/api/v1/custom-vendors'));
-    var jsonData = jsonDecode(request.body);
-    List<CustomVendorInfo> customVendorsList = [];
+  late Future<List<CustomVendorInfo>> _futureCustomVendors;
 
-    // With the json data, convert it to a CustomVendorInfo and add it to our custom vendors list
-    for (var vendor in jsonData) {
-      CustomVendorInfo customVendor = CustomVendorInfo.fromJson(vendor);
-      customVendorsList.add(customVendor);
-    }
+  refreshPage() {
+    _futureCustomVendors = fetchAllCustomVendors();
+    setState(() {});
+  }
 
-    // Return the list of custom vendors
-    return customVendorsList;
+  @override
+  void initState() {
+    super.initState();
+    // Get a list of all custom vendors
+    _futureCustomVendors = fetchAllCustomVendors();
   }
 
   @override
@@ -41,7 +34,7 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
     return Scaffold(
       // Build a list out of the custom vendors taken from an API
       body: FutureBuilder(
-          future: getCustomVendors(),
+          future: _futureCustomVendors,
           // Takes the snapshotted data
           builder: (context, AsyncSnapshot snapshot) {
             // If the data retrieval went wrong
@@ -52,38 +45,44 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
               );
             } else if (snapshot.hasData) {
               // Successful data retrieval
-              return ListView.builder(
-                // ListView that is built as it is scrolled onto the screen
-                padding: EdgeInsets.only(top: 10.0),
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 7.0, horizontal: 10.0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    color: Colors.white,
-                    shadowColor: Colors.grey,
-                    elevation: 5.0,
-                    child: ListTile(
-                      title: Text(snapshot.data[index].name,
-                          textAlign: TextAlign.left,
-                          style: Constants.listTitleStyle),
-                      subtitle: Text(snapshot.data[index].vendorType,
-                          textAlign: TextAlign.left,
-                          style: Constants.listSubtitleStyle),
-                      trailing: Icon(Icons.phone_rounded, size: 40),
-                      onTap: () {
-                        // Open up the custom vendor info route
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CustomVendorDetailScreen(
-                              customVendor: snapshot.data[index]),
-                        ));
-                      },
-                    ),
-                  );
-                },
-              );
+              return RefreshIndicator(
+                  child: ListView.builder(
+                    // ListView that is built as it is scrolled onto the screen
+                    padding: EdgeInsets.only(top: 10.0),
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 7.0, horizontal: 10.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        color: Colors.white,
+                        shadowColor: Colors.grey,
+                        elevation: 5.0,
+                        child: ListTile(
+                          title: Text(snapshot.data[index].name,
+                              textAlign: TextAlign.left,
+                              style: Constants.listTitleStyle),
+                          subtitle: Text(snapshot.data[index].vendorType,
+                              textAlign: TextAlign.left,
+                              style: Constants.listSubtitleStyle),
+                          trailing: Icon(Icons.phone_rounded, size: 40),
+                          onTap: () {
+                            // Open up the custom vendor info route which
+                            // should return an updated list of custom vendors
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => CustomVendorDetailScreen(
+                                  customVendor: snapshot.data[index]),
+                            ));
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                  onRefresh: () async => {
+                    // Refresh the custom vendors list
+                    refreshPage(),
+                      });
             } else {
               // Loading data animation
               return const Center(
