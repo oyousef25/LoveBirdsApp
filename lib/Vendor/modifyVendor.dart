@@ -149,7 +149,7 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                               if (value == null || value.isEmpty) {
                                 return 'Phone number cannot be empty';
                               } else if (!Constants.phoneRegex.hasMatch(value)) {
-                                return 'Only numbers between 0 and 9 are allowed';
+                                return 'Only numbers are allowed (no space or dash etc.)';
                               }
                               return null;
                             },
