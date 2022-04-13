@@ -324,8 +324,7 @@ class _HomePageState extends State<HomePage> {
                               // Go to vendors page
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => VendorScreen(
-                                  vendorType: 'Venues',
-                                  vendors: widget.vendorList,
+                                  vendorType: Constants.venueCategory,
                                 ),
                               ));
                             },
@@ -357,8 +356,7 @@ class _HomePageState extends State<HomePage> {
                               // Go to vendors page
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => VendorScreen(
-                                  vendorType: 'Bridal Gowns',
-                                  vendors: widget.vendorList,
+                                  vendorType: Constants.gownCategory,
                                 ),
                               ));
                             },
@@ -389,8 +387,7 @@ class _HomePageState extends State<HomePage> {
                               // Go to vendors page
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => VendorScreen(
-                                  vendorType: 'Photographers',
-                                  vendors: widget.vendorList,
+                                  vendorType: Constants.photoCategory,
                                 ),
                               ));
                             },
@@ -421,8 +418,7 @@ class _HomePageState extends State<HomePage> {
                               // Go to vendors page
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => VendorScreen(
-                                  vendorType: 'Florists',
-                                  vendors: widget.vendorList,
+                                  vendorType: Constants.floristCategory,
                                 ),
                               ));
                             },
@@ -453,8 +449,7 @@ class _HomePageState extends State<HomePage> {
                               // Go to vendors page
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => VendorScreen(
-                                  vendorType: 'Gifts',
-                                  vendors: widget.vendorList,
+                                  vendorType: Constants.giftCategory,
                                 ),
                               ));
                             },
