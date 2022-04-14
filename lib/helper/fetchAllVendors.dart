@@ -10,46 +10,53 @@ Future<List<VendorInfo>> fetchAllVendors(String category) async {
 
   switch(category) {
     case Constants.venueCategory:
-      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Wedding%20Venue&fields=name%2location%2Ctel%2Cwebsite%2Chours%2Crating%2Cphotos&near=Windsor%2C%20ON';
+      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Club&fields=name%2Clocation%2Ctel%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
     case Constants.photoCategory:
-      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Photography&fields=name%2location%2Cdescription%2Chours%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
+      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Photography&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
     case Constants.gownCategory:
-      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Bridal%20Venue&fields=name%2location%2Cdescription%2Chours%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
+      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Bridal%20Venue&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
     case Constants.floristCategory:
-      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Flower%20Store&fields=name%2location%2Cdescription%2Chours%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
+      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Flower%20Store&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
     case Constants.giftCategory:
-      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Wedding%20Gift%20Venue&fields=name%2location%2Cdescription%2Chours%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
+      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Wedding%20Gift%20Venue&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
   }
 
   // Request the vendor data, convert to JSon
   var response = await http
       .get(Uri.parse(urlToParse),
-      // Send authorization headers to the backend.
+      // Required headers to access backend.
       headers: {
-        // HttpHeaders.authorizationHeader: 'Basic fsq3WQRAQxEILyvFtksxS9fADKi+zFFVpKBEfk9fUqII4XA=',
-        HttpHeaders.authorizationHeader: 'Authorization fsq3WQRAQxEILyvFtksxS9fADKi+zFFVpKBEfk9fUqII4XA=',
+        HttpHeaders.acceptHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'fsq3WQRAQxEILyvFtksxS9fADKi+zFFVpKBEfk9fUqII4XA=',
       });
   var jsonData = jsonDecode(response.body);
   List<VendorInfo> vendorsList = [];
 
   // With the json data, convert it to a VendorInfo and add it to our vendors list
-  for (var vendor in jsonData) {
-    print(vendor);
+  for (var vendor in jsonData['results']) {
+    // Build out the first photo link if it exists
+    List allPhotos = vendor['photos'];
+    String firstPhoto = 'https://cdn.pixabay.com/photo/2020/02/20/17/57/flower-4865379_960_720.png'; // Set a default image in case there are no photos
+    if(allPhotos.isNotEmpty) {
+      print('notempty');
+      firstPhoto = allPhotos[0]['prefix']! + 'original' + allPhotos[0]['suffix']!;
+    }
+
     VendorInfo currentVendor = VendorInfo(
-        vendor['name'],
-        vendor['rating'],
-        vendor['description'],
+        vendor['name'] ?? 'Name N/A',
+        vendor['rating'] ?? 0.0,
+        vendor['description'] ?? 'Description N/A',
         true,
         'deprecate hours',
-        vendor['website'],
-        'deprecate tel',
-        vendor['location']['address'],
-        vendor['photos']
+        vendor['website'] ?? 'Website N/A',
+        vendor['tel'] ?? 'Contact # N/A',
+        vendor['location']['address'] ?? 'Location N/A',
+        firstPhoto
     );
     vendorsList.add(currentVendor);
   }

@@ -59,7 +59,7 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                       placeholder: (context, url) =>
                           const CircularProgressIndicator(),
                       imageUrl:
-                          'https://s3-media0.fl.yelpcdn.com/bphoto/7_n-ekeqhRei7YJ-_Nzfrw/o.jpg',
+                          '${widget.vendorInfo.photos}',
                     ),
                   ),
                   height: 250.0,
@@ -70,7 +70,7 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                   title: Text(widget.vendorInfo.name,
                       textAlign: TextAlign.left,
                       style: Constants.bigListTitleStyle),
-                  subtitle: Text(widget.vendorInfo.rating,
+                  subtitle: Text('${widget.vendorInfo.rating}',
                       textAlign: TextAlign.left,
                       style: Constants.bigListSubtitleStyle),
                   trailing: Icon(
