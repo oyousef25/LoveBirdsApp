@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lovebirds_app/Vendor/vendorCategories.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/vendorInfo.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 import 'Vendor/customVendor.dart';
 import 'Vendor/modifyVendor.dart';
 import 'Vendor/savedVendor.dart';
-import 'Vendor/vendorScreen.dart';
-import 'helper/customVendorInfo.dart';
 
 class VendorsPage extends StatefulWidget {
   const VendorsPage(
@@ -23,17 +20,12 @@ class VendorsPage extends StatefulWidget {
   /// Return the Vendors page State
   @override
   State<StatefulWidget> createState() {
-    return _VendorsPageState(
-        vendorList: vendorList);
+    return _VendorsPageState();
   }
 }
 
 class _VendorsPageState extends State<VendorsPage>
     with TickerProviderStateMixin {
-  // Need a vendor list and custom vendor list
-  _VendorsPageState({required this.vendorList});
-  final List<VendorInfo> vendorList;
-
   // Lazy load the tab bar
   late TabController _tabController;
   int currentTab = 0; // Keep track of current tab
@@ -68,13 +60,13 @@ class _VendorsPageState extends State<VendorsPage>
                   Padding(
                     padding: EdgeInsets.only(top: 90.0),
                     child: VendorCategoriesScreen(
-                      vendorList: vendorList,
+                      vendorList: widget.vendorList,
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 90.0),
                     child: SavedVendorScreen(
-                      savedVendors: vendorList,
+                      savedVendors: widget.vendorList,
                     ),
                   ),
                   Padding(

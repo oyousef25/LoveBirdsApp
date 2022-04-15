@@ -86,7 +86,7 @@ class _SavedVendorScreenState extends State<SavedVendorScreen> {
                                 textAlign: TextAlign.left,
                                 style: Constants.listTitleStyle),
                             const Padding(padding: EdgeInsets.only(bottom: 9)),
-                            Text(widget.savedVendors[index].rating,
+                            Text('${widget.savedVendors[index].rating}',
                                 textAlign: TextAlign.left,
                                 style: Constants.listSubtitleStyle),
                             const Padding(padding: EdgeInsets.only(bottom: 9)),

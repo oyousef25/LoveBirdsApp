@@ -51,114 +51,133 @@ class _Login extends State<Login> {
         titleTextStyle: Constants.appBarStyle,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: Align(
-        //top left aligned
-        alignment: const Alignment(-1.0, 1.0),
+      body: SingleChildScrollView(
+        child: Align(
+          //top left aligned
+          alignment: const Alignment(-1.0, 1.0),
 
-        //nesting in a container allows for margin on all sides
-        child: Container(
-          margin:
-              const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
-          //column which contains all form elements
-          child: Form(
-            key: _formKey,
-            child: Column(
-              //aligning to the left
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //form heading
-                const Text(
-                  "Email",
-                  textAlign: TextAlign.left,
-                  style: Constants.sectionHeading,
-                ),
-
-                Constants.formPadding,
-
-                //Textfield
-                Material(
-                  borderRadius: Constants.borderRadius,
-                  shadowColor: Constants.formfieldColor,
-                  elevation: Constants.elevation,
-                  color: Colors.white,
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                        floatingLabelBehavior: Constants.floatingLabelBehaviour,
-                        border: Constants.outlineInputBorder,
-                        labelText: 'Enter your email',
-                        fillColor: Colors.white),
-                    validator: (String? emailValue) {
-                      if (emailValue != null && emailValue.isEmpty) {
-                        return 'Please enter email';
-                      }
-                      email = emailValue;
-                      return null;
-                    },
+          //nesting in a container allows for margin on all sides
+          child: Container(
+            margin:
+                const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+            //column which contains all form elements
+            child: Form(
+              key: _formKey,
+              child: Column(
+                //aligning to the left
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //form heading
+                  const Text(
+                    "Email",
+                    textAlign: TextAlign.left,
+                    style: Constants.sectionHeading,
                   ),
-                ),
 
-                Constants.sectionPadding,
+                  Constants.formPadding,
 
-                const Text(
-                  "Password",
-                  textAlign: TextAlign.left,
-                  style: Constants.sectionHeading,
-                ),
-
-                Constants.formPadding,
-
-                Material(
-                  borderRadius: Constants.borderRadius,
-                  shadowColor: Constants.formfieldColor,
-                  elevation: Constants.elevation,
-                  color: Colors.white,
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                        floatingLabelBehavior: Constants.floatingLabelBehaviour,
-                        border: Constants.outlineInputBorder,
-                        labelText: 'Enter your password',
-                        fillColor: Colors.white),
-                    validator: (String? passwordValue) {
-                      if (passwordValue != null && passwordValue.isEmpty) {
-                        return 'Please enter password';
-                      }
-                      password = passwordValue;
-                      return null;
-                    },
-                  ),
-                ),
-
-                Constants.sectionPadding,
-                Constants.formPadding,
-
-                //Sign in button
-                Center(
-                  child: Container(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        //TODO: Fix create account functionality
-                        if (_formKey.currentState?.validate() != null) {
-                          _login();
+                  //Textfield
+                  Material(
+                    borderRadius: Constants.borderRadius,
+                    shadowColor: Constants.formfieldColor,
+                    elevation: Constants.elevation,
+                    color: Colors.white,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          floatingLabelBehavior:
+                              Constants.floatingLabelBehaviour,
+                          border: Constants.outlineInputBorder,
+                          labelText: 'Enter your email',
+                          fillColor: Colors.white),
+                      validator: (String? emailValue) {
+                        // Email validation
+                        if (emailValue == null || emailValue.isEmpty) {
+                          return 'Please enter email';
+                        } else if (!Constants.emailRegex.hasMatch(emailValue)) {
+                          return 'Please enter a valid email';
+                        } else if (emailValue.length >=
+                            Constants.maxEmailLength) {
+                          return 'Email must be less than ${Constants.maxEmailLength}';
                         }
+                        email = emailValue;
+                        return null;
                       },
-                      child: Text(_isLoading ? 'Processing' : 'Sign In',
-                          style: Constants.buttonRedStyle),
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+
+                  Constants.sectionPadding,
+
+                  const Text(
+                    "Password",
+                    textAlign: TextAlign.left,
+                    style: Constants.sectionHeading,
+                  ),
+
+                  Constants.formPadding,
+
+                  Material(
+                    borderRadius: Constants.borderRadius,
+                    shadowColor: Constants.formfieldColor,
+                    elevation: Constants.elevation,
+                    color: Colors.white,
+                    child: TextFormField(
+                      obscureText: true,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      decoration: InputDecoration(
+                          floatingLabelBehavior:
+                              Constants.floatingLabelBehaviour,
+                          border: Constants.outlineInputBorder,
+                          labelText: 'Enter your password',
+                          fillColor: Colors.white),
+                      validator: (String? passwordValue) {
+                        // Password validation
+                        if (passwordValue == null || passwordValue.isEmpty) {
+                          return 'Please enter password';
+                        } else if (passwordValue.length <
+                            Constants.minPasswordLength) {
+                          return 'Password must have at least ${Constants.minPasswordLength} characters';
+                        } else if (passwordValue.length >=
+                            Constants.maxPasswordLength) {
+                          return 'Password must have less than ${Constants.maxPasswordLength} characters';
+                        }
+                        password = passwordValue;
+                        return null;
+                      },
+                    ),
+                  ),
+
+                  Constants.sectionPadding,
+                  Constants.formPadding,
+
+                  //Sign in button
+                  Center(
+                    child: Container(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          //Login functionality
+                          if (_formKey.currentState?.validate() != null) {
+                            _login();
+                          }
+                        },
+                        child: Text(_isLoading ? 'Processing' : 'Sign In',
+                            style: Constants.buttonRedStyle),
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
                           ),
-                        ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Constants.buttonRed),
-                        padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.symmetric(
-                              vertical: 25.0, horizontal: 202),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.buttonRed),
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.symmetric(
+                                vertical: 25.0, horizontal: 202),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
 
                 Constants.sectionPadding,
                 Constants.formPadding,
@@ -185,20 +204,21 @@ class _Login extends State<Login> {
                           style: Constants.buttonWhiteStyle),
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
                         ),
                         backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
+                        MaterialStateProperty.all<Color>(Colors.white),
                         padding: MaterialStateProperty.all<EdgeInsets>(
                             const EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 50.0)),
                       ),
-                    ),
-                  ],
-                )
-              ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -213,7 +233,6 @@ class _Login extends State<Login> {
     var data = {'email': email, 'password': password};
     var res = await Network().authData(data, '/login');
     var body = json.decode(res.body);
-    print(res.body);
     if (body['success']) {
       // Store the user tokens so user can be automatically logged in
       SharedPreferences localStorage = await SharedPreferences.getInstance();

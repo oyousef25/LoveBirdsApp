@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/createCustomVendorInfo.dart';
 import 'package:lovebirds_app/helper/fetchAllCustomVendors.dart';
@@ -6,8 +7,6 @@ import 'package:lovebirds_app/helper/fetchCustomVendorInfo.dart';
 import 'package:lovebirds_app/helper/updateCustomVendorInfo.dart';
 
 import '../helper/customVendorInfo.dart';
-import 'customVendor.dart';
-import 'customVendorDetail.dart';
 
 class ModifyVendorScreen extends StatefulWidget {
   const ModifyVendorScreen({Key? key, required this.customVendor})
@@ -86,6 +85,8 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                           elevation: 3.0,
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           child: TextFormField(
+                            maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+                            maxLength: Constants.maxTextFieldLength,
                             initialValue: customVendorName,
                             onSaved: (String? value) {
                               customVendorName = value ?? '';
@@ -100,10 +101,13 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                               filled: true,
                             ),
                             validator: (String? value) {
+                              // Vendor name validation code
                               if (value == null || value.isEmpty) {
                                 return 'Name cannot be empty';
+                              } else if (value.length > Constants.maxTextFieldLength) {
+                                return 'Max ${Constants.maxTextFieldLength} characters allowed';
                               }
-                              // TODO: Vendor name validation code
+
                               return null;
                             },
                           ),
@@ -126,6 +130,7 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                           elevation: 3.0,
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           child: TextFormField(
+                            keyboardType: TextInputType.phone,
                             initialValue: customVendorPhone,
                             onSaved: (String? value) {
                               customVendorPhone = value ?? '';
@@ -134,16 +139,18 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                               ),
-                              hintText: '(123)456-7890',
+                              hintText: '1234567890',
                               hintStyle: Constants.formHintStyle,
                               fillColor: Colors.white,
                               filled: true,
                             ),
                             validator: (String? value) {
+                              // Phone number validation
                               if (value == null || value.isEmpty) {
                                 return 'Phone number cannot be empty';
+                              } else if (!Constants.phoneRegex.hasMatch(value)) {
+                                return 'Only numbers are allowed (no space or dash etc.)';
                               }
-                              // TODO: Phone number validation code
                               return null;
                             },
                           ),
@@ -168,7 +175,8 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                           child: TextFormField(
                             minLines: 2,
                             maxLines: 4,
-                            maxLength: 255,
+                            maxLength: Constants.maxTextBoxLength,
+                            maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
                             onSaved: (String? value) {
                               customVendorDescription = value ?? '';
                             },
@@ -184,10 +192,12 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                               filled: true,
                             ),
                             validator: (String? value) {
+                              // Vendor description validation
                               if (value == null || value.isEmpty) {
                                 return 'Description cannot be empty';
+                              } else if (value.length > Constants.maxTextBoxLength) {
+                                return 'Max ${Constants.maxTextBoxLength} characters allowed';
                               }
-                              // TODO: Vendor description validation code
                               return null;
                             },
                           ),
@@ -210,6 +220,8 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                           elevation: 3.0,
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           child: TextFormField(
+                            maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+                            maxLength: Constants.maxTextFieldLength,
                             onSaved: (String? value) {
                               customVendorType = value ?? '';
                             },
@@ -225,10 +237,12 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                               filled: true,
                             ),
                             validator: (String? value) {
+                              // Vendor type validation code
                               if (value == null || value.isEmpty) {
                                 return 'Vendor type cannot be empty';
+                              } else if (value.length > Constants.maxTextFieldLength) {
+                                return 'Max ${Constants.maxTextFieldLength} characters allowed';
                               }
-                              // TODO: Vendor type validation code
                               return null;
                             },
                           ),

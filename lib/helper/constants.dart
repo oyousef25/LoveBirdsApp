@@ -132,4 +132,22 @@ class Constants {
   // Explore vendor icon height
   static const exploreHeight = 90.0;
   static const exploreWidth = 150.0;
+
+  /// Validation
+  // Regex
+  static final phoneRegex = RegExp(r'^[0-9]{1,15}$');
+  static final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+  // Max Field Lengths
+  static const maxTextFieldLength = 150;
+  static const maxTextBoxLength = 255;
+  static const minPasswordLength = 6;
+  static const maxPasswordLength = 100;
+  static const maxEmailLength = 100;
+
+  // Vendor Categories
+  static const venueCategory = "Wedding Venue";
+  static const photoCategory = "Photography";
+  static const gownCategory = "Bridal";
+  static const floristCategory = "Flower Store";
+  static const giftCategory = "Wedding Gift";
 }

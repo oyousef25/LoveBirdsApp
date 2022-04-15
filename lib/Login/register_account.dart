@@ -22,6 +22,7 @@ class _RegisterAccount extends State<RegisterAccount> {
   var username;
   var email;
   var password;
+  var confirmPassword;
 
   _showMsg(msg) {
     final snackBar = SnackBar(
@@ -47,191 +48,232 @@ class _RegisterAccount extends State<RegisterAccount> {
         titleTextStyle: Constants.appBarStyle,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: Align(
-        //top left aligned
-        alignment: const Alignment(-1.0, 1.0),
+      body: SingleChildScrollView(
+        child: Align(
+          //top left aligned
+          alignment: const Alignment(-1.0, 1.0),
 
-        //nesting in a container allows for margin on all sides
-        child: Container(
-          margin:
-          const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
-          //column which contains all form elements
-          child: Form(
-            key: _formKey,
-          child: Column(
-            //aligning to the left
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //form heading
-              const Text(
-                "Username",
-                textAlign: TextAlign.left,
-                style: Constants.sectionHeading,
-              ),
+          //nesting in a container allows for margin on all sides
+          child: Container(
+            margin:
+                const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+            //column which contains all form elements
+            child: Form(
+              key: _formKey,
+              child: Column(
+                //aligning to the left
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //form heading
+                  const Text(
+                    "Username",
+                    textAlign: TextAlign.left,
+                    style: Constants.sectionHeading,
+                  ),
 
-              Constants.formPadding,
+                  Constants.formPadding,
 
-              //Textfield
-              Material(
-                borderRadius: Constants.borderRadius,
-                shadowColor: Constants.formfieldColor,
-                elevation: Constants.elevation,
-                color: Colors.white,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                      floatingLabelBehavior: Constants.floatingLabelBehaviour,
-                      border: Constants.outlineInputBorder,
-                      labelText: 'Enter a username',
-                      fillColor: Colors.white),
+                  //Textfield
+                  Material(
+                    borderRadius: Constants.borderRadius,
+                    shadowColor: Constants.formfieldColor,
+                    elevation: Constants.elevation,
+                    color: Colors.white,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          floatingLabelBehavior:
+                              Constants.floatingLabelBehaviour,
+                          border: Constants.outlineInputBorder,
+                          labelText: 'Enter a username',
+                          fillColor: Colors.white),
+                      validator: (String? usernameValue) {
+                        if (usernameValue != null && usernameValue.isEmpty) {
+                          return 'Please enter username';
+                        }
+                        username = usernameValue;
+                        return null;
+                      },
+                    ),
+                  ),
 
-                  validator: (String? usernameValue){
-                    if (usernameValue != null && usernameValue.isEmpty) {
-                      return 'Please enter username';
-                    }
-                    username = usernameValue;
-                    return null;
-                  },
-                ),
-              ),
+                  Constants.sectionPadding,
 
-              Constants.sectionPadding,
+                  const Text(
+                    "Email",
+                    textAlign: TextAlign.left,
+                    style: Constants.sectionHeading,
+                  ),
 
-              const Text(
-                "Email",
-                textAlign: TextAlign.left,
-                style: Constants.sectionHeading,
-              ),
+                  Constants.formPadding,
 
-              Constants.formPadding,
+                  Material(
+                    borderRadius: Constants.borderRadius,
+                    shadowColor: Constants.formfieldColor,
+                    elevation: Constants.elevation,
+                    color: Colors.white,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          floatingLabelBehavior:
+                              Constants.floatingLabelBehaviour,
+                          border: Constants.outlineInputBorder,
+                          labelText: 'Enter an email',
+                          fillColor: Colors.white),
+                      validator: (String? emailValue) {
+                        // Email validation
+                        if (emailValue == null || emailValue.isEmpty) {
+                          return 'Please enter email';
+                        } else if (!Constants.emailRegex.hasMatch(emailValue)) {
+                          return 'Please enter a valid email';
+                        } else if (emailValue.length >=
+                            Constants.maxEmailLength) {
+                          return 'Email must be less than ${Constants.maxEmailLength}';
+                        }
+                        email = emailValue;
+                        return null;
+                      },
+                    ),
+                  ),
 
-              Material(
-                borderRadius: Constants.borderRadius,
-                shadowColor: Constants.formfieldColor,
-                elevation: Constants.elevation,
-                color: Colors.white,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                      floatingLabelBehavior: Constants.floatingLabelBehaviour,
-                      border: Constants.outlineInputBorder,
-                      labelText: 'Enter an email',
-                      fillColor: Colors.white),
+                  Constants.sectionPadding,
 
-                  validator: (String? emailValue){
-                    if (emailValue != null && emailValue.isEmpty) {
-                      return 'Please enter email';
-                    }
-                    email = emailValue;
-                    return null;
-                  },
-                ),
-              ),
+                  const Text(
+                    "Password",
+                    textAlign: TextAlign.left,
+                    style: Constants.sectionHeading,
+                  ),
 
-              Constants.sectionPadding,
+                  Constants.formPadding,
 
-              const Text(
-                "Password",
-                textAlign: TextAlign.left,
-                style: Constants.sectionHeading,
-              ),
+                  //Textfield
+                  Material(
+                    borderRadius: Constants.borderRadius,
+                    shadowColor: Constants.formfieldColor,
+                    elevation: Constants.elevation,
+                    color: Colors.white,
+                    child: TextFormField(
+                      obscureText: true,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      decoration: InputDecoration(
+                          floatingLabelBehavior:
+                              Constants.floatingLabelBehaviour,
+                          border: Constants.outlineInputBorder,
+                          labelText: 'Enter a password',
+                          fillColor: Colors.white),
+                      validator: (String? passwordValue) {
+                        // Password validation
+                        if (passwordValue == null || passwordValue.isEmpty) {
+                          return 'Please enter password';
+                        } else if (passwordValue.length <
+                            Constants.minPasswordLength) {
+                          return 'Password must have at least ${Constants.minPasswordLength} characters';
+                        } else if (passwordValue.length >=
+                            Constants.maxPasswordLength) {
+                          return 'Password must have less than ${Constants.maxPasswordLength} characters';
+                        }
+                        password = passwordValue;
+                        return null;
+                      },
+                    ),
+                  ),
 
-              Constants.formPadding,
+                  Constants.sectionPadding,
 
-              //Textfield
-              Material(
-                borderRadius: Constants.borderRadius,
-                shadowColor: Constants.formfieldColor,
-                elevation: Constants.elevation,
-                color: Colors.white,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                      floatingLabelBehavior: Constants.floatingLabelBehaviour,
-                      border: Constants.outlineInputBorder,
-                      labelText: 'Enter a password',
-                      fillColor: Colors.white),
+                  const Text(
+                    "Confirm Password",
+                    textAlign: TextAlign.left,
+                    style: Constants.sectionHeading,
+                  ),
 
-                  validator: (String? passwordValue){
-                    if (passwordValue != null && passwordValue.isEmpty) {
-                      return 'Please enter password';
-                    }
-                    password = passwordValue;
-                    return null;
-                  },
-                ),
-              ),
+                  Constants.formPadding,
 
-              Constants.sectionPadding,
+                  //Textfield
+                  Material(
+                    borderRadius: Constants.borderRadius,
+                    shadowColor: Constants.formfieldColor,
+                    elevation: Constants.elevation,
+                    color: Colors.white,
+                    child: TextFormField(
+                      obscureText: true,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      decoration: InputDecoration(
+                          floatingLabelBehavior:
+                              Constants.floatingLabelBehaviour,
+                          border: Constants.outlineInputBorder,
+                          labelText: 'Confirm your password',
+                          fillColor: Colors.white),
+                      validator: (String? confirmPasswordValue) {
+                        confirmPassword = confirmPasswordValue;
 
-              const Text(
-                "Confirm Password",
-                textAlign: TextAlign.left,
-                style: Constants.sectionHeading,
-              ),
+                        // Confirm password validation
+                        if (confirmPasswordValue == null ||
+                            confirmPasswordValue.isEmpty) {
+                          return 'Please confirm password';
+                        } else if (confirmPasswordValue.length <
+                            Constants.minPasswordLength) {
+                          return 'Password must have at least ${Constants.minPasswordLength} characters';
+                        } else if (confirmPasswordValue.length >=
+                            Constants.maxPasswordLength) {
+                          return 'Password must have less than ${Constants.maxPasswordLength} characters';
+                        } else if (confirmPassword != password) {
+                          return 'Passwords must match';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
 
-              Constants.formPadding,
+                  Constants.sectionPadding,
+                  Constants.formPadding,
 
-              //Textfield
-              const Material(
-                borderRadius: Constants.borderRadius,
-                shadowColor: Constants.formfieldColor,
-                elevation: Constants.elevation,
-                color: Colors.white,
-                child: TextField(
-                  decoration: InputDecoration(
-                      floatingLabelBehavior: Constants.floatingLabelBehaviour,
-                      border: Constants.outlineInputBorder,
-                      labelText: 'Confirm your password',
-                      fillColor: Colors.white),
-                ),
-              ),
-
-              Constants.sectionPadding,
-              Constants.formPadding,
-
-              //Create account button
-              Center(
-                child: Container(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      //TODO: Fix create account functionality
-                      if(_formKey.currentState?.validate() != null) {
-                        _register();
-                      }
-                    },
-                    child: const Text("Create Account",
-                        style: Constants.buttonRedStyle),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                  //Create account button
+                  Center(
+                    child: Container(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          //Create account functionality
+                          if (_formKey.currentState?.validate() != null) {
+                            _register();
+                          }
+                        },
+                        child: const Text("Create Account",
+                            style: Constants.buttonRedStyle),
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.buttonRed),
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.symmetric(
+                                vertical: 25.0, horizontal: 168),
+                          ),
                         ),
-                      ),
-                      backgroundColor:
-                      MaterialStateProperty.all<Color>(Constants.buttonRed),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.symmetric(vertical: 25.0, horizontal: 168),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
         ),
       ),
     );
   }
 
-  void _register() async{
+  void _register() async {
     var data = {
-      'email' : email,
+      'email': email,
       'password': password,
-      'name' : username,
+      'name': username,
     };
 
     var res = await Network().authData(data, '/register');
     var body = json.decode(res.body);
-    if(body['success']){
+    if (body['success']) {
       // Store the user tokens so user can be automatically logged in
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', json.encode(body['token']));

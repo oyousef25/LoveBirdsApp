@@ -24,11 +24,11 @@ class VendorCategoriesScreen extends StatefulWidget {
 class _VendorCategoriesScreenState extends State<VendorCategoriesScreen> {
   // List of all the vendor categories
   List<String> vendorCategories = [
-    "Venues",
-    "Bridal Gowns",
-    "Photographers",
-    "Florists",
-    "Gifts"
+    Constants.venueCategory,
+    Constants.gownCategory,
+    Constants.photoCategory,
+    Constants.floristCategory,
+    Constants.giftCategory
   ];
 
   @override
@@ -50,8 +50,7 @@ class _VendorCategoriesScreenState extends State<VendorCategoriesScreen> {
                     // Go to vendors page
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => VendorScreen(
-                        vendorType: vendorCategories[index],
-                        vendors: widget.vendorList,
+                        vendorType: vendorCategories[index]
                       ),
                     ));
                   },
