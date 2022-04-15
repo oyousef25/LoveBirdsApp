@@ -248,7 +248,7 @@ class _RegisterAccount extends State<RegisterAccount> {
                               Constants.buttonRed),
                           padding: MaterialStateProperty.all<EdgeInsets>(
                             const EdgeInsets.symmetric(
-                                vertical: 25.0, horizontal: 168),
+                                vertical: 20, horizontal: 75),
                           ),
                         ),
                       ),

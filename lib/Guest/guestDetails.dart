@@ -191,11 +191,11 @@ class GuestDetailsScreen extends StatelessWidget {
                       MaterialStateProperty.all<Color>(Constants.buttonRed),
                       padding: MaterialStateProperty.all<EdgeInsets>(
                           EdgeInsets.symmetric(
-                              vertical: 25.0, horizontal: 30.0)),
+                              vertical: 20.0, horizontal: 20.0)),
                     )),
                 Padding(
                   padding:
-                  EdgeInsets.symmetric(vertical: 60.0, horizontal: 20.0),
+                  EdgeInsets.symmetric(vertical: 60.0, horizontal: 10.0),
                 ),
                 ElevatedButton(
                   // Contact guest button
@@ -213,7 +213,7 @@ class GuestDetailsScreen extends StatelessWidget {
                     backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.white),
                     padding: MaterialStateProperty.all<EdgeInsets>(
-                        EdgeInsets.symmetric(vertical: 25.0, horizontal: 30.0)),
+                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0)),
                   ),
                 ),
               ],

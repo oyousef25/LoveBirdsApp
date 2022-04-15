@@ -283,7 +283,7 @@ class _CreateTask extends State<CreateTask> {
                           MaterialStateProperty.all<Color>(Constants.buttonRed),
                       padding: MaterialStateProperty.all<EdgeInsets>(
                           const EdgeInsets.symmetric(
-                              vertical: 25.0, horizontal: 150.0)),
+                              vertical: 20.0, horizontal: 100.0)),
                     ),
                   ),
                 ),

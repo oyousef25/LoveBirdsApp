@@ -172,7 +172,7 @@ class _Login extends State<Login> {
                               Constants.buttonRed),
                           padding: MaterialStateProperty.all<EdgeInsets>(
                             const EdgeInsets.symmetric(
-                                vertical: 25.0, horizontal: 202),
+                                vertical: 20.0, horizontal: 100),
                           ),
                         ),
                       ),
