@@ -214,7 +214,7 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
                                     Constants.buttonRed),
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                     EdgeInsets.symmetric(
-                                        vertical: 25.0, horizontal: 150.0)),
+                                        vertical: 20.0, horizontal: 50.0)),
                               )),
 
                           Constants.taskPadding,

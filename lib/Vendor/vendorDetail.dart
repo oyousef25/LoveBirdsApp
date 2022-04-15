@@ -253,7 +253,7 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                             Constants.buttonRed),
                         padding: MaterialStateProperty.all<EdgeInsets>(
                             EdgeInsets.symmetric(
-                                vertical: 25.0, horizontal: 120.0)),
+                                vertical: 20.0, horizontal: 50.0)),
                       )),
                 ),
               ],

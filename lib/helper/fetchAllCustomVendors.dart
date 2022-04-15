@@ -11,7 +11,7 @@ Future<List<CustomVendorInfo>> fetchAllCustomVendors() async {
   List<CustomVendorInfo> customVendorsList = [];
 
   // With the json data, convert it to a CustomVendorInfo and add it to our custom vendors list
-  for (var vendor in jsonData) {
+  for (var vendor in jsonData['data']) {
     CustomVendorInfo customVendor = CustomVendorInfo(
         id: vendor['id'],
         name: vendor['vendor_name'],

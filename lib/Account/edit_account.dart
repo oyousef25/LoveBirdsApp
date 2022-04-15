@@ -204,7 +204,7 @@ class _EditAccount extends State<EditAccount> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Constants.buttonRed),
                     padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.symmetric(vertical: 25.0, horizontal: 170),
+                      const EdgeInsets.symmetric(vertical: 20.0, horizontal: 70),
                     ),
                   ),
                 ),
