@@ -90,7 +90,7 @@ class _VendorScreenState extends State<VendorScreen> {
                                     placeholder: (context, url) =>
                                         const CircularProgressIndicator(),
                                     imageUrl:
-                                        '${snapshot.data[index].photos ? snapshot.data[index].photos[0] : ''}',
+                                        '${snapshot.data[index].photos}',
                                     // width: 120.0,
                                     height: 90.0,
                                   ),
@@ -112,7 +112,7 @@ class _VendorScreenState extends State<VendorScreen> {
                                           style: Constants.listTitleStyle),
                                       const Padding(
                                           padding: EdgeInsets.only(bottom: 9)),
-                                      Text(snapshot.data[index].rating,
+                                      Text('${snapshot.data[index].rating}',
                                           textAlign: TextAlign.left,
                                           style: Constants.listSubtitleStyle),
                                       const Padding(
