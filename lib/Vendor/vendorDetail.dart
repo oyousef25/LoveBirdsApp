@@ -70,7 +70,7 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                   title: Text(widget.vendorInfo.name,
                       textAlign: TextAlign.left,
                       style: Constants.bigListTitleStyle),
-                  subtitle: Text('${widget.vendorInfo.rating}',
+                  subtitle: Text('Rating: ${widget.vendorInfo.rating}',
                       textAlign: TextAlign.left,
                       style: Constants.bigListSubtitleStyle),
                   trailing: Icon(

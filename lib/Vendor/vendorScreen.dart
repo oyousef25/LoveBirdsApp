@@ -112,7 +112,7 @@ class _VendorScreenState extends State<VendorScreen> {
                                           style: Constants.listTitleStyle),
                                       const Padding(
                                           padding: EdgeInsets.only(bottom: 9)),
-                                      Text('${snapshot.data[index].rating}',
+                                      Text('Rating: ${snapshot.data[index].rating}',
                                           textAlign: TextAlign.left,
                                           style: Constants.listSubtitleStyle),
                                       const Padding(

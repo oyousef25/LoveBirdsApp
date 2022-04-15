@@ -13,16 +13,16 @@ Future<List<VendorInfo>> fetchAllVendors(String category) async {
       urlToParse += 'https://api.foursquare.com/v3/places/search?query=Club&fields=name%2Clocation%2Ctel%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
     case Constants.photoCategory:
-      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Photography&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
+      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Photo&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
     case Constants.gownCategory:
-      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Bridal%20Venue&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
+      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Boutique&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
     case Constants.floristCategory:
-      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Flower%20Store&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
+      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Florist&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
     case Constants.giftCategory:
-      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Wedding%20Gift%20Venue&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
+      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Wedding%20Gift&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
   }
 

@@ -147,7 +147,7 @@ class Constants {
   // Vendor Categories
   static const venueCategory = "Wedding Venue";
   static const photoCategory = "Photography";
-  static const gownCategory = "Bridal";
+  static const gownCategory = "Boutique";
   static const floristCategory = "Flower Store";
   static const giftCategory = "Wedding Gift";
 }
