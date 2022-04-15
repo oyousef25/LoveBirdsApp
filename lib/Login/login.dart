@@ -176,7 +176,7 @@ class _Login extends State<Login> {
                       // Contact guest button
                       onPressed: () {
                         // Register Account Functionality goes here
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             new MaterialPageRoute(
                                 builder: (context) => RegisterAccount()));

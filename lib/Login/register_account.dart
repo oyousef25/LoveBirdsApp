@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Network_Utils/api.dart';
 import '../main.dart';
+import 'login.dart';
 
 class RegisterAccount extends StatefulWidget {
   const RegisterAccount({Key? key}) : super(key: key);
@@ -242,7 +243,7 @@ class _RegisterAccount extends State<RegisterAccount> {
       Navigator.pushReplacement(
         context,
         new MaterialPageRoute(
-            builder: (context) => MainPage(title: 'LoveBirds')
+            builder: (context) => const Login()
         ),
       );
     }
