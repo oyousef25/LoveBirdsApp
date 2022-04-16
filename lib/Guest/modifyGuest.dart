@@ -9,8 +9,7 @@ import '../helper/GuestCRUD/fetchGuest.dart';
 import '../helper/GuestCRUD/updateGuest.dart';
 
 class ModifyGuestScreen extends StatefulWidget {
-  const ModifyGuestScreen(
-      {Key? key, required this.guestInfo})
+  const ModifyGuestScreen({Key? key, required this.guestInfo})
       : super(key: key);
 
   // Will be null if adding a guest
@@ -43,7 +42,8 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
     int guestId = widget.guestInfo?.id ?? 0;
     String guestFirstName = widget.guestInfo?.firstName ?? '';
     String guestLastName = widget.guestInfo?.lastName ?? '';
-    String guestRelationship = widget.guestInfo?.relationship ?? 'Other'; // Must be a valid relationship from database
+    String guestRelationship = widget.guestInfo?.relationship ??
+        'Other'; // Must be a valid relationship from database
     String guestEmail = widget.guestInfo?.email ?? '';
     String guestPhoneNum = widget.guestInfo?.phoneNum ?? '';
     int guestStatus = widget.guestInfo?.status ?? 1;
@@ -198,8 +198,9 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                                         iconSize: 50.0,
                                         value: guestRelationship,
                                         focusNode:
-                                        FocusNode(), // Hack to not focus dropdown after selection
-                                        icon: const Icon(Icons.arrow_drop_down_rounded),
+                                            FocusNode(), // Hack to not focus dropdown after selection
+                                        icon: const Icon(
+                                            Icons.arrow_drop_down_rounded),
                                         elevation: 16,
                                         style: Constants.formDropdownStyle,
                                         onChanged: (String? newValue) {
@@ -207,12 +208,15 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                                             guestRelationship = newValue!;
                                           });
                                         },
-                                        items: snapshot.data.keys.map<DropdownMenuItem<String>>((String value) {
+                                        items: snapshot.data.keys
+                                            .map<DropdownMenuItem<String>>(
+                                                (String value) {
                                           return DropdownMenuItem<String>(
                                             value: value,
                                             child: Text(
                                               value,
-                                              style: Constants.formDropdownStyle,
+                                              style:
+                                                  Constants.formDropdownStyle,
                                             ),
                                           );
                                         }).toList(),
@@ -317,15 +321,19 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                                       // Case where adding a guest
 
                                       setState(() {
-                                        if(guestRelationships[guestRelationship] != null) {
+                                        if (guestRelationships[
+                                                guestRelationship] !=
+                                            null) {
                                           // Add a guest to API
-                                          _futureGuest =
-                                              createGuest(1,
-                                                  guestFirstName,
-                                                  guestLastName,
-                                                  guestRelationships['${guestRelationship}']!,
-                                                  guestEmail,
-                                                  guestPhoneNum);
+                                          _futureGuest = createGuest(
+                                            1,
+                                            guestFirstName,
+                                            guestLastName,
+                                            guestRelationships[
+                                                '${guestRelationship}']!,
+                                            guestEmail,
+                                            guestPhoneNum,
+                                          );
 
                                           // Go back to previous page
                                           Navigator.pop(context);
@@ -334,20 +342,23 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                                     } else {
                                       // Case where editing a guest
                                       setState(() {
-                                        if(guestRelationships[guestRelationship] != null) {
+                                        if (guestRelationships[
+                                                guestRelationship] !=
+                                            null) {
                                           // Update a guest to API
-                                          _futureGuest =
-                                              updateGuest(
-                                                  guestId,
-                                                  1,
-                                                  guestFirstName,
-                                                  guestLastName,
-                                                  guestRelationships['${guestRelationship}']!,
-                                                  guestEmail,
-                                                  guestPhoneNum,
-                                                  guestStatus);
+                                          _futureGuest = updateGuest(
+                                              guestId,
+                                              1,
+                                              guestFirstName,
+                                              guestLastName,
+                                              guestRelationships[
+                                                  '${guestRelationship}']!,
+                                              guestEmail,
+                                              guestPhoneNum,
+                                              guestStatus);
 
                                           // Go back to previous page
+                                          Navigator.pop(context);
                                           Navigator.pop(context);
                                         }
                                       });
