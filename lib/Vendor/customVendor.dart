@@ -17,6 +17,7 @@ class CustomVendorScreen extends StatefulWidget {
 class _CustomVendorScreenState extends State<CustomVendorScreen> {
   late Future<List<CustomVendorInfo>> _futureCustomVendors;
 
+  // Reload the custom vendors page with new data
   refreshPage() {
     _futureCustomVendors = fetchAllCustomVendors();
     setState(() {});

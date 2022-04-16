@@ -123,7 +123,7 @@ class _MainPageState extends State<MainPage> {
     PlanningPage(),
 
     // TODO: Replace seeded List with API list of guests
-    // GuestsPage(guestList: List<GuestInfo>.generate(1000, (i) => GuestInfo('Guest', '$i', 'Hummus', 'email$i@ex.com', 'XXX-XXXX'))),
+    GuestsPage(),
     VendorsPage(
         vendorList: List<VendorInfo>.generate(50, (i) => VendorInfo('Hummus Wedding', 5.0, 'This vendor sells wedding hummus', false, '12pm-5pm', 'abc.com', '(890)123-4567', "Windsor, ON", '')),
     ),
