@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
-import 'package:lovebirds_app/helper/deleteCustomVendorInfo.dart';
+import 'package:lovebirds_app/helper/CustomVendor/deleteCustomVendorInfo.dart';
 
+import '../helper/CustomVendor/fetchCustomVendorInfo.dart';
 import '../helper/customVendorInfo.dart';
-import '../helper/fetchCustomVendorInfo.dart';
 import 'modifyVendor.dart';
 
 class CustomVendorDetailScreen extends StatefulWidget {

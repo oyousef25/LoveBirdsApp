@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/customVendorInfo.dart';
 
-import '../helper/fetchAllCustomVendors.dart';
+import '../helper/CustomVendor/fetchAllCustomVendors.dart';
 import 'customVendorDetail.dart';
 
 class CustomVendorScreen extends StatefulWidget {

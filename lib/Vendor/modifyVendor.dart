@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lovebirds_app/helper/constants.dart';
-import 'package:lovebirds_app/helper/createCustomVendorInfo.dart';
-import 'package:lovebirds_app/helper/fetchAllCustomVendors.dart';
-import 'package:lovebirds_app/helper/fetchCustomVendorInfo.dart';
-import 'package:lovebirds_app/helper/updateCustomVendorInfo.dart';
+import 'package:lovebirds_app/helper/CustomVendor/createCustomVendorInfo.dart';
+import 'package:lovebirds_app/helper/CustomVendor/updateCustomVendorInfo.dart';
 
+import '../helper/CustomVendor/fetchCustomVendorInfo.dart';
 import '../helper/customVendorInfo.dart';
 
 class ModifyVendorScreen extends StatefulWidget {
@@ -314,8 +313,8 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                                   padding:
                                       MaterialStateProperty.all<EdgeInsets>(
                                           EdgeInsets.symmetric(
-                                              vertical: 25.0,
-                                              horizontal: 150.0)),
+                                              vertical: 20.0,
+                                              horizontal: 100.0)),
                                 )),
                           ),
                         ),

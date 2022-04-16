@@ -26,7 +26,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
     // Populate the guest info text, if any
     GuestInfo? guestInfo = widget.guestInfo;
     GuestInfo guestInfoTextValue =
-    GuestInfo('', '', 'Hummus', '', ''); // Default
+    GuestInfo(id: -1, firstName: '', lastName: '', relationship: '', email: '', phoneNum: '', status: 1); // Default
     if (guestInfo != null) {
       // Make sure guest info exists
       guestInfoTextValue = guestInfo;

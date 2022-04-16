@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../helper/customVendorInfo.dart';
+import '../customVendorInfo.dart';
 
 /// Gets custom vendor list from API
 Future<List<CustomVendorInfo>> fetchAllCustomVendors() async {

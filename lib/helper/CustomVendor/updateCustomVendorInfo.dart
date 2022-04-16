@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'customVendorInfo.dart';
+import '../customVendorInfo.dart';
 import 'package:http/http.dart' as http;
 
 /// Updates a custom vendor to an API
