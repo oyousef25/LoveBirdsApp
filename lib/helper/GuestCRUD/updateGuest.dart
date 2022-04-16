@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 /// Updates a guest to an API
 Future<GuestInfo> updateGuest(int id, int userID, String firstName, String lastName,
-    String relationship, String email, String phoneNum, int status) async {
+    int relationship, String email, String phoneNum, int status) async {
   final response = await http.put(
     Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/guests/$id'),
     headers: <String, String>{ // Metadata

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 /// Posts a custom vendor to an API
 Future<GuestInfo> createGuest(int userID, String firstName, String lastName,
-    String relationship, String email, String phoneNum, int status) async {
+    int relationship, String email, String phoneNum) async {
   final response = await http.post(
     Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/guests'),
     headers: <String, String>{ // Metadata
@@ -16,8 +16,7 @@ Future<GuestInfo> createGuest(int userID, String firstName, String lastName,
       'last_name': lastName,
       'guest_relationship': relationship,
       'email_address': email,
-      'phone_number': phoneNum,
-      'status_id': status
+      'phone_number': phoneNum
     }),
   );
 

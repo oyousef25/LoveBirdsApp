@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lovebirds_app/helper/GuestCRUD/createGuest.dart';
 import 'package:lovebirds_app/helper/GuestCRUD/fetchAllRelationships.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/guestInfo.dart';
 
 import '../helper/GuestCRUD/fetchGuest.dart';
+import '../helper/GuestCRUD/updateGuest.dart';
 
 class ModifyGuestScreen extends StatefulWidget {
   const ModifyGuestScreen(
@@ -25,7 +27,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
   /// Form key for validation of guest form
   final GlobalKey<FormState> _guestFormKey = GlobalKey<FormState>();
   late Future<GuestInfo> _futureGuest;
-  late Future<List<String>> _futureRelationships;
+  late Future<Map<String, int>> _futureRelationships;
 
   @override
   void initState() {
@@ -44,7 +46,8 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
     String guestRelationship = widget.guestInfo?.relationship ?? 'Other'; // Must be a valid relationship from database
     String guestEmail = widget.guestInfo?.email ?? '';
     String guestPhoneNum = widget.guestInfo?.phoneNum ?? '';
-    int guestStatus = widget.guestInfo?.status ?? -1;
+    int guestStatus = widget.guestInfo?.status ?? 1;
+    Map<String, int> guestRelationships = Map<String, int>();
 
     return Scaffold(
       appBar: AppBar(
@@ -89,6 +92,9 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           child: TextFormField(
                             initialValue: guestFirstName,
+                            onSaved: (String? value) {
+                              guestFirstName = value ?? '';
+                            },
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
@@ -126,6 +132,9 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           child: TextFormField(
                             initialValue: guestLastName,
+                            onSaved: (String? value) {
+                              guestLastName = value ?? '';
+                            },
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
@@ -162,15 +171,15 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                             elevation: 3.0,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(5.0)),
-                            child: FutureBuilder<List<String>>(
+                            child: FutureBuilder<Map<String, int>>(
                                 future: _futureRelationships,
                                 builder: (context, AsyncSnapshot snapshot) {
                                   // If the connection is done,
                                   // check for response data or an error.
                                   if (snapshot.connectionState ==
                                       ConnectionState.done) {
-                                    if (snapshot.hasData ||
-                                        snapshot.hasError) {
+                                    if (snapshot.hasData) {
+                                      guestRelationships = snapshot.data;
                                       // User can pick the relationship type from the list
                                       return DropdownButtonFormField<String>(
                                         decoration: const InputDecoration(
@@ -198,7 +207,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                                             guestRelationship = newValue!;
                                           });
                                         },
-                                        items: snapshot.data.map<DropdownMenuItem<String>>((String value) {
+                                        items: snapshot.data.keys.map<DropdownMenuItem<String>>((String value) {
                                           return DropdownMenuItem<String>(
                                             value: value,
                                             child: Text(
@@ -232,6 +241,9 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           child: TextFormField(
                             initialValue: guestEmail,
+                            onSaved: (String? value) {
+                              guestEmail = value ?? '';
+                            },
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
@@ -269,6 +281,9 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           child: TextFormField(
                             initialValue: guestPhoneNum,
+                            onSaved: (String? value) {
+                              guestPhoneNum = value ?? '';
+                            },
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
@@ -295,13 +310,47 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                                   // Validate will return true if the form is valid, or false if
                                   // the form is invalid.
                                   if (_guestFormKey.currentState!.validate()) {
+                                    _guestFormKey.currentState!
+                                        .save(); // Save all form field items
                                     // Process data.
                                     if (widget.guestInfo == null) {
                                       // Case where adding a guest
-                                      // TODO: Add a guest
+
+                                      setState(() {
+                                        if(guestRelationships[guestRelationship] != null) {
+                                          // Add a guest to API
+                                          _futureGuest =
+                                              createGuest(1,
+                                                  guestFirstName,
+                                                  guestLastName,
+                                                  guestRelationships['${guestRelationship}']!,
+                                                  guestEmail,
+                                                  guestPhoneNum);
+
+                                          // Go back to previous page
+                                          Navigator.pop(context);
+                                        }
+                                      });
                                     } else {
                                       // Case where editing a guest
-                                      // TODO: Edit a guest's info
+                                      setState(() {
+                                        if(guestRelationships[guestRelationship] != null) {
+                                          // Update a guest to API
+                                          _futureGuest =
+                                              updateGuest(
+                                                  guestId,
+                                                  1,
+                                                  guestFirstName,
+                                                  guestLastName,
+                                                  guestRelationships['${guestRelationship}']!,
+                                                  guestEmail,
+                                                  guestPhoneNum,
+                                                  guestStatus);
+
+                                          // Go back to previous page
+                                          Navigator.pop(context);
+                                        }
+                                      });
                                     }
                                   }
                                 },
