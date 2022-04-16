@@ -28,7 +28,8 @@ Future<List<GuestInfo>> fetchAllGuests() async {
         relationship: relationshipMap[guest['guest_relationship']] ?? 'Other',
         email: guest['email_address'],
         phoneNum: guest['phone_number'],
-        status: guest['status_id']);
+        status: guest['status_id'],
+    );
     customGuestsList.add(customGuest);
   }
 

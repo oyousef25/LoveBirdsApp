@@ -11,7 +11,7 @@ class ModifyVendorScreen extends StatefulWidget {
   const ModifyVendorScreen({Key? key, required this.customVendor})
       : super(key: key);
 
-  // Will be null if adding a guest
+  // Will be null if adding a custom vendor
   // Otherwise it will contain the custom vendor info to edit.
   final CustomVendorInfo? customVendor;
 

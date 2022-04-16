@@ -12,8 +12,9 @@ class GuestInfo {
       required this.lastName, required this.relationship,
       required this.email, required this.phoneNum, required this.status});
 
-  // Create a custom vendor info from json data
+  // Create a guest info from json data
   factory GuestInfo.fromJson(Map<String, dynamic> json) {
+
     return GuestInfo(
         id: json['id'],
         firstName: json['first_name'],
@@ -21,7 +22,7 @@ class GuestInfo {
         relationship: json['guest_relationship'],
         email: json['email_address'],
         phoneNum: json['phone_number'],
-        status: json['status_id']
+        status: json['status_id'],
     );
   }
 }
