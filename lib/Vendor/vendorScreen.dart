@@ -126,11 +126,8 @@ class _VendorScreenState extends State<VendorScreen> {
                                   ),
                                 ),
 
-                                // Icon containing saved vendor indicator
-                                Icon(
-                                  snapshot.data[index].saved
-                                      ? Icons.favorite
-                                      : Icons.favorite_border_rounded,
+                                // Icon containing unsaved vendor indicator
+                                Icon(Icons.favorite_border_rounded,
                                   color: Constants.lightPrimary,
                                 ),
 

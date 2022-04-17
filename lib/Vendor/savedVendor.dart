@@ -1,12 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lovebirds_app/Vendor/vendorDetail.dart';
+import 'package:lovebirds_app/Vendor/savedVendorDetail.dart';
 import 'package:lovebirds_app/helper/savedVendorInfo.dart';
 
 import '../helper/SavedVendor/fetchAllSavedVendors.dart';
 import '../helper/constants.dart';
-import '../helper/vendorInfo.dart';
 
 class SavedVendorScreen extends StatefulWidget {
   // In the constructor, require a saved vendors list.
@@ -59,8 +58,8 @@ class _SavedVendorScreenState extends State<SavedVendorScreen> {
                       onTap: () {
                         // Go to Vendor Details page
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => VendorDetailScreen(
-                            vendorInfo: snapshot.data[index],
+                          builder: (context) => SavedVendorDetailScreen(
+                            savedVendorInfo: snapshot.data[index],
                           ),
                         ));
                       },
