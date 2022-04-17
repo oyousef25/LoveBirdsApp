@@ -14,7 +14,7 @@ Future<List<SavedVendorInfo>> fetchAllSavedVendors() async {
   for (var vendor in jsonData['data']) {
     SavedVendorInfo savedVendor = SavedVendorInfo(
         id: vendor['id'],
-        name: vendor['vendor_name'],
+        name: vendor['vendor_title'],
         description: vendor['vendor_description'],
         rating: vendor['vendor_rating'],
         website: vendor['vendor_website'],

@@ -65,9 +65,7 @@ class _VendorsPageState extends State<VendorsPage>
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 90.0),
-                    child: SavedVendorScreen(
-                      savedVendors: widget.vendorList,
-                    ),
+                    child: SavedVendorScreen(),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 90.0),

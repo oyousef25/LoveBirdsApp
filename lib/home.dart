@@ -483,9 +483,7 @@ class _HomePageState extends State<HomePage> {
                   // List of recently saved vendors
                   SizedBox(
                     height: 350,
-                    child: SavedVendorScreen(
-                      savedVendors: recentlySavedVendors,
-                    ),
+                    child: SavedVendorScreen(),
                   )
                 ],
               ),
