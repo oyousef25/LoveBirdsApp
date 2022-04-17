@@ -42,8 +42,7 @@ Future<List<VendorInfo>> fetchAllVendors(String category) async {
     // Build out the first photo link if it exists
     List allPhotos = vendor['photos'];
     String firstPhoto = 'https://cdn.pixabay.com/photo/2020/02/20/17/57/flower-4865379_960_720.png'; // Set a default image in case there are no photos
-    if(allPhotos.isNotEmpty) {
-      print('notempty');
+    if(allPhotos.isNotEmpty) { // Make sure there is at least one photo
       firstPhoto = allPhotos[0]['prefix']! + 'original' + allPhotos[0]['suffix']!;
     }
 

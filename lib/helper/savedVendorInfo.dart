@@ -18,13 +18,13 @@ class SavedVendorInfo {
   factory SavedVendorInfo.fromJson(Map<String, dynamic> json) {
     return SavedVendorInfo(
         id: json['id'],
-        name: json['name'],
-        description: json['description'],
-        rating: json['rating'],
-        website: json['website'],
-        location: json['location'],
-        phoneNum: json['phoneNum'],
-        image: json['image']
+        name: json['vendor_title'],
+        description: json['vendor_description'],
+        rating: json['vendor_rating'],
+        website: json['vendor_website'],
+        location: json['vendor_location'],
+        phoneNum: json['vendor_phone'],
+        image: json['vendor_image']
     );
   }
 }

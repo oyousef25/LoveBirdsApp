@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:lovebirds_app/helper/savedVendorInfo.dart';
 
 /// Delete a custom vendor to an API
-Future<SavedVendorInfo> deleteSavedVendorInfo(int id) async {
+Future<SavedVendorInfo> deleteSavedVendor(int id) async {
   final response = await http.delete(
     Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/saved-vendors/$id'),
     headers: <String, String>{ // Metadata
