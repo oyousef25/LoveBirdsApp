@@ -143,6 +143,7 @@ class Constants {
   static const minPasswordLength = 6;
   static const maxPasswordLength = 100;
   static const maxEmailLength = 100;
+  static const maxDescriptionLength = 255;
 
   // Vendor Categories
   static const venueCategory = "Wedding Venue";

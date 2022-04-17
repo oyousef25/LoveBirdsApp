@@ -129,6 +129,11 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: ElevatedButton(
                       onPressed: () {
+                        String limitedDescription = '';
+                        if(widget.vendorInfo.description.length > Constants.maxDescriptionLength) {
+                          // limitedDescription
+                        }
+
                         // Save a vendor
                         _futureSavedVendor = createSavedVendorInfo(
                             widget.vendorInfo.name,
