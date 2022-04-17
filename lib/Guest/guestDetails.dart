@@ -9,11 +9,12 @@ import 'modifyGuest.dart';
 
 class GuestDetailsScreen extends StatefulWidget {
   // In the constructor, require a GuestInfo.
-  const GuestDetailsScreen({Key? key, required this.guestInfo})
+  const GuestDetailsScreen({Key? key, required this.guestInfo, required this.guestRelationships})
       : super(key: key);
 
-  // Declare a field that holds the GuestInfo.
+  // Declare a field that holds the GuestInfo and relationships.
   final GuestInfo guestInfo;
+  final Map<int, String> guestRelationships;
 
   @override
   State createState() {
@@ -32,6 +33,8 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String guestRelationshipValue = widget.guestRelationships[widget.guestInfo.relationship]!;
+
     // Use the GuestInfo to create the UI.
     return Scaffold(
       appBar: AppBar(
@@ -81,6 +84,7 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
                                           .push(MaterialPageRoute(
                                         builder: (context) => ModifyGuestScreen(
                                           guestInfo: widget.guestInfo,
+                                          guestRelationships: widget.guestRelationships,
                                         ),
                                       ));
                                     },
@@ -99,7 +103,7 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
                             ListTile(
                               leading: Text('Relationship',
                                   style: Constants.detailGreyedStyle),
-                              trailing: Text(widget.guestInfo.relationship,
+                              trailing: Text(guestRelationshipValue,
                                   style: Constants.detailStyle),
                             ),
                             ListTile(

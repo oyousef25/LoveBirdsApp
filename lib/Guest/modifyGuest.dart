@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/GuestCRUD/createGuest.dart';
-import 'package:lovebirds_app/helper/GuestCRUD/fetchAllRelationships.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/guestInfo.dart';
 
@@ -9,12 +8,14 @@ import '../helper/GuestCRUD/fetchGuest.dart';
 import '../helper/GuestCRUD/updateGuest.dart';
 
 class ModifyGuestScreen extends StatefulWidget {
-  const ModifyGuestScreen({Key? key, required this.guestInfo})
+  const ModifyGuestScreen(
+      {Key? key, required this.guestInfo, required this.guestRelationships})
       : super(key: key);
 
   // Will be null if adding a guest
   // Otherwise it will contain the guest info to edit.
   final GuestInfo? guestInfo;
+  final Map<int, String> guestRelationships; // Guest relationship map
 
   @override
   State<StatefulWidget> createState() {
@@ -26,14 +27,12 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
   /// Form key for validation of guest form
   final GlobalKey<FormState> _guestFormKey = GlobalKey<FormState>();
   late Future<GuestInfo> _futureGuest;
-  late Future<Map<String, int>> _futureRelationships;
 
   @override
   void initState() {
     super.initState();
     // Get the guest
     _futureGuest = fetchGuest(widget.guestInfo?.id ?? -1);
-    _futureRelationships = fetchAllRelationships();
   }
 
   @override
@@ -42,12 +41,12 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
     int guestId = widget.guestInfo?.id ?? 0;
     String guestFirstName = widget.guestInfo?.firstName ?? '';
     String guestLastName = widget.guestInfo?.lastName ?? '';
-    String guestRelationship = widget.guestInfo?.relationship ??
-        'Other'; // Must be a valid relationship from database
+    int guestRelationship = widget.guestInfo?.relationship ??
+        widget.guestRelationships.keys.first;
+    String guestRelationshipValue = widget.guestRelationships.values.first;
     String guestEmail = widget.guestInfo?.email ?? '';
     String guestPhoneNum = widget.guestInfo?.phoneNum ?? '';
     int guestStatus = widget.guestInfo?.status ?? 1;
-    Map<String, int> guestRelationships = Map<String, int>();
 
     return Scaffold(
       appBar: AppBar(
@@ -167,65 +166,47 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
 
                         /// Guest's relationship
                         Material(
-                            shadowColor: Colors.grey,
-                            elevation: 3.0,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
-                            child: FutureBuilder<Map<String, int>>(
-                                future: _futureRelationships,
-                                builder: (context, AsyncSnapshot snapshot) {
-                                  // If the connection is done,
-                                  // check for response data or an error.
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.done) {
-                                    if (snapshot.hasData) {
-                                      guestRelationships = snapshot.data;
-                                      // User can pick the relationship type from the list
-                                      return DropdownButtonFormField<String>(
-                                        decoration: const InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide.none,
-                                          ),
-                                          fillColor: Colors.white,
-                                          filled: true,
-                                          isDense: true,
-                                          contentPadding: EdgeInsets.only(
-                                              left: 12.0,
-                                              top: 12.0,
-                                              right: 12.0,
-                                              bottom: 2.0),
-                                        ),
-                                        iconSize: 50.0,
-                                        value: guestRelationship,
-                                        focusNode:
-                                            FocusNode(), // Hack to not focus dropdown after selection
-                                        icon: const Icon(
-                                            Icons.arrow_drop_down_rounded),
-                                        elevation: 16,
-                                        style: Constants.formDropdownStyle,
-                                        onChanged: (String? newValue) {
-                                          setState(() {
-                                            guestRelationship = newValue!;
-                                          });
-                                        },
-                                        items: snapshot.data.keys
-                                            .map<DropdownMenuItem<String>>(
-                                                (String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(
-                                              value,
-                                              style:
-                                                  Constants.formDropdownStyle,
-                                            ),
-                                          );
-                                        }).toList(),
-                                      );
-                                    }
-                                  }
-                                  // Loading...
-                                  return const CircularProgressIndicator();
-                                })),
+                          shadowColor: Colors.grey,
+                          elevation: 3.0,
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                          child: DropdownButtonFormField<String>(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                              fillColor: Colors.white,
+                              filled: true,
+                              isDense: true,
+                              contentPadding: EdgeInsets.only(
+                                  left: 12.0,
+                                  top: 12.0,
+                                  right: 12.0,
+                                  bottom: 2.0),
+                            ),
+                            iconSize: 50.0,
+                            value: guestRelationshipValue,
+                            focusNode:
+                                FocusNode(), // Hack to not focus dropdown after selection
+                            icon: const Icon(Icons.arrow_drop_down_rounded),
+                            elevation: 16,
+                            style: Constants.formDropdownStyle,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                guestRelationshipValue = newValue!;
+                              });
+                            },
+                            items: widget.guestRelationships.values
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: Constants.formDropdownStyle,
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
 
                         Constants.sectionPadding,
 
@@ -321,46 +302,36 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                                       // Case where adding a guest
 
                                       setState(() {
-                                        if (guestRelationships[
-                                                guestRelationship] !=
-                                            null) {
-                                          // Add a guest to API
-                                          _futureGuest = createGuest(
-                                            1,
-                                            guestFirstName,
-                                            guestLastName,
-                                            guestRelationships[
-                                                '${guestRelationship}']!,
-                                            guestEmail,
-                                            guestPhoneNum,
-                                          );
+                                        // Add a guest to API
+                                        _futureGuest = createGuest(
+                                          1,
+                                          guestFirstName,
+                                          guestLastName,
+                                          guestRelationship,
+                                          guestEmail,
+                                          guestPhoneNum,
+                                        );
 
-                                          // Go back to previous page
-                                          Navigator.pop(context);
-                                        }
+                                        // Go back to previous page
+                                        Navigator.pop(context);
                                       });
                                     } else {
                                       // Case where editing a guest
                                       setState(() {
-                                        if (guestRelationships[
-                                                guestRelationship] !=
-                                            null) {
-                                          // Update a guest to API
-                                          _futureGuest = updateGuest(
-                                              guestId,
-                                              1,
-                                              guestFirstName,
-                                              guestLastName,
-                                              guestRelationships[
-                                                  '${guestRelationship}']!,
-                                              guestEmail,
-                                              guestPhoneNum,
-                                              guestStatus);
+                                        // Update a guest to API
+                                        _futureGuest = updateGuest(
+                                            guestId,
+                                            1,
+                                            guestFirstName,
+                                            guestLastName,
+                                            guestRelationship,
+                                            guestEmail,
+                                            guestPhoneNum,
+                                            guestStatus);
 
-                                          // Go back to previous page
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                        }
+                                        // Go back to previous page
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
                                       });
                                     }
                                   }

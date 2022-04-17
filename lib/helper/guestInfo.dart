@@ -3,7 +3,7 @@ class GuestInfo {
   final int id;
   final String firstName;
   final String lastName;
-  final String relationship;
+  final int relationship;
   final String email;
   final String phoneNum;
   final int status;

@@ -10,22 +10,13 @@ Future<List<GuestInfo>> fetchAllGuests() async {
   var jsonData = jsonDecode(response.body);
   List<GuestInfo> customGuestsList = [];
 
-  // Create the relationship map
-  List<int> relationshipIds = [];
-  List<String> relationshipTypes = [];
-  for (var relationship in jsonData['relationships']) {
-    relationshipIds.add(relationship['id']);
-    relationshipTypes.add(relationship['relationship_value']);
-  }
-  var relationshipMap = Map<int, String>.fromIterables(relationshipIds, relationshipTypes);
-
   // With the json data, convert it to a GuestInfo and add it to our guest list
   for (var guest in jsonData['guests']['data']) {
     GuestInfo customGuest = GuestInfo(
         id: guest['id'],
         firstName: guest['first_name'],
         lastName: guest['last_name'],
-        relationship: relationshipMap[guest['guest_relationship']] ?? 'Other',
+        relationship: guest['guest_relationship'],
         email: guest['email_address'],
         phoneNum: guest['phone_number'],
         status: guest['status_id'],
