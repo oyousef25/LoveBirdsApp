@@ -252,7 +252,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
                                 return 'E-mail cannot be empty';
-                              } else if (!Constants.emailRegex.hasMatch(guestEmail)) {
+                              } else if (!Constants.emailRegex.hasMatch(value)) {
                                 return 'Please enter a valid email';
                               } else if (guestEmail.length >=
                                   Constants.maxEmailLength) {
