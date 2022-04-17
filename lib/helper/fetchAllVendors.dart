@@ -13,16 +13,16 @@ Future<List<VendorInfo>> fetchAllVendors(String category) async {
       urlToParse += 'https://api.foursquare.com/v3/places/search?query=Club&fields=name%2Clocation%2Ctel%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
     case Constants.photoCategory:
-      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Photography&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
+      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Photo&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
     case Constants.gownCategory:
-      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Bridal%20Venue&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
+      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Boutique&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
     case Constants.floristCategory:
-      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Flower%20Store&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
+      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Florist&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
     case Constants.giftCategory:
-      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Wedding%20Gift%20Venue&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
+      urlToParse += 'https://api.foursquare.com/v3/places/search?query=Wedding%20Gift&fields=name%2Clocation%2Cdescription%2Cwebsite%2Crating%2Cphotos&near=Windsor%2C%20ON';
       break;
   }
 
@@ -42,8 +42,7 @@ Future<List<VendorInfo>> fetchAllVendors(String category) async {
     // Build out the first photo link if it exists
     List allPhotos = vendor['photos'];
     String firstPhoto = 'https://cdn.pixabay.com/photo/2020/02/20/17/57/flower-4865379_960_720.png'; // Set a default image in case there are no photos
-    if(allPhotos.isNotEmpty) {
-      print('notempty');
+    if(allPhotos.isNotEmpty) { // Make sure there is at least one photo
       firstPhoto = allPhotos[0]['prefix']! + 'original' + allPhotos[0]['suffix']!;
     }
 
@@ -51,12 +50,11 @@ Future<List<VendorInfo>> fetchAllVendors(String category) async {
         vendor['name'] ?? 'Name N/A',
         vendor['rating'] ?? 0.0,
         vendor['description'] ?? 'Description N/A',
-        true,
-        'deprecate hours',
         vendor['website'] ?? 'Website N/A',
         vendor['tel'] ?? 'Contact # N/A',
         vendor['location']['address'] ?? 'Location N/A',
-        firstPhoto
+        firstPhoto,
+        1
     );
     vendorsList.add(currentVendor);
   }

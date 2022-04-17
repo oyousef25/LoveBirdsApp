@@ -9,11 +9,8 @@ import 'Vendor/savedVendor.dart';
 
 class VendorsPage extends StatefulWidget {
   const VendorsPage(
-      {Key? key, required this.vendorList})
+      {Key? key})
       : super(key: key); // Vendors page key identifier
-
-  // Require vendor data to be passed into this Widget
-  final List<VendorInfo> vendorList;
 
   /// Creates a state
   ///
@@ -59,15 +56,11 @@ class _VendorsPageState extends State<VendorsPage>
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(top: 90.0),
-                    child: VendorCategoriesScreen(
-                      vendorList: widget.vendorList,
-                    ),
+                    child: VendorCategoriesScreen(),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 90.0),
-                    child: SavedVendorScreen(
-                      savedVendors: widget.vendorList,
-                    ),
+                    child: SavedVendorScreen(),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 90.0),
