@@ -118,7 +118,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedPage = 0; // Current selected page index of the bottom nav
   static List<Widget> _widgetOptions = <Widget>[
-    HomePage(vendorList: List<VendorInfo>.generate(50, (i) => VendorInfo('Hummus Wedding', 5.0, 'This vendor sells wedding hummus', 'abc.com', '(890)123-4567', "Windsor, ON", ''))),
+    HomePage(vendorList: List<VendorInfo>.generate(50, (i) => VendorInfo('Hummus Wedding', 5.0, 'This vendor sells wedding hummus', 'abc.com', '(890)123-4567', "Windsor, ON", '', 1))),
     PlanningPage(),
     GuestsPage(),
     VendorsPage(),

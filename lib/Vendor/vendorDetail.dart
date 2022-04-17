@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lovebirds_app/helper/SavedVendor/createSavedVendor.dart';
+import 'package:lovebirds_app/helper/savedVendorInfo.dart';
 
 import '../helper/constants.dart';
 import '../helper/vendorInfo.dart';
@@ -20,6 +22,8 @@ class VendorDetailScreen extends StatefulWidget {
 }
 
 class _VendorDetailScreenState extends State<VendorDetailScreen> {
+  Future<SavedVendorInfo>? _futureSavedVendor;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +63,7 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                   width: double.infinity, // Stretch width as much as possible
                 ),
                 ListTile(
-                  // Vendor name, rating, saved or not saved
+                  // Vendor name, rating, save indicator
                   title: Text(widget.vendorInfo.name,
                       textAlign: TextAlign.left,
                       style: Constants.bigListTitleStyle),
@@ -125,7 +129,16 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: ElevatedButton(
                       onPressed: () {
-                        // TODO: Save a vendor
+                        // Save a vendor
+                        _futureSavedVendor = createSavedVendorInfo(
+                            widget.vendorInfo.name,
+                            widget.vendorInfo.description,
+                            '${widget.vendorInfo.rating}',
+                            widget.vendorInfo.website,
+                            widget.vendorInfo.location,
+                            widget.vendorInfo.phoneNum,
+                            widget.vendorInfo.photos,
+                            widget.vendorInfo.userID);
                       },
                       child:
                           Text('Save Vendor', style: Constants.buttonRedStyle),

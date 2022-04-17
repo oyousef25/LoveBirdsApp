@@ -7,6 +7,7 @@ class VendorInfo {
   final String phoneNum;
   final String location;
   final String photos;
+  final int userID;
 
-  VendorInfo(this.name, this.rating, this.description, this.website, this.phoneNum, this.location, this.photos);
+  VendorInfo(this.name, this.rating, this.description, this.website, this.phoneNum, this.location, this.photos, this.userID);
 }
