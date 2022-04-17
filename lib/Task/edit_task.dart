@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
+import '../helper/Task.dart';
+
 class EditTask extends StatefulWidget {
-  const EditTask({Key? key, required this.dataMap, required this.task, required this.dueDate,
-    required this.description, required this.spouse, required this.cost}) : super(key: key);
+  const EditTask({Key? key, required this.dataMap, required this.task}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -11,11 +12,7 @@ class EditTask extends StatefulWidget {
   }
 
   final Map<String, double>? dataMap;
-  final String task;
-  final String dueDate;
-  final String description;
-  final int spouse;
-  final String cost;
+  final Task? task;
 }
 
 class _EditTask extends State<EditTask> {
@@ -23,9 +20,25 @@ class _EditTask extends State<EditTask> {
   int? _selectedIndex = 0; // Index of selected chip
   final List<String> _chips = ['Me', 'Partner']; // List of chip options
 
+  final GlobalKey<FormState> _taskFormKey = GlobalKey<FormState>();
+  Future<Task>? _futureTask;
+
+  @override
+  void initState() {
+    super.initState();
+    _futureTask = Task.fetchTask(widget.task?.id ?? -1);
+  }
+
   @override
   Widget build(BuildContext context) {
     String category = widget.dataMap?.keys.elementAt(0) ?? "none";
+    int id = widget.task?.id  ?? 0;
+    String task = widget.task?.task ?? '';
+    String dueDate = widget.task?.dueDate ?? '';
+    String description = widget.task?.description ?? '';
+    int spouse = widget.task?.spouse ?? 0;
+    String cost = widget.task?.cost ?? '';
+
 
     return Scaffold(
       appBar: AppBar(
@@ -43,6 +56,8 @@ class _EditTask extends State<EditTask> {
           child: Container(
             margin:
                 const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+            child: Form (
+              key: _taskFormKey,
             //column which contains all form elements
             child: Column(
               //aligning to the left
@@ -64,11 +79,26 @@ class _EditTask extends State<EditTask> {
                   elevation: Constants.elevation,
                   color: Colors.white,
                   child: TextFormField(
-                    initialValue: widget.task,
+                    initialValue: task,
+
                     decoration: InputDecoration(
                         floatingLabelBehavior: Constants.floatingLabelBehaviour,
                         border: Constants.outlineInputBorder,
                         fillColor: Colors.white),
+
+                    onSaved: (String? value) {
+                      task = value ?? '';
+                    },
+
+                    validator: (String? value) {
+                      // Vendor name validation code
+                      if (value == null || value.isEmpty) {
+                        return 'Task Name cannot be empty';
+                      } else if (value.length > Constants.maxTextFieldLength) {
+                        return 'Max ${Constants.maxTextFieldLength} characters allowed';
+                      }
+                      return null;
+                    },
                   ),
                 ),
 
@@ -88,7 +118,8 @@ class _EditTask extends State<EditTask> {
                   elevation: Constants.elevation,
                   color: Colors.white,
                   child: TextFormField(
-                    initialValue: widget.dueDate,
+                    initialValue: dueDate,
+
                     decoration: InputDecoration(
                         //calendar functionality goes here
                         suffixIcon: IconButton(
@@ -99,6 +130,18 @@ class _EditTask extends State<EditTask> {
                         floatingLabelBehavior: Constants.floatingLabelBehaviour,
                         border: Constants.outlineInputBorder,
                         fillColor: Colors.white),
+
+                    onSaved: (String? value) {
+                      dueDate = value ?? '';
+                    },
+
+                    validator: (String? value) {
+                      // Phone number validation
+                      if (value == null || value.isEmpty) {
+                        return 'due date cannot be empty';
+                      }
+                      return null;
+                    },
                   ),
                 ),
 
@@ -118,7 +161,8 @@ class _EditTask extends State<EditTask> {
                   elevation: Constants.elevation,
                   color: Colors.white,
                   child: TextFormField(
-                    initialValue: widget.description,
+                    initialValue: description,
+
                     decoration: InputDecoration(
                         floatingLabelBehavior: Constants.floatingLabelBehaviour,
                         border: Constants.outlineInputBorder,
@@ -126,6 +170,10 @@ class _EditTask extends State<EditTask> {
                     minLines: 1,
                     maxLines: 3,
                     maxLength: 255,
+
+                    onSaved: (String? value) {
+                      description = value ?? '';
+                    },
                   ),
                 ),
 
@@ -246,12 +294,17 @@ class _EditTask extends State<EditTask> {
                         elevation: Constants.elevation,
                         color: Colors.white,
                         child: TextFormField(
-                          initialValue: widget.cost,
+                          initialValue: cost,
+
                           decoration: InputDecoration(
                               floatingLabelBehavior:
                                   Constants.floatingLabelBehaviour,
                               border: Constants.outlineInputBorder,
                               fillColor: Colors.white),
+
+                          onSaved: (String? value) {
+                            cost = value ?? '';
+                          },
                         ),
                       ),
                     ),
@@ -276,10 +329,51 @@ class _EditTask extends State<EditTask> {
                 //Create Button
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
-                      print("Information has been saved");
-                      Navigator.pop(context);
-                    },
+                      onPressed: () {
+                        // Validate will return true if the form is valid, or false if
+                        // the form is invalid.
+                        if (_taskFormKey.currentState!.validate()) {
+                          _taskFormKey.currentState!
+                              .save(); // Save all the form field items
+                          // Process data.
+                          if (widget.task == null) {
+                            // Case where adding a task
+                            setState(() {
+                              // Add a task to API
+                              _futureTask =
+                                  Task.createTask(
+                                      task,
+                                      dueDate,
+                                      description,
+                                      1,
+                                      cost,
+                                      1);
+
+                              // Go back to previous page
+                              Navigator.pop(context);
+                            });
+
+                          } else {
+                            // Case where editing a task
+                            setState(() {
+                              // Update task to API
+                              _futureTask =
+                                  Task.updateTask(
+                                      id,
+                                      task,
+                                      dueDate,
+                                      description,
+                                      1,
+                                      cost,
+                                      1);
+
+                              // Go back to previous page
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            });
+                          }
+                        }
+                      },
                     child: const Text("Save", style: Constants.buttonRedStyle),
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -296,6 +390,7 @@ class _EditTask extends State<EditTask> {
                   ),
                 ),
               ],
+            ),
             ),
           ),
         ),

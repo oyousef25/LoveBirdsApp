@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
+import '../helper/Task.dart';
 import 'edit_task.dart';
 
 class ViewTask extends StatefulWidget {
-  const ViewTask({Key? key, required this.task, required this.dueDate,
-    required this.description, required this.spouse, required this.cost
-    }) : super(key: key);
+  const ViewTask({Key? key, required this.task }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     return _ViewTask();
   }
 
-  final String task;
-  final String dueDate;
-  final String description;
-  final int spouse;
-  final String cost;
+  final Task task;
 }
 
 class _ViewTask extends State<ViewTask> {
@@ -71,7 +66,7 @@ class _ViewTask extends State<ViewTask> {
                           onPressed: () {
                             // Jump to edit screen
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => EditTask(dataMap: dataMap, task: widget.task, dueDate: widget.dueDate, description: widget.description, spouse: widget.spouse, cost: widget.cost),
+                              builder: (context) => EditTask(dataMap: dataMap, task: widget.task),
                             ));
                           },
                           icon: const Icon(Icons.edit),
@@ -82,14 +77,14 @@ class _ViewTask extends State<ViewTask> {
                   Constants.sectionPadding,
                   const Text("Task", style: Constants.taskHeading),
                   Constants.formPadding,
-                  Text(widget.task,
+                  Text(widget.task.task,
                       style: Constants.cardContentStyle),
                   Constants.taskPadding,
 
                   //Due Date of Task
                   const Text("Due Date", style: Constants.taskHeading),
                   Constants.formPadding,
-                  Text(widget.dueDate,
+                  Text(widget.task.dueDate,
                       style: Constants.cardContentStyle),
                   Constants.taskPadding,
 
@@ -99,7 +94,7 @@ class _ViewTask extends State<ViewTask> {
                   Container(
                     padding: const EdgeInsets.only(left: 40, right: 40),
                     child: Text(
-                      widget.description,
+                      widget.task.description,
                       style: Constants.cardContentStyle,
                       textAlign: TextAlign.center,
                     ),
@@ -125,7 +120,7 @@ class _ViewTask extends State<ViewTask> {
                   //Cost
                   const Text("Cost", style: Constants.taskHeading),
                   Constants.formPadding,
-                  Text("\$" + widget.cost, style: Constants.cardContentStyle),
+                  Text("\$" + widget.task.cost, style: Constants.cardContentStyle),
                   Constants.taskPadding,
 
                   ElevatedButton(

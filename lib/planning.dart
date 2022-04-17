@@ -226,7 +226,7 @@ class _PlanningPageState extends State<PlanningPage> {
                           onTap: () {
                             // Open up the View Task route
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ViewTask(task: snapshot.data[index].task, dueDate: snapshot.data[index].dueDate, description: snapshot.data[index].description, spouse: snapshot.data[index].spouse, cost: snapshot.data[index].cost )));
+                                builder: (context) => ViewTask(task: snapshot.data[index])));
                           },
 
                           child: Card(
