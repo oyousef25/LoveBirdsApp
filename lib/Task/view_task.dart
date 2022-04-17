@@ -71,7 +71,7 @@ class _ViewTask extends State<ViewTask> {
                           onPressed: () {
                             // Jump to edit screen
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => EditTask(dataMap: dataMap),
+                              builder: (context) => EditTask(dataMap: dataMap, task: widget.task, dueDate: widget.dueDate, description: widget.description, spouse: widget.spouse, cost: widget.cost),
                             ));
                           },
                           icon: const Icon(Icons.edit),
