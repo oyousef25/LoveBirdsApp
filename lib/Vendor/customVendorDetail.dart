@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
-import 'package:lovebirds_app/helper/deleteCustomVendorInfo.dart';
+import 'package:lovebirds_app/helper/CustomVendor/deleteCustomVendorInfo.dart';
 
+import '../helper/CustomVendor/fetchCustomVendorInfo.dart';
 import '../helper/customVendorInfo.dart';
-import '../helper/fetchCustomVendorInfo.dart';
 import 'modifyVendor.dart';
 
 class CustomVendorDetailScreen extends StatefulWidget {
@@ -177,6 +177,8 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
                                         setState(() {
                                           // Delete custom vendor functionality
                                           _futureCustomVendor = deleteCustomVendorInfo(snapshot.data!.id);
+
+                                          // Go back
                                           Navigator.pop(context);
                                           Navigator.pop(context);
                                         })
@@ -214,7 +216,7 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
                                     Constants.buttonRed),
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                     EdgeInsets.symmetric(
-                                        vertical: 25.0, horizontal: 150.0)),
+                                        vertical: 20.0, horizontal: 50.0)),
                               )),
 
                           Constants.taskPadding,

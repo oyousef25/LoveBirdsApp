@@ -8,12 +8,8 @@ import '../helper/constants.dart';
 import '../helper/vendorInfo.dart';
 
 class VendorCategoriesScreen extends StatefulWidget {
-  // In the constructor, require a saved vendors list.
-  const VendorCategoriesScreen({Key? key, required this.vendorList})
+  const VendorCategoriesScreen({Key? key})
       : super(key: key);
-
-  // Declare a field that holds the vendor list.
-  final List<VendorInfo> vendorList;
 
   @override
   State createState() {

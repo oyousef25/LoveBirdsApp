@@ -91,8 +91,9 @@ class _VendorScreenState extends State<VendorScreen> {
                                         const CircularProgressIndicator(),
                                     imageUrl:
                                         '${snapshot.data[index].photos}',
-                                    // width: 120.0,
+                                    width: 120.0,
                                     height: 90.0,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
 
@@ -108,17 +109,19 @@ class _VendorScreenState extends State<VendorScreen> {
                                       const Padding(
                                           padding: EdgeInsets.only(top: 12)),
                                       Text(snapshot.data[index].name,
+                                          maxLines: 3,
                                           textAlign: TextAlign.left,
                                           style: Constants.listTitleStyle),
                                       const Padding(
                                           padding: EdgeInsets.only(bottom: 9)),
-                                      Text('${snapshot.data[index].rating}',
+                                      Text('Rating: ${snapshot.data[index].rating}',
                                           textAlign: TextAlign.left,
                                           style: Constants.listSubtitleStyle),
                                       const Padding(
                                           padding: EdgeInsets.only(bottom: 9)),
                                       Text(snapshot.data[index].description,
                                           textAlign: TextAlign.left,
+                                          maxLines: 4,
                                           style: Constants.listSubtitleStyle),
                                       const Padding(
                                           padding: EdgeInsets.only(bottom: 12)),
@@ -126,11 +129,8 @@ class _VendorScreenState extends State<VendorScreen> {
                                   ),
                                 ),
 
-                                // Icon containing saved vendor indicator
-                                Icon(
-                                  snapshot.data[index].saved
-                                      ? Icons.favorite
-                                      : Icons.favorite_border_rounded,
+                                // Icon containing unsaved vendor indicator
+                                Icon(Icons.favorite_border_rounded,
                                   color: Constants.lightPrimary,
                                 ),
 
