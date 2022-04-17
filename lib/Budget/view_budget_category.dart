@@ -186,9 +186,9 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
                   return GestureDetector(
                     //This helps to make the card clickable
                     onTap: () {
-                      // Open up the View Task route
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const ViewTask()));
+                      // // Open up the View Task route
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //     builder: (context) => ViewTask()));
                     },
 
                     child: Card(

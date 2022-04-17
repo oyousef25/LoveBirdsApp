@@ -52,7 +52,7 @@ class _AccountPageState extends State<AccountPage> {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: SizedBox(
-        height: 1000,
+        height: 950,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -208,7 +208,7 @@ class _AccountPageState extends State<AccountPage> {
               ),
             ),
             SizedBox(
-              height: 250,
+              height: 200,
               child: Card(
                 shadowColor: Colors.grey,
                 elevation: 5.0,

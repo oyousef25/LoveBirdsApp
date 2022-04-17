@@ -235,9 +235,9 @@ class _HomePageState extends State<HomePage> {
                         return GestureDetector(
                           //This helps to make the card clickable
                           onTap: () {
-                            // Open up the view task route
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const ViewTask()));
+                            // // Open up the view task route
+                            // Navigator.of(context).push(MaterialPageRoute(
+                            //     builder: (context) => const ViewTask()));
                           },
 
                           child: Card(
