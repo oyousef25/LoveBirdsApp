@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 class EditTask extends StatefulWidget {
-  const EditTask({Key? key, required this.dataMap}) : super(key: key);
+  const EditTask({Key? key, required this.dataMap, required this.task, required this.dueDate,
+    required this.description, required this.spouse, required this.cost}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -10,6 +11,11 @@ class EditTask extends StatefulWidget {
   }
 
   final Map<String, double>? dataMap;
+  final String task;
+  final String dueDate;
+  final String description;
+  final int spouse;
+  final String cost;
 }
 
 class _EditTask extends State<EditTask> {
@@ -52,16 +58,16 @@ class _EditTask extends State<EditTask> {
                 Constants.formPadding,
 
                 //Textfield
-                const Material(
+                Material(
                   borderRadius: Constants.borderRadius,
                   shadowColor: Constants.formfieldColor,
                   elevation: Constants.elevation,
                   color: Colors.white,
-                  child: TextField(
+                  child: TextFormField(
+                    initialValue: widget.task,
                     decoration: InputDecoration(
                         floatingLabelBehavior: Constants.floatingLabelBehaviour,
                         border: Constants.outlineInputBorder,
-                        labelText: 'Enter a task (ie. make a bouquet)',
                         fillColor: Colors.white),
                   ),
                 ),
@@ -76,12 +82,13 @@ class _EditTask extends State<EditTask> {
 
                 Constants.formPadding,
 
-                const Material(
+                Material(
                   borderRadius: Constants.borderRadius,
                   shadowColor: Constants.formfieldColor,
                   elevation: Constants.elevation,
                   color: Colors.white,
-                  child: TextField(
+                  child: TextFormField(
+                    initialValue: widget.dueDate,
                     decoration: InputDecoration(
                         //calendar functionality goes here
                         suffixIcon: IconButton(
@@ -105,16 +112,16 @@ class _EditTask extends State<EditTask> {
 
                 Constants.formPadding,
 
-                const Material(
+                Material(
                   borderRadius: Constants.borderRadius,
                   shadowColor: Constants.formfieldColor,
                   elevation: Constants.elevation,
                   color: Colors.white,
-                  child: TextField(
+                  child: TextFormField(
+                    initialValue: widget.description,
                     decoration: InputDecoration(
                         floatingLabelBehavior: Constants.floatingLabelBehaviour,
                         border: Constants.outlineInputBorder,
-                        labelText: 'Enter a brief description of the task',
                         fillColor: Colors.white),
                     minLines: 1,
                     maxLines: 3,
@@ -232,13 +239,14 @@ class _EditTask extends State<EditTask> {
 
                 Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: Material(
                         borderRadius: Constants.borderRadius,
                         shadowColor: Constants.formfieldColor,
                         elevation: Constants.elevation,
                         color: Colors.white,
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: widget.cost,
                           decoration: InputDecoration(
                               floatingLabelBehavior:
                                   Constants.floatingLabelBehaviour,
