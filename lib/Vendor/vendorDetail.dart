@@ -139,6 +139,9 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                             widget.vendorInfo.phoneNum,
                             widget.vendorInfo.photos,
                             widget.vendorInfo.userID);
+
+                        // Go back
+                        Navigator.pop(context);
                       },
                       child:
                           Text('Save Vendor', style: Constants.buttonRedStyle),

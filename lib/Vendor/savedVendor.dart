@@ -89,8 +89,9 @@ class _SavedVendorScreenState extends State<SavedVendorScreen> {
                                         const CircularProgressIndicator(),
                                     imageUrl:
                                         snapshot.data[index].image,
-                                    // width: 120.0,
+                                    width: 120.0,
                                     height: 90.0,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
 
@@ -106,6 +107,7 @@ class _SavedVendorScreenState extends State<SavedVendorScreen> {
                                       const Padding(
                                           padding: EdgeInsets.only(top: 12)),
                                       Text(snapshot.data[index].name,
+                                          maxLines: 2,
                                           textAlign: TextAlign.left,
                                           style: Constants.listTitleStyle),
                                       const Padding(
@@ -116,6 +118,7 @@ class _SavedVendorScreenState extends State<SavedVendorScreen> {
                                       const Padding(
                                           padding: EdgeInsets.only(bottom: 9)),
                                       Text(snapshot.data[index].description,
+                                          maxLines: 4,
                                           textAlign: TextAlign.left,
                                           style: Constants.listSubtitleStyle),
                                       const Padding(
