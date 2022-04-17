@@ -108,30 +108,6 @@ class _EditAccount extends State<EditAccount> {
               Constants.sectionPadding,
 
               const Text(
-                "Role",
-                textAlign: TextAlign.left,
-                style: Constants.sectionHeading,
-              ),
-
-              Constants.formPadding,
-
-              const Material(
-                borderRadius: Constants.borderRadius,
-                shadowColor: Constants.formfieldColor,
-                elevation: Constants.elevation,
-                color: Colors.white,
-                child: TextField(
-                  decoration: InputDecoration(
-                      floatingLabelBehavior: Constants.floatingLabelBehaviour,
-                      border: Constants.outlineInputBorder,
-                      labelText: 'Husband',
-                      fillColor: Colors.white),
-                ),
-              ),
-
-              Constants.sectionPadding,
-
-              const Text(
                 "Budget",
                 textAlign: TextAlign.left,
                 style: Constants.sectionHeading,

@@ -179,41 +179,41 @@ class _Login extends State<Login> {
                     ),
                   ),
 
-                  Constants.sectionPadding,
-                  Constants.formPadding,
-                  Constants.formPadding,
+                Constants.sectionPadding,
+                Constants.formPadding,
+                Constants.formPadding,
 
-                  // Create account section
-                  Row(
-                    children: [
-                      const Expanded(
-                          child: Text(
-                        "Don't have an account?",
-                        style: Constants.title,
-                      )),
-                      ElevatedButton(
-                        // Contact guest button
-                        onPressed: () {
-                          // Register Account Functionality goes here
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => RegisterAccount()));
-                        },
-                        child: const Text('Register',
-                            style: Constants.buttonWhiteStyle),
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                // Create account section
+                Row(
+                  children: [
+                    const Expanded(
+                        child: Text(
+                      "Don't have an account?",
+                      style: Constants.title,
+                    )),
+                    ElevatedButton(
+                      // Contact guest button
+                      onPressed: () {
+                        // Register Account Functionality goes here
+                        Navigator.pushReplacement(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => RegisterAccount()));
+                      },
+                      child: const Text('Register',
+                          style: Constants.buttonWhiteStyle),
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                          ),
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
-                          padding: MaterialStateProperty.all<EdgeInsets>(
-                              const EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 50.0)),
                         ),
+                        backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                        padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.symmetric(
+                                vertical: 20.0, horizontal: 50.0)),
+                      ),
                       ),
                     ],
                   )

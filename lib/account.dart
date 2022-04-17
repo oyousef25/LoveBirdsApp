@@ -52,7 +52,7 @@ class _AccountPageState extends State<AccountPage> {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: SizedBox(
-        height: 1200,
+        height: 950,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -122,7 +122,7 @@ class _AccountPageState extends State<AccountPage> {
                             margin: EdgeInsets.zero,
                             color: Constants.lightSecondary,
                             child: ListTile(
-                              title: Text("Partner",
+                              title: Text("Guests",
                                   textAlign: TextAlign.center,
                                   style: Constants.cardHeaderStyle),
                             )),
@@ -140,7 +140,7 @@ class _AccountPageState extends State<AccountPage> {
               ],
             ),
             SizedBox(
-              height: 450,
+              height: 350,
               child: Card(
                 shadowColor: Colors.grey,
                 elevation: 5.0,
@@ -192,11 +192,6 @@ class _AccountPageState extends State<AccountPage> {
                       ),
                       const ListTile(
                         leading:
-                            Text("Role", style: Constants.detailGreyedStyle),
-                        trailing: Text("Husband", style: Constants.detailStyle),
-                      ),
-                      const ListTile(
-                        leading:
                             Text("Budget", style: Constants.detailGreyedStyle),
                         trailing:
                             Text("\$20,000", style: Constants.detailStyle),
@@ -213,7 +208,7 @@ class _AccountPageState extends State<AccountPage> {
               ),
             ),
             SizedBox(
-              height: 250,
+              height: 200,
               child: Card(
                 shadowColor: Colors.grey,
                 elevation: 5.0,

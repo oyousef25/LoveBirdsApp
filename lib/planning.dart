@@ -4,21 +4,10 @@ import 'package:lovebirds_app/helper/constants.dart';
 
 import 'Budget/budget_categories.dart';
 import 'Task/view_task.dart';
+import 'helper/Task.dart';
 
 class PlanningPage extends StatefulWidget {
   PlanningPage({Key? key}) : super(key: key); // Planning page key identifier
-
-  final List<String> dueDates = <String>[
-    "January 13th, 2022",
-    "February 5th, 2022",
-    "February 9th, 2022"
-  ];
-  final List<String> taskNames = <String>[
-    "Buy a wedding dress",
-    "Buy a tuxedo",
-    "Buy Flowers"
-  ];
-  final List<String> taskPrices = <String>["\$500.00", "\$500.00", "\$150.00"];
 
   /// Creates a state
   ///
@@ -32,6 +21,8 @@ class PlanningPage extends StatefulWidget {
 class _PlanningPageState extends State<PlanningPage> {
   int? _selectedIndex = 0; // Index of selected chip
   final List<String> _chips = ['Me', 'Partner', 'All']; // List of chip options
+  late Future<List<Task>> futureTasks;
+
 
   Map<String, double> dataMap = {
     "Food": 5,
@@ -41,6 +32,12 @@ class _PlanningPageState extends State<PlanningPage> {
     "Bride": 1,
     "Other": 2,
   };
+
+  @override
+  void initState() {
+    super.initState();
+    futureTasks = Task.fetchAllTasks();
+  }
 
   /// This Widget builds out the Planning page
   ///
@@ -215,70 +212,85 @@ class _PlanningPageState extends State<PlanningPage> {
 
             //the list of tasks (contained in a listview builder)
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(15),
-                itemCount: widget.taskNames.length,
-                itemBuilder: (BuildContext context, int index) {
-                  //an individual list item is a card
-                  return GestureDetector(
-                    //This helps to make the card clickable
-                    onTap: () {
-                      // Open up the View Task route
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const ViewTask()));
-                    },
+              child: FutureBuilder<List<Task>>(
+                future: futureTasks,
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(15),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        //an individual list item is a card
+                        return GestureDetector(
+                          //This helps to make the card clickable
+                          onTap: () {
+                            // Open up the View Task route
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ViewTask(task: snapshot.data[index])));
+                          },
 
-                    child: Card(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 7.0,
-                          horizontal: 10.0), // Hack for shrinking card padding
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      color: Colors.white,
-                      shadowColor: Colors.grey,
-                      elevation: 5.0,
+                          child: Card(
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 7.0,
+                                horizontal: 10.0),
+                            // Hack for shrinking card padding
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            color: Colors.white,
+                            shadowColor: Colors.grey,
+                            elevation: 5.0,
 
-                      //this card contains a row of the labels and widgets that make up a task item
-                      child: Row(
-                        children: [
-                          const Padding(padding: EdgeInsets.only(left: 12)),
-
-                          Expanded(
-                            //column containing task name and due date
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            //this card contains a row of the labels and widgets that make up a task item
+                            child: Row(
                               children: [
                                 const Padding(
-                                    padding: EdgeInsets.only(top: 12)),
-                                Text(widget.taskNames[index],
-                                    textAlign: TextAlign.left,
-                                    style: Constants.listTitleStyle),
-                                const Padding(
-                                    padding: EdgeInsets.only(bottom: 2)),
-                                Text(widget.dueDates[index],
-                                    textAlign: TextAlign.left,
-                                    style: Constants.listSubtitleStyle),
-                                const Padding(
-                                    padding: EdgeInsets.only(bottom: 12)),
+                                    padding: EdgeInsets.only(left: 12)),
+
+                                Expanded(
+                                  //column containing task name and due date
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
+                                    children: [
+                                      const Padding(
+                                          padding: EdgeInsets.only(top: 12)),
+                                      Text(snapshot.data[index].task,
+                                          textAlign: TextAlign.left,
+                                          style: Constants.listTitleStyle),
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 2)),
+                                      Text(snapshot.data[index].dueDate,
+                                          textAlign: TextAlign.left,
+                                          style: Constants.listSubtitleStyle),
+                                      const Padding(
+                                          padding: EdgeInsets.only(bottom: 12)),
+                                    ],
+                                  ),
+                                ),
+
+                                //row containing task price and arrow indicator
+                                Row(
+                                  children: [
+                                    Text("\$" + snapshot.data[index].cost,
+                                        textAlign: TextAlign.right,
+                                        style: Constants.taskPrice),
+                                    const Icon(Icons.chevron_right_rounded),
+                                    const Padding(
+                                        padding: EdgeInsets.only(right: 10)),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
+                        );
+                      },
+                    );
+                  }else if(snapshot.hasError){
+                      return Text('${snapshot.error}');
+                  }
 
-                          //row containing task price and arrow indicator
-                          Row(
-                            children: [
-                              Text(widget.taskPrices[index],
-                                  textAlign: TextAlign.right,
-                                  style: Constants.taskPrice),
-                              const Icon(Icons.chevron_right_rounded),
-                              const Padding(
-                                  padding: EdgeInsets.only(right: 10)),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                  // By default, show a loading spinner.
+                  return const CircularProgressIndicator();
                 },
               ),
             ),
