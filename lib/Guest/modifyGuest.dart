@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lovebirds_app/helper/GuestCRUD/createGuest.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/guestInfo.dart';
@@ -43,7 +44,8 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
     String guestLastName = widget.guestInfo?.lastName ?? '';
     int guestRelationship = widget.guestInfo?.relationship ??
         widget.guestRelationships.keys.first;
-    String guestRelationshipValue = widget.guestRelationships.values.first;
+    String guestRelationshipValue = widget.guestRelationships[widget.guestInfo?.relationship] ??
+        widget.guestRelationships.values.first;
     String guestEmail = widget.guestInfo?.email ?? '';
     String guestPhoneNum = widget.guestInfo?.phoneNum ?? '';
     int guestStatus = widget.guestInfo?.status ?? 1;
@@ -90,6 +92,8 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                           elevation: 3.0,
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           child: TextFormField(
+                            maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+                            maxLength: Constants.maxTextFieldLength,
                             initialValue: guestFirstName,
                             onSaved: (String? value) {
                               guestFirstName = value ?? '';
@@ -106,8 +110,10 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
                                 return 'First name cannot be empty';
+                              } else if (value.length > Constants.maxTextFieldLength) {
+                                return 'Max ${Constants.maxTextFieldLength} characters allowed';
                               }
-                              // TODO: First name validation code
+
                               return null;
                             },
                           ),
@@ -130,6 +136,8 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                           elevation: 3.0,
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           child: TextFormField(
+                            maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+                            maxLength: Constants.maxTextFieldLength,
                             initialValue: guestLastName,
                             onSaved: (String? value) {
                               guestLastName = value ?? '';
@@ -146,8 +154,9 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
                                 return 'Last name cannot be empty';
+                              } else if (value.length > Constants.maxTextFieldLength) {
+                                return 'Max ${Constants.maxTextFieldLength} characters allowed';
                               }
-                              // TODO: Last name validation code
                               return null;
                             },
                           ),
@@ -225,6 +234,8 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                           elevation: 3.0,
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           child: TextFormField(
+                            maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+                            maxLength: Constants.maxTextFieldLength,
                             initialValue: guestEmail,
                             onSaved: (String? value) {
                               guestEmail = value ?? '';
@@ -241,8 +252,12 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
                                 return 'E-mail cannot be empty';
+                              } else if (!Constants.emailRegex.hasMatch(guestEmail)) {
+                                return 'Please enter a valid email';
+                              } else if (guestEmail.length >=
+                                  Constants.maxEmailLength) {
+                                return 'Email must be less than ${Constants.maxEmailLength}';
                               }
-                              // TODO: Email validation code
                               return null;
                             },
                           ),
@@ -265,6 +280,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                           elevation: 3.0,
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           child: TextFormField(
+                            keyboardType: TextInputType.phone,
                             initialValue: guestPhoneNum,
                             onSaved: (String? value) {
                               guestPhoneNum = value ?? '';
@@ -281,8 +297,9 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
                                 return 'Phone # cannot be empty';
+                              } else if (!Constants.phoneRegex.hasMatch(value)) {
+                                return 'Only numbers are allowed (no space or dash etc.)';
                               }
-                              // TODO: Phone number validation code
                               return null;
                             },
                           ),

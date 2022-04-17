@@ -44,7 +44,7 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
       ),
       body: FutureBuilder<GuestInfo>(
           future: _futureGuest,
-          builder: (context, AsyncSnapshot snapshot) {
+          builder: (context, snapshot) {
             // If the connection is done,
             // check for response data or an error.
             if (snapshot.connectionState == ConnectionState.done) {
@@ -189,14 +189,14 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
                                               padding: MaterialStateProperty
                                                   .all<EdgeInsets>(
                                                       EdgeInsets.symmetric(
-                                                          vertical: 25.0,
-                                                          horizontal: 40.0)),
+                                                          vertical: 20.0,
+                                                          horizontal: 20.0)),
                                             )),
                                         ElevatedButton(
                                           onPressed: () => {
                                             // Delete guest functionality
                                             _futureGuest =
-                                                deleteGuest(snapshot.data.id),
+                                                deleteGuest(snapshot.data!.id),
 
                                             // Go back
                                             Navigator.pop(context),
@@ -219,8 +219,8 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
                                             padding: MaterialStateProperty.all<
                                                     EdgeInsets>(
                                                 EdgeInsets.symmetric(
-                                                    vertical: 25.0,
-                                                    horizontal: 35.0)),
+                                                    vertical: 20.0,
+                                                    horizontal: 20.0)),
                                           ),
                                         ),
                                       ],

@@ -122,7 +122,6 @@ class _MainPageState extends State<MainPage> {
     
     PlanningPage(),
 
-    // TODO: Replace seeded List with API list of guests
     GuestsPage(),
     VendorsPage(
         vendorList: List<VendorInfo>.generate(50, (i) => VendorInfo('Hummus Wedding', 5.0, 'This vendor sells wedding hummus', false, '12pm-5pm', 'abc.com', '(890)123-4567', "Windsor, ON", '')),
