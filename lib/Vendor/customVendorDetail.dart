@@ -177,6 +177,8 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
                                         setState(() {
                                           // Delete custom vendor functionality
                                           _futureCustomVendor = deleteCustomVendorInfo(snapshot.data!.id);
+
+                                          // Go back
                                           Navigator.pop(context);
                                           Navigator.pop(context);
                                         })

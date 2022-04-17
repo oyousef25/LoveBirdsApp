@@ -50,93 +50,89 @@ class _GuestsPageState extends State<GuestsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-          future: _futureGuests,
-          // Takes the snapshotted data
-          builder: (context, AsyncSnapshot snapshot) {
-            // If the data retrieval went wrong
-            if (snapshot.hasError) {
-              return Center(
-                child: Text('There was an error fetching the guest data'),
-              );
-            } else if (snapshot.hasData) {
-              // Successful data retrieval
-              return NestedScrollView(
-                  // Setting floatHeaderSlivers to true is required in order to float
-                  // the outer slivers over the inner scrollable.
-                  floatHeaderSlivers: true,
-                  headerSliverBuilder:
-                      (BuildContext context, bool innerBoxIsScrolled) {
-                    return <Widget>[
-                      SliverAppBar(
-                        floating: true,
-                        expandedHeight: 230.0,
-                        collapsedHeight: 230.0,
-                        backgroundColor: Colors.white,
-                        forceElevated: innerBoxIsScrolled,
-                        flexibleSpace: Stack(
-                          // Image of the vendor (can be cached)
-                          children: [
-                            Column(
-                              children: [
-                                Card(
-                                    margin: const EdgeInsets.symmetric(
-                                        vertical: 25.0,
-                                        horizontal:
-                                            100.0), // Hack for shrinking card padding
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    color: Constants.lightSecondary,
-                                    child: const ListTile(
-                                        minVerticalPadding: 30.0,
-                                        title: Text('Total Guests',
-                                            textAlign: TextAlign.center,
-                                            style: Constants.cardHeaderStyle),
-                                        subtitle: Text('XX Guests',
-                                            textAlign: TextAlign.center,
-                                            style:
-                                                Constants.cardContentStyle))),
-                                Wrap(
-                                    spacing: 30.0,
-                                    // Creates a list of 3 chips that will highlight the selected ones
-                                    children: List<Widget>.generate(
-                                      3,
-                                      (int index) {
-                                        return ChoiceChip(
-                                          label: Text(_chips[index]),
-                                          labelStyle: _selectedIndex == index
-                                              ? Constants.chipSelectedStyle
-                                              : Constants.chipUnselectedStyle,
-                                          selected: _selectedIndex ==
-                                              index, // If selected index IS the index then it is selected
-                                          backgroundColor: Colors.white,
-                                          shadowColor: Colors.grey,
-                                          elevation: 2.0,
-                                          selectedColor:
-                                              Constants.darkSecondary,
-                                          onSelected: (bool selected) {
-                                            // Toggles selected chip only if the user presses on an unselected chip
-                                            if (_selectedIndex != index) {
-                                              setState(() {
-                                                _selectedIndex =
-                                                    selected ? index : null;
-                                              });
-                                            }
-                                          },
-                                        );
-                                      },
-                                    ).toList()),
-                                // Some padding before the guest list
-                                Padding(padding: EdgeInsets.all(5.0)),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ];
-                  },
-                  body: RefreshIndicator(
+      body: NestedScrollView(
+          // Setting floatHeaderSlivers to true is required in order to float
+          // the outer slivers over the inner scrollable.
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                floating: true,
+                expandedHeight: 230.0,
+                collapsedHeight: 230.0,
+                backgroundColor: Colors.white,
+                forceElevated: innerBoxIsScrolled,
+                flexibleSpace: Stack(
+                  // Image of the vendor (can be cached)
+                  children: [
+                    Column(
+                      children: [
+                        Card(
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 25.0,
+                                horizontal:
+                                    100.0), // Hack for shrinking card padding
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            color: Constants.lightSecondary,
+                            child: const ListTile(
+                                minVerticalPadding: 30.0,
+                                title: Text('Total Guests',
+                                    textAlign: TextAlign.center,
+                                    style: Constants.cardHeaderStyle),
+                                subtitle: Text('XX Guests',
+                                    textAlign: TextAlign.center,
+                                    style: Constants.cardContentStyle))),
+                        Wrap(
+                            spacing: 30.0,
+                            // Creates a list of 3 chips that will highlight the selected ones
+                            children: List<Widget>.generate(
+                              3,
+                              (int index) {
+                                return ChoiceChip(
+                                  label: Text(_chips[index]),
+                                  labelStyle: _selectedIndex == index
+                                      ? Constants.chipSelectedStyle
+                                      : Constants.chipUnselectedStyle,
+                                  selected: _selectedIndex ==
+                                      index, // If selected index IS the index then it is selected
+                                  backgroundColor: Colors.white,
+                                  shadowColor: Colors.grey,
+                                  elevation: 2.0,
+                                  selectedColor: Constants.darkSecondary,
+                                  onSelected: (bool selected) {
+                                    // Toggles selected chip only if the user presses on an unselected chip
+                                    if (_selectedIndex != index) {
+                                      setState(() {
+                                        _selectedIndex =
+                                            selected ? index : null;
+                                      });
+                                    }
+                                  },
+                                );
+                              },
+                            ).toList()),
+                        // Some padding before the guest list
+                        Padding(padding: EdgeInsets.all(5.0)),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ];
+          },
+          body: FutureBuilder(
+              future: _futureGuests,
+              // Takes the snapshotted data
+              builder: (context, AsyncSnapshot snapshot) {
+                // If the data retrieval went wrong
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text('There was an error fetching the guest data'),
+                  );
+                } else if (snapshot.hasData) {
+                  // Successful data retrieval
+                  return RefreshIndicator(
                       child: ListView.builder(
                         // ListView that is built as it is scrolled onto the screen
                         itemCount: snapshot.data.length,
@@ -176,14 +172,14 @@ class _GuestsPageState extends State<GuestsPage> {
                       onRefresh: () async => {
                             // Refresh the guest list
                             refreshPage(),
-                          }));
-            } else {
-              // Loading data animation
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
+                          });
+                } else {
+                  // Loading data animation
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              })),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Go to add guest page

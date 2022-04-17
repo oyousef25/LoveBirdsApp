@@ -383,8 +383,8 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                                   padding:
                                       MaterialStateProperty.all<EdgeInsets>(
                                           EdgeInsets.symmetric(
-                                              vertical: 25.0,
-                                              horizontal: 150.0)),
+                                              vertical: 20.0,
+                                              horizontal: 100.0)),
                                 )),
                           ),
                         ),
