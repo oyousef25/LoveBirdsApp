@@ -201,12 +201,14 @@ class _SavedVendorDetailScreenState extends State<SavedVendorDetailScreen> {
                                           )),
                                       ElevatedButton(
                                         onPressed: () => {
-                                          // Delete saved vendor functionality
-                                          _futureSavedVendor = deleteSavedVendor(widget.savedVendorInfo.id),
+                                          setState(() {
+                                            // Delete saved vendor functionality
+                                            _futureSavedVendor = deleteSavedVendor(widget.savedVendorInfo.id);
 
-                                          // Go back to saved vendors page
-                                          Navigator.pop(context),
-                                          Navigator.pop(context),
+                                            // Go back to saved vendors page
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                          }),
                                         },
                                         child: const Text('Confirm',
                                             style: Constants.buttonRedStyle),

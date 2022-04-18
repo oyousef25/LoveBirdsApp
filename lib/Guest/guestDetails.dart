@@ -9,7 +9,8 @@ import 'modifyGuest.dart';
 
 class GuestDetailsScreen extends StatefulWidget {
   // In the constructor, require a GuestInfo.
-  const GuestDetailsScreen({Key? key, required this.guestInfo, required this.guestRelationships})
+  const GuestDetailsScreen(
+      {Key? key, required this.guestInfo, required this.guestRelationships})
       : super(key: key);
 
   // Declare a field that holds the GuestInfo and relationships.
@@ -33,7 +34,8 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String guestRelationshipValue = widget.guestRelationships[widget.guestInfo.relationship]!;
+    String guestRelationshipValue =
+        widget.guestRelationships[widget.guestInfo.relationship]!;
 
     // Use the GuestInfo to create the UI.
     return Scaffold(
@@ -84,7 +86,8 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
                                           .push(MaterialPageRoute(
                                         builder: (context) => ModifyGuestScreen(
                                           guestInfo: widget.guestInfo,
-                                          guestRelationships: widget.guestRelationships,
+                                          guestRelationships:
+                                              widget.guestRelationships,
                                         ),
                                       ));
                                     },
@@ -194,13 +197,15 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
                                             )),
                                         ElevatedButton(
                                           onPressed: () => {
-                                            // Delete guest functionality
-                                            _futureGuest =
-                                                deleteGuest(snapshot.data!.id),
+                                            setState(() {
+                                              // Delete guest functionality
+                                              _futureGuest = deleteGuest(
+                                                  snapshot.data!.id);
 
-                                            // Go back
-                                            Navigator.pop(context),
-                                            Navigator.pop(context)
+                                              // Go back
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                            }),
                                           },
                                           child: const Text('Confirm',
                                               style: Constants.buttonRedStyle),
