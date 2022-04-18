@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 Future<GuestInfo> createGuest(int userID, String firstName, String lastName,
     int relationship, String email, String phoneNum) async {
   final response = await http.post(
-    Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/guests'),
+    Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/guest/$email'),
     headers: <String, String>{ // Metadata
       'Content-Type': 'application/json; charset=UTF-8',
     }, // Encode the custom vendor
