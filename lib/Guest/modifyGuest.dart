@@ -50,6 +50,17 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
     String guestPhoneNum = widget.guestInfo?.phoneNum ?? '';
     int guestStatus = widget.guestInfo?.status ?? 1;
 
+    // Create the relationship map so we can access the relationship id by type
+    List<int> relationshipIds = [];
+    List<String> relationshipTypes = [];
+    for (var id in widget.guestRelationships.keys) {
+      relationshipIds.add(id);
+    }
+    for (var type in widget.guestRelationships.values) {
+      relationshipTypes.add(type);
+    }
+    var relationshipMap = Map<String, int>.fromIterables(relationshipTypes, relationshipIds);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Constants.lightPrimary,
@@ -199,6 +210,10 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                             icon: const Icon(Icons.arrow_drop_down_rounded),
                             elevation: 16,
                             style: Constants.formDropdownStyle,
+                            onSaved: (String? value) {
+                              guestRelationshipValue = value ?? '';
+                              guestRelationship = relationshipMap[guestRelationshipValue] ?? 1;
+                            },
                             onChanged: (String? newValue) {
                               setState(() {
                                 guestRelationshipValue = newValue!;
