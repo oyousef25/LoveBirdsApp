@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/GuestCRUD/deleteGuest.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/guestInfo.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../helper/GuestCRUD/fetchGuest.dart';
 import 'modifyGuest.dart';
@@ -254,7 +255,8 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
                           ElevatedButton(
                             // Contact guest button
                             onPressed: () {
-                              // TODO: Contact guest functionality goes here
+                              // Contact guest functionality
+                              launch('tel:${widget.guestInfo.phoneNum}');
                             },
                             child: Text('Contact Guest',
                                 style: Constants.buttonWhiteStyle),
