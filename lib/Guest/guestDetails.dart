@@ -11,12 +11,13 @@ import 'modifyGuest.dart';
 class GuestDetailsScreen extends StatefulWidget {
   // In the constructor, require a GuestInfo.
   const GuestDetailsScreen(
-      {Key? key, required this.guestInfo, required this.guestRelationships})
+      {Key? key, required this.guestInfo, required this.guestRelationships, required this.userID})
       : super(key: key);
 
   // Declare a field that holds the GuestInfo and relationships.
   final GuestInfo guestInfo;
   final Map<int, String> guestRelationships;
+  final int userID;
 
   @override
   State createState() {
@@ -89,6 +90,7 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
                                           guestInfo: widget.guestInfo,
                                           guestRelationships:
                                               widget.guestRelationships,
+                                          userID: widget.userID,
                                         ),
                                       ));
                                     },

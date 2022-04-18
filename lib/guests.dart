@@ -4,6 +4,7 @@ import 'package:lovebirds_app/helper/GuestCRUD/fetchConfirmedGuests.dart';
 import 'package:lovebirds_app/helper/GuestCRUD/fetchPendingGuests.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/guestInfo.dart';
+import 'package:lovebirds_app/helper/loadUserID.dart';
 
 import 'Guest/guestDetails.dart';
 import 'Guest/modifyGuest.dart';
@@ -27,7 +28,9 @@ class _GuestsPageState extends State<GuestsPage> {
   late Future<List<GuestInfo>> _futureGuests;
   late Future<Map<int, String>> _futureRelationships;
   late Future<String> _futureEmail;
-  String email = ""; // Current user's email
+  late Future<int> _futureID;
+  String userEmail = ""; // Current user's email
+  int userID = -1; // Current user's ID
 
   int? _selectedIndex = 0; // Index of selected chip
   final List<String> _chips = [
@@ -46,7 +49,7 @@ class _GuestsPageState extends State<GuestsPage> {
         _futureGuests = fetchPendingGuests();
         break;
       default: // All guests
-        _futureGuests = fetchAllGuests(email);
+        _futureGuests = fetchAllGuests(userEmail);
     }
 
     setState(() {});
@@ -77,10 +80,11 @@ class _GuestsPageState extends State<GuestsPage> {
             );
           } else if (snapshotEmail.hasData) {
             // Need to get the email first before we fetch the guests list
-            email = snapshotEmail.data;
+            userEmail = snapshotEmail.data;
             // Get a list of all guests and guest relationships
-            _futureGuests = fetchAllGuests(email);
+            _futureGuests = fetchAllGuests(userEmail);
             _futureRelationships = fetchAllRelationships();
+            _futureID = loadUserID(userEmail);
 
             return FutureBuilder(
                 future: _futureRelationships,
@@ -249,6 +253,7 @@ class _GuestsPageState extends State<GuestsPage> {
                                                       snapshotGuest.data[index],
                                                   guestRelationships:
                                                       snapshotRelationship.data,
+                                                  userID: userID,
                                                 ),
                                               ));
                                             },
@@ -275,6 +280,7 @@ class _GuestsPageState extends State<GuestsPage> {
                             builder: (context) => ModifyGuestScreen(
                               guestInfo: null,
                               guestRelationships: snapshotRelationship.data,
+                              userID: userID,
                             ),
                           ));
                         },

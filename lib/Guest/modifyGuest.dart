@@ -10,13 +10,14 @@ import '../helper/GuestCRUD/updateGuest.dart';
 
 class ModifyGuestScreen extends StatefulWidget {
   const ModifyGuestScreen(
-      {Key? key, required this.guestInfo, required this.guestRelationships})
+      {Key? key, required this.guestInfo, required this.guestRelationships, required this.userID})
       : super(key: key);
 
   // Will be null if adding a guest
   // Otherwise it will contain the guest info to edit.
   final GuestInfo? guestInfo;
   final Map<int, String> guestRelationships; // Guest relationship map
+  final int userID;
 
   @override
   State<StatefulWidget> createState() {
@@ -336,7 +337,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                                       setState(() {
                                         // Add a guest to API
                                         _futureGuest = createGuest(
-                                          1,
+                                          widget.userID,
                                           guestFirstName,
                                           guestLastName,
                                           guestRelationship,
