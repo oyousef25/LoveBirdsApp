@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Fetch the current user's account data
 Future<AccountInfo> fetchAccount() async {
+  // Get the user's email stored in the SharedPreferences
   SharedPreferences localStorage = await SharedPreferences.getInstance();
   var user = jsonDecode(localStorage.getString('user') ?? "nothing");
   String email = '';

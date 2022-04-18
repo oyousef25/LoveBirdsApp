@@ -14,12 +14,12 @@ class AccountInfo {
   // Create an account info from json data
   factory AccountInfo.fromJson(Map<String, dynamic> json) {
     return AccountInfo(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-      partnerEmail: json['partner_email'],
-      budget: json['budget'],
-      weddingDate: json['wedding_date'],
+      id: json['user']['id'],
+      name: json['user']['name'] ?? '',
+      email: json['user']['email'] ?? '',
+      partnerEmail: json['user']['partner_email'] ?? '',
+      budget: json['user']['budget'] ?? '',
+      weddingDate: json['user']['wedding_date'] ?? '',
     );
   }
 }

@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/GuestCRUD/fetchConfirmedGuests.dart';
 import 'package:lovebirds_app/helper/GuestCRUD/fetchPendingGuests.dart';
+import 'package:lovebirds_app/helper/accountInfo.dart';
 import 'package:lovebirds_app/helper/constants.dart';
+import 'package:lovebirds_app/helper/fetchAccount.dart';
 import 'package:lovebirds_app/helper/guestInfo.dart';
-import 'package:lovebirds_app/helper/loadUserID.dart';
 
 import 'Guest/guestDetails.dart';
 import 'Guest/modifyGuest.dart';
 import 'helper/GuestCRUD/fetchAllGuests.dart';
 import 'helper/GuestCRUD/fetchAllRelationships.dart';
-import 'helper/loadUserEmail.dart';
 
 class GuestsPage extends StatefulWidget {
   const GuestsPage({Key? key}) : super(key: key); // Guests page key identifier
@@ -27,10 +27,7 @@ class GuestsPage extends StatefulWidget {
 class _GuestsPageState extends State<GuestsPage> {
   late Future<List<GuestInfo>> _futureGuests;
   late Future<Map<int, String>> _futureRelationships;
-  late Future<String> _futureEmail;
-  late Future<int> _futureID;
-  String userEmail = ""; // Current user's email
-  int userID = -1; // Current user's ID
+  late Future<AccountInfo> _futureAccount;
 
   int? _selectedIndex = 0; // Index of selected chip
   final List<String> _chips = [
@@ -40,13 +37,13 @@ class _GuestsPageState extends State<GuestsPage> {
   ]; // List of chip options
 
   // Reload the guest page with new data
-  refreshPage(int? choiceChipIndex) {
+  refreshPage(int? choiceChipIndex, String userEmail) {
     switch (choiceChipIndex) {
       case 1: // Confirmed guests
-        _futureGuests = fetchConfirmedGuests();
+        _futureGuests = fetchConfirmedGuests(userEmail);
         break;
       case 2: // Pending guests
-        _futureGuests = fetchPendingGuests();
+        _futureGuests = fetchPendingGuests(userEmail);
         break;
       default: // All guests
         _futureGuests = fetchAllGuests(userEmail);
@@ -59,8 +56,8 @@ class _GuestsPageState extends State<GuestsPage> {
   void initState() {
     super.initState();
 
-    // Get the current user's email
-    _futureEmail = loadUserEmail();
+    // Get the current user's account info
+    _futureAccount = fetchAccount();
   }
 
   /// This Widget builds out the main Guest page
@@ -69,22 +66,19 @@ class _GuestsPageState extends State<GuestsPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _futureEmail,
+        future: _futureAccount,
         // Takes the snapshotted data
-        builder: (context, AsyncSnapshot snapshotEmail) {
+        builder: (context, AsyncSnapshot snapshotAccount) {
           // If the data retrieval went wrong
-          if (snapshotEmail.hasError) {
+          if (snapshotAccount.hasError) {
             return Center(
               child: Text(
-                  'There was an error fetching your email'),
+                  'There was an error fetching your account details'),
             );
-          } else if (snapshotEmail.hasData) {
-            // Need to get the email first before we fetch the guests list
-            userEmail = snapshotEmail.data;
+          } else if (snapshotAccount.hasData) {
             // Get a list of all guests and guest relationships
-            _futureGuests = fetchAllGuests(userEmail);
+            _futureGuests = fetchAllGuests(snapshotAccount.data.email);
             _futureRelationships = fetchAllRelationships();
-            _futureID = loadUserID(userEmail);
 
             return FutureBuilder(
                 future: _futureRelationships,
@@ -190,7 +184,7 @@ class _GuestsPageState extends State<GuestsPage> {
                                                                       ? index
                                                                       : null;
                                                               refreshPage(
-                                                                  _selectedIndex);
+                                                                  _selectedIndex, snapshotAccount.data.email);
                                                             });
                                                           }
                                                         },
@@ -253,7 +247,7 @@ class _GuestsPageState extends State<GuestsPage> {
                                                       snapshotGuest.data[index],
                                                   guestRelationships:
                                                       snapshotRelationship.data,
-                                                  userID: userID,
+                                                  userID: snapshotAccount.data.id,
                                                 ),
                                               ));
                                             },
@@ -263,7 +257,7 @@ class _GuestsPageState extends State<GuestsPage> {
                                     ),
                                     onRefresh: () async => {
                                           // Refresh the guest list
-                                          refreshPage(_selectedIndex),
+                                          refreshPage(_selectedIndex, snapshotAccount.data.email),
                                         }),
                               );
                             } else {
@@ -280,7 +274,7 @@ class _GuestsPageState extends State<GuestsPage> {
                             builder: (context) => ModifyGuestScreen(
                               guestInfo: null,
                               guestRelationships: snapshotRelationship.data,
-                              userID: userID,
+                              userID: snapshotAccount.data.id,
                             ),
                           ));
                         },

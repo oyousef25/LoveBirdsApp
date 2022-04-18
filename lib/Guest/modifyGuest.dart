@@ -354,7 +354,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                                         // Update a guest to API
                                         _futureGuest = updateGuest(
                                             guestId,
-                                            1,
+                                            widget.userID,
                                             guestFirstName,
                                             guestLastName,
                                             guestRelationship,
