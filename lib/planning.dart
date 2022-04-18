@@ -4,7 +4,7 @@ import 'package:lovebirds_app/helper/constants.dart';
 
 import 'Budget/budget_categories.dart';
 import 'Task/view_task.dart';
-import 'helper/Task.dart';
+import 'Task/Task.dart';
 
 class PlanningPage extends StatefulWidget {
   PlanningPage({Key? key}) : super(key: key); // Planning page key identifier
@@ -299,12 +299,11 @@ class _PlanningPageState extends State<PlanningPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Add a task when FAB is pressed
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => CreateTask(
-                      dataMap: dataMap,
+                      dataMap: dataMap, task: null,
                     )),
           );
         },
