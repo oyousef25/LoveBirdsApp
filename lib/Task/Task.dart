@@ -61,7 +61,8 @@ class Task {
           dueDate: json['due_date'],
           description: json['task_description'],
           spouse: json['assigned_user'],
-          cost: json['task_price']);
+          cost: json['task_price']
+      );
       tasksList.add(task);
     }
 

@@ -1,10 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:lovebirds_app/Budget/budget_categories.dart';
 import 'package:lovebirds_app/account.dart';
 import 'package:lovebirds_app/guests.dart';
-import 'package:lovebirds_app/helper/BudgetCategoryInfo.dart';
-import 'package:lovebirds_app/helper/guestInfo.dart';
 import 'package:lovebirds_app/helper/vendorInfo.dart';
 import 'package:lovebirds_app/home.dart';
 import 'package:lovebirds_app/planning.dart';
@@ -13,7 +10,6 @@ import 'package:lovebirds_app/helper/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Login/login.dart';
-import 'helper/customVendorInfo.dart';
 
 /// Main app
 ///
