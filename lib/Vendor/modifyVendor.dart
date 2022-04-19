@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lovebirds_app/helper/accountInfo.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/CustomVendor/createCustomVendorInfo.dart';
 import 'package:lovebirds_app/helper/CustomVendor/updateCustomVendorInfo.dart';
@@ -8,12 +9,14 @@ import '../helper/CustomVendor/fetchCustomVendorInfo.dart';
 import '../helper/customVendorInfo.dart';
 
 class ModifyVendorScreen extends StatefulWidget {
-  const ModifyVendorScreen({Key? key, required this.customVendor})
+  const ModifyVendorScreen(
+      {Key? key, required this.customVendor, required this.accountInfo})
       : super(key: key);
 
   // Will be null if adding a custom vendor
   // Otherwise it will contain the custom vendor info to edit.
   final CustomVendorInfo? customVendor;
+  final AccountInfo accountInfo;
 
   @override
   State<StatefulWidget> createState() {
@@ -84,7 +87,8 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                           elevation: 3.0,
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           child: TextFormField(
-                            maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+                            maxLengthEnforcement: MaxLengthEnforcement
+                                .truncateAfterCompositionEnds,
                             maxLength: Constants.maxTextFieldLength,
                             initialValue: customVendorName,
                             onSaved: (String? value) {
@@ -103,7 +107,8 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                               // Vendor name validation code
                               if (value == null || value.isEmpty) {
                                 return 'Name cannot be empty';
-                              } else if (value.length > Constants.maxTextFieldLength) {
+                              } else if (value.length >
+                                  Constants.maxTextFieldLength) {
                                 return 'Max ${Constants.maxTextFieldLength} characters allowed';
                               }
 
@@ -147,7 +152,8 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                               // Phone number validation
                               if (value == null || value.isEmpty) {
                                 return 'Phone number cannot be empty';
-                              } else if (!Constants.phoneRegex.hasMatch(value)) {
+                              } else if (!Constants.phoneRegex
+                                  .hasMatch(value)) {
                                 return 'Only numbers are allowed (no space or dash etc.)';
                               }
                               return null;
@@ -175,7 +181,8 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                             minLines: 2,
                             maxLines: 4,
                             maxLength: Constants.maxTextBoxLength,
-                            maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+                            maxLengthEnforcement: MaxLengthEnforcement
+                                .truncateAfterCompositionEnds,
                             onSaved: (String? value) {
                               customVendorDescription = value ?? '';
                             },
@@ -194,7 +201,8 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                               // Vendor description validation
                               if (value == null || value.isEmpty) {
                                 return 'Description cannot be empty';
-                              } else if (value.length > Constants.maxTextBoxLength) {
+                              } else if (value.length >
+                                  Constants.maxTextBoxLength) {
                                 return 'Max ${Constants.maxTextBoxLength} characters allowed';
                               }
                               return null;
@@ -219,7 +227,8 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                           elevation: 3.0,
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
                           child: TextFormField(
-                            maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+                            maxLengthEnforcement: MaxLengthEnforcement
+                                .truncateAfterCompositionEnds,
                             maxLength: Constants.maxTextFieldLength,
                             onSaved: (String? value) {
                               customVendorType = value ?? '';
@@ -239,7 +248,8 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                               // Vendor type validation code
                               if (value == null || value.isEmpty) {
                                 return 'Vendor type cannot be empty';
-                              } else if (value.length > Constants.maxTextFieldLength) {
+                              } else if (value.length >
+                                  Constants.maxTextFieldLength) {
                                 return 'Max ${Constants.maxTextFieldLength} characters allowed';
                               }
                               return null;
@@ -268,12 +278,11 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                                                 customVendorDescription,
                                                 customVendorPhone,
                                                 customVendorType,
-                                                1);
+                                                widget.accountInfo.id);
 
                                         // Go back to previous page
                                         Navigator.pop(context);
                                       });
-
                                     } else {
                                       // Case where editing a custom vendor
 
@@ -286,7 +295,7 @@ class _ModifyVendorState extends State<ModifyVendorScreen> {
                                                 customVendorDescription,
                                                 customVendorPhone,
                                                 customVendorType,
-                                                1);
+                                                widget.accountInfo.id);
 
                                         // Go back to previous page
                                         Navigator.pop(context);

@@ -7,7 +7,8 @@ import '../helper/accountInfo.dart';
 import 'customVendorDetail.dart';
 
 class CustomVendorScreen extends StatefulWidget {
-  const CustomVendorScreen({Key? key, required this.accountInfo}) : super(key: key);
+  const CustomVendorScreen({Key? key, required this.accountInfo})
+      : super(key: key);
 
   final AccountInfo accountInfo;
 
@@ -22,7 +23,7 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
 
   // Reload the custom vendors page with new data
   refreshPage() {
-    _futureCustomVendors = fetchAllCustomVendors();
+    _futureCustomVendors = fetchAllCustomVendors(widget.accountInfo.email);
     setState(() {});
   }
 
@@ -30,7 +31,7 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
   void initState() {
     super.initState();
     // Get a list of all custom vendors
-    _futureCustomVendors = fetchAllCustomVendors();
+    _futureCustomVendors = fetchAllCustomVendors(widget.accountInfo.email);
   }
 
   @override
@@ -76,7 +77,9 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
                             // should return an updated list of custom vendors
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => CustomVendorDetailScreen(
-                                  customVendor: snapshot.data[index]),
+                                customVendor: snapshot.data[index],
+                                accountInfo: widget.accountInfo,
+                              ),
                             ));
                           },
                         ),
@@ -84,8 +87,8 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
                     },
                   ),
                   onRefresh: () async => {
-                    // Refresh the custom vendors list
-                    refreshPage(),
+                        // Refresh the custom vendors list
+                        refreshPage(),
                       });
             } else {
               // Loading data animation

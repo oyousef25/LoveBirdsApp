@@ -120,6 +120,7 @@ class _VendorsPageState extends State<VendorsPage>
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => ModifyVendorScreen(
                       customVendor: null,
+                      accountInfo: snapshotAccount.data,
                     ),
                   ));
                 },
