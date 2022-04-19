@@ -15,6 +15,6 @@ Future<SavedVendorInfo> fetchSavedVendor(int id) async {
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Failed to load custom vendor info');
+    throw Exception('Failed to load saved vendor info');
   }
 }

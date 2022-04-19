@@ -3,13 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/Vendor/vendorDetail.dart';
 import 'package:lovebirds_app/Vendor/vendorScreen.dart';
+import 'package:lovebirds_app/helper/accountInfo.dart';
 
 import '../helper/constants.dart';
 import '../helper/vendorInfo.dart';
 
 class VendorCategoriesScreen extends StatefulWidget {
-  const VendorCategoriesScreen({Key? key})
+  const VendorCategoriesScreen({Key? key, required this.accountInfo})
       : super(key: key);
+
+  final AccountInfo accountInfo;
 
   @override
   State createState() {
@@ -46,7 +49,8 @@ class _VendorCategoriesScreenState extends State<VendorCategoriesScreen> {
                     // Go to vendors page
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => VendorScreen(
-                        vendorType: vendorCategories[index]
+                        vendorType: vendorCategories[index],
+                        accountInfo: widget.accountInfo,
                       ),
                     ));
                   },

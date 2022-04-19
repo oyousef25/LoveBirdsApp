@@ -3,15 +3,15 @@ import 'package:http/http.dart' as http;
 import 'package:lovebirds_app/helper/savedVendorInfo.dart';
 
 /// Gets custom vendor list from API
-Future<List<SavedVendorInfo>> fetchAllSavedVendors() async {
+Future<List<SavedVendorInfo>> fetchAllSavedVendors(String email) async {
   // Request the custom vendor data, convert to JSon
   var response = await http
-      .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/saved-vendors'));
+      .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/saved-vendor/$email'));
   var jsonData = jsonDecode(response.body);
   List<SavedVendorInfo> savedVendorsList = [];
 
   // With the json data, convert it to a CustomVendorInfo and add it to our custom vendors list
-  for (var vendor in jsonData['data']) {
+  for (var vendor in jsonData) {
     SavedVendorInfo savedVendor = SavedVendorInfo(
         id: vendor['id'],
         name: vendor['vendor_title'],

@@ -6,16 +6,18 @@ import 'package:lovebirds_app/helper/SavedVendor/createSavedVendor.dart';
 import 'package:lovebirds_app/helper/savedVendorInfo.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../helper/accountInfo.dart';
 import '../helper/constants.dart';
 import '../helper/vendorInfo.dart';
 
 class VendorDetailScreen extends StatefulWidget {
   // In the constructor, require a vendor info.
-  const VendorDetailScreen({Key? key, required this.vendorInfo})
+  const VendorDetailScreen({Key? key, required this.vendorInfo, required this.accountInfo})
       : super(key: key);
 
   // Declare a field that holds the vendor info.
   final VendorInfo vendorInfo;
+  final AccountInfo accountInfo;
 
   @override
   State createState() {
@@ -155,7 +157,7 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                             widget.vendorInfo.location,
                             widget.vendorInfo.phoneNum,
                             widget.vendorInfo.photos,
-                            widget.vendorInfo.userID);
+                            widget.accountInfo.id);
 
                         // Go back
                         Navigator.pop(context);

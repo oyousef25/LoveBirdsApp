@@ -3,10 +3,13 @@ import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/customVendorInfo.dart';
 
 import '../helper/CustomVendor/fetchAllCustomVendors.dart';
+import '../helper/accountInfo.dart';
 import 'customVendorDetail.dart';
 
 class CustomVendorScreen extends StatefulWidget {
-  const CustomVendorScreen({Key? key}) : super(key: key);
+  const CustomVendorScreen({Key? key, required this.accountInfo}) : super(key: key);
+
+  final AccountInfo accountInfo;
 
   @override
   State createState() {

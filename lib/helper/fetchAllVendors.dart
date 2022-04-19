@@ -54,7 +54,6 @@ Future<List<VendorInfo>> fetchAllVendors(String category) async {
         vendor['tel'] ?? 'Contact # N/A',
         vendor['location']['address'] ?? 'Location N/A',
         firstPhoto,
-        1
     );
     vendorsList.add(currentVendor);
   }

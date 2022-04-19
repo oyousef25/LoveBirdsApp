@@ -2,14 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/Vendor/savedVendorDetail.dart';
+import 'package:lovebirds_app/helper/accountInfo.dart';
 import 'package:lovebirds_app/helper/savedVendorInfo.dart';
 
 import '../helper/SavedVendor/fetchAllSavedVendors.dart';
 import '../helper/constants.dart';
 
 class SavedVendorScreen extends StatefulWidget {
-  // In the constructor, require a saved vendors list.
-  const SavedVendorScreen({Key? key}) : super(key: key);
+  const SavedVendorScreen({Key? key, required this.accountInfo}) : super(key: key);
+
+  final AccountInfo accountInfo;
 
   @override
   State createState() {
@@ -22,7 +24,7 @@ class _SavedVendorScreenState extends State<SavedVendorScreen> {
 
   // Reload the saved vendors page with new data
   refreshPage() {
-    _futureSavedVendors = fetchAllSavedVendors();
+    _futureSavedVendors = fetchAllSavedVendors(widget.accountInfo.email);
     setState(() {});
   }
 
@@ -30,7 +32,7 @@ class _SavedVendorScreenState extends State<SavedVendorScreen> {
   void initState() {
     super.initState();
     // Get a list of all saved vendors
-    _futureSavedVendors = fetchAllSavedVendors();
+    _futureSavedVendors = fetchAllSavedVendors(widget.accountInfo.email);
   }
 
   @override
