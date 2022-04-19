@@ -37,7 +37,7 @@ class _GuestsPageState extends State<GuestsPage> {
   ]; // List of chip options
 
   // Reload the guest page with new data
-  refreshPage(int? choiceChipIndex, String userEmail) {
+  refreshPage(int? choiceChipIndex, String userEmail, bool isWidgetBuilt) {
     switch (choiceChipIndex) {
       case 1: // Confirmed guests
         _futureGuests = fetchConfirmedGuests(userEmail);
@@ -49,7 +49,10 @@ class _GuestsPageState extends State<GuestsPage> {
         _futureGuests = fetchAllGuests(userEmail);
     }
 
-    setState(() {});
+    // Only refresh the state if the widget is already built otherwise it will crash
+    if(isWidgetBuilt) {
+      setState(() {});
+    }
   }
 
   @override
@@ -76,8 +79,7 @@ class _GuestsPageState extends State<GuestsPage> {
                   'There was an error fetching your account details'),
             );
           } else if (snapshotAccount.hasData) {
-            // Get a list of all guests and guest relationships
-            _futureGuests = fetchAllGuests(snapshotAccount.data.email);
+            // Get a list of all guest relationships
             _futureRelationships = fetchAllRelationships();
 
             return FutureBuilder(
@@ -91,6 +93,9 @@ class _GuestsPageState extends State<GuestsPage> {
                           'There was an error fetching the guest relationship data'),
                     );
                   } else if (snapshotRelationship.hasData) {
+                    // Get a fresh list of all guests
+                    refreshPage(_selectedIndex, snapshotAccount.data.email, false);
+
                     return Scaffold(
                       body: FutureBuilder(
                           future: _futureGuests,
@@ -184,7 +189,7 @@ class _GuestsPageState extends State<GuestsPage> {
                                                                       ? index
                                                                       : null;
                                                               refreshPage(
-                                                                  _selectedIndex, snapshotAccount.data.email);
+                                                                  _selectedIndex, snapshotAccount.data.email, true);
                                                             });
                                                           }
                                                         },
@@ -257,7 +262,7 @@ class _GuestsPageState extends State<GuestsPage> {
                                     ),
                                     onRefresh: () async => {
                                           // Refresh the guest list
-                                          refreshPage(_selectedIndex, snapshotAccount.data.email),
+                                          refreshPage(_selectedIndex, snapshotAccount.data.email, true),
                                         }),
                               );
                             } else {
