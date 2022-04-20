@@ -158,27 +158,25 @@ class _EditAccount extends State<EditAccount> {
 
               //Save Changes
               Center(
-                child: Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      //TODO: Fix save functionality
-                      print("Information has been saved");
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Apply Changes",
-                        style: Constants.buttonRedStyle),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    //TODO: Fix save functionality
+                    print("Information has been saved");
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Apply Changes",
+                      style: Constants.buttonRedStyle),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Constants.buttonRed),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.symmetric(
-                            vertical: 20.0, horizontal: 70),
-                      ),
+                    ),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Constants.buttonRed),
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                      const EdgeInsets.symmetric(
+                          vertical: 20.0, horizontal: 70),
                     ),
                   ),
                 ),

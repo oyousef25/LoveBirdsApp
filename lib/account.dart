@@ -52,7 +52,7 @@ class _AccountPageState extends State<AccountPage> {
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: SizedBox(
-                height: 950,
+                height: 1050,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -76,7 +76,7 @@ class _AccountPageState extends State<AccountPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0)),
                             child: Column(
-                              children: const [
+                              children: [
                                 Card(
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.only(
@@ -94,7 +94,7 @@ class _AccountPageState extends State<AccountPage> {
 
                                 //Task Name
                                 Constants.sectionPadding,
-                                Text("50", style: Constants.taskNumber),
+                                Text('${snapshotAccount.data.userTasks}', style: Constants.taskNumber),
                                 Constants.formPadding2,
                                 Text("remaining",
                                     style: Constants.cardContentStyle2),
@@ -112,7 +112,7 @@ class _AccountPageState extends State<AccountPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0)),
                             child: Column(
-                              children: const [
+                              children: [
                                 Card(
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.only(
@@ -123,14 +123,14 @@ class _AccountPageState extends State<AccountPage> {
                                     margin: EdgeInsets.zero,
                                     color: Constants.lightSecondary,
                                     child: ListTile(
-                                      title: Text("Partner Tasks",
+                                      title: Text("Partner's",
                                           textAlign: TextAlign.center,
                                           style: Constants.cardHeaderStyle),
                                     )),
 
                                 //Task Name
                                 Constants.sectionPadding,
-                                Text("30", style: Constants.taskNumber),
+                                Text('${snapshotAccount.data.partnerTasks}', style: Constants.taskNumber),
                                 Constants.formPadding2,
                                 Text("remaining",
                                     style: Constants.cardContentStyle2),
@@ -142,7 +142,7 @@ class _AccountPageState extends State<AccountPage> {
                       ],
                     ),
                     SizedBox(
-                      height: 350,
+                      height: 400,
                       child: Card(
                         shadowColor: Colors.grey,
                         elevation: 5.0,
@@ -188,8 +188,12 @@ class _AccountPageState extends State<AccountPage> {
                               ListTile(
                                 leading: Text("Email",
                                     style: Constants.detailGreyedStyle),
-                                trailing: Text(snapshotAccount.data.email,
-                                    style: Constants.detailStyle),
+                                trailing: SizedBox(
+                                  width: 200,
+                                  child: Text(snapshotAccount.data.email,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
+                                  style: Constants.detailStyle),)
                               ),
                               const ListTile(
                                 leading: Text("Password",
@@ -215,7 +219,7 @@ class _AccountPageState extends State<AccountPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 200,
+                      height: 230,
                       child: Card(
                         shadowColor: Colors.grey,
                         elevation: 5.0,
@@ -245,7 +249,7 @@ class _AccountPageState extends State<AccountPage> {
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                           builder: (context) =>
-                                              const EditPartner(),
+                                              EditPartner(accountInfo: snapshotAccount.data,),
                                         ));
                                       },
                                       icon: const Icon(Icons.edit),
@@ -261,8 +265,12 @@ class _AccountPageState extends State<AccountPage> {
                               ListTile(
                                 leading: Text("Email",
                                     style: Constants.detailGreyedStyle),
-                                trailing: Text(snapshotAccount.data.partnerEmail ?? '',
-                                    style: Constants.detailStyle),
+                                trailing: SizedBox(
+                                  width: 200,
+                                  child: Text(snapshotAccount.data.partnerEmail ?? '',
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: true,
+                                      style: Constants.detailStyle),)
                               ),
                             ],
                           ),
