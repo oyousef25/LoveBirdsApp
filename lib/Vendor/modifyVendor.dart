@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lovebirds_app/helper/accountInfo.dart';
+import 'package:lovebirds_app/helper/Account/accountInfo.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/CustomVendor/createCustomVendorInfo.dart';
 import 'package:lovebirds_app/helper/CustomVendor/updateCustomVendorInfo.dart';

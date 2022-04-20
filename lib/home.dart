@@ -4,9 +4,9 @@ import 'package:lovebirds_app/Vendor/savedVendor.dart';
 
 import 'Task/view_task.dart';
 import 'Vendor/vendorScreen.dart';
-import 'helper/accountInfo.dart';
+import 'helper/Account/accountInfo.dart';
 import 'helper/constants.dart';
-import 'helper/fetchAccount.dart';
+import 'helper/Account/fetchAccount.dart';
 import 'helper/vendorInfo.dart';
 
 class HomePage extends StatefulWidget {

@@ -6,7 +6,7 @@ import 'package:lovebirds_app/helper/SavedVendor/createSavedVendor.dart';
 import 'package:lovebirds_app/helper/savedVendorInfo.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../helper/accountInfo.dart';
+import '../helper/Account/accountInfo.dart';
 import '../helper/constants.dart';
 import '../helper/vendorInfo.dart';
 

@@ -6,8 +6,8 @@ import 'package:lovebirds_app/helper/vendorInfo.dart';
 import 'Vendor/customVendor.dart';
 import 'Vendor/modifyVendor.dart';
 import 'Vendor/savedVendor.dart';
-import 'helper/accountInfo.dart';
-import 'helper/fetchAccount.dart';
+import 'helper/Account/accountInfo.dart';
+import 'helper/Account/fetchAccount.dart';
 
 class VendorsPage extends StatefulWidget {
   const VendorsPage(

@@ -21,10 +21,6 @@ class _EditAccount extends State<EditAccount> {
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(
-        child: Align(
-        //top left aligned
-          alignment: const Alignment(-1.0, 1.0),
-        //nesting in a container allows for margin on all sides
         child: Container(
           margin:
               const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
@@ -162,33 +158,33 @@ class _EditAccount extends State<EditAccount> {
 
               //Save Changes
               Center(
-              child: Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    //TODO: Fix save functionality
-                    print("Information has been saved");
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Apply Changes",
-                      style: Constants.buttonRedStyle),
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                child: Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      //TODO: Fix save functionality
+                      print("Information has been saved");
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Apply Changes",
+                        style: Constants.buttonRedStyle),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
                       ),
-                    ),
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Constants.buttonRed),
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.symmetric(vertical: 20.0, horizontal: 70),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Constants.buttonRed),
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.symmetric(
+                            vertical: 20.0, horizontal: 70),
+                      ),
                     ),
                   ),
                 ),
               ),
-              ),
             ],
           ),
-        ),
         ),
       ),
     );

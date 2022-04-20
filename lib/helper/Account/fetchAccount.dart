@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:lovebirds_app/helper/accountInfo.dart';
+import 'package:lovebirds_app/helper/Account/accountInfo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Fetch the current user's account data

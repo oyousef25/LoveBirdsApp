@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/Vendor/vendorDetail.dart';
 import 'package:lovebirds_app/Vendor/vendorScreen.dart';
-import 'package:lovebirds_app/helper/accountInfo.dart';
+import 'package:lovebirds_app/helper/Account/accountInfo.dart';
 
 import '../helper/constants.dart';
 import '../helper/vendorInfo.dart';

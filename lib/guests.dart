@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/GuestCRUD/fetchConfirmedGuests.dart';
 import 'package:lovebirds_app/helper/GuestCRUD/fetchPendingGuests.dart';
-import 'package:lovebirds_app/helper/accountInfo.dart';
+import 'package:lovebirds_app/helper/Account/accountInfo.dart';
 import 'package:lovebirds_app/helper/constants.dart';
-import 'package:lovebirds_app/helper/fetchAccount.dart';
+import 'package:lovebirds_app/helper/Account/fetchAccount.dart';
 import 'package:lovebirds_app/helper/guestInfo.dart';
 
 import 'Guest/guestDetails.dart';

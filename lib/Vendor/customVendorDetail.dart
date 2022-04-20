@@ -3,7 +3,7 @@ import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/CustomVendor/deleteCustomVendorInfo.dart';
 
 import '../helper/CustomVendor/fetchCustomVendorInfo.dart';
-import '../helper/accountInfo.dart';
+import '../helper/Account/accountInfo.dart';
 import '../helper/customVendorInfo.dart';
 import 'modifyVendor.dart';
 
