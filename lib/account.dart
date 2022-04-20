@@ -2,9 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/Login/login.dart';
-import 'package:lovebirds_app/Login/register_account.dart';
-import 'package:lovebirds_app/helper/Account/fetchPartner.dart';
-import 'package:lovebirds_app/helper/Account/partnerInfo.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,7 +26,6 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage> {
   late Future<AccountInfo> _futureAccount;
-  late Future<PartnerInfo> _futurePartner;
 
   void initState() {
     super.initState();
@@ -53,9 +49,6 @@ class _AccountPageState extends State<AccountPage> {
               child: Text('There was an error fetching your account details'),
             );
           } else if (snapshotAccount.hasData) {
-            // Fetch the partner if the user exists
-            _futurePartner = fetchPartner(snapshotAccount.data.email);
-
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: SizedBox(
@@ -130,7 +123,7 @@ class _AccountPageState extends State<AccountPage> {
                                     margin: EdgeInsets.zero,
                                     color: Constants.lightSecondary,
                                     child: ListTile(
-                                      title: Text("Guests",
+                                      title: Text("Partner Tasks",
                                           textAlign: TextAlign.center,
                                           style: Constants.cardHeaderStyle),
                                     )),
@@ -230,62 +223,50 @@ class _AccountPageState extends State<AccountPage> {
                             vertical: 20.0, horizontal: 20.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0)),
-                        child: FutureBuilder(
-                            future: _futurePartner,
-                            // Takes the snapshotted data
-                            builder: (context, AsyncSnapshot snapshotPartner) {
-                              // If the data retrieval went wrong
-                              if (snapshotPartner.hasError) {
-                                return Center(
-                                  child: Text(
-                                      'There was an error fetching partner details'),
-                                );
-                              } else if (snapshotPartner.hasData) {
-                                return SingleChildScrollView(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Card(
-                                          shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(10),
-                                                  topRight: Radius.circular(10),
-                                                  bottomLeft: Radius.zero,
-                                                  bottomRight: Radius.zero)),
-                                          margin: EdgeInsets.zero,
-                                          color: Constants.lightSecondary,
-                                          child: ListTile(
-                                            title: const Text("Partner Details",
-                                                textAlign: TextAlign.center,
-                                                style: Constants.cardHeaderStyle),
-                                            trailing: IconButton(
-                                              onPressed: () {
-                                                // Jump to edit screen
-                                                Navigator.of(context).push(MaterialPageRoute(
-                                                  builder: (context) => const EditPartner(),
-                                                ));
-                                              },
-                                              icon: const Icon(Icons.edit),
-                                            ),
-                                          )),
-                                      Constants.formPadding2,
-                                      ListTile(
-                                        leading:
-                                        Text("Name", style: Constants.detailGreyedStyle),
-                                        trailing:
-                                        Text(snapshotPartner.data.name, style: Constants.detailStyle),
-                                      ),
-                                      ListTile(
-                                        leading:
-                                        Text("Email", style: Constants.detailGreyedStyle),
-                                        trailing: Text(snapshotPartner.data.email,
-                                            style: Constants.detailStyle),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }
-                              return const CircularProgressIndicator();
-                            }),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: <Widget>[
+                              Card(
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          topRight: Radius.circular(10),
+                                          bottomLeft: Radius.zero,
+                                          bottomRight: Radius.zero)),
+                                  margin: EdgeInsets.zero,
+                                  color: Constants.lightSecondary,
+                                  child: ListTile(
+                                    title: const Text("Partner Details",
+                                        textAlign: TextAlign.center,
+                                        style: Constants.cardHeaderStyle),
+                                    trailing: IconButton(
+                                      onPressed: () {
+                                        // Jump to edit screen
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) =>
+                                              const EditPartner(),
+                                        ));
+                                      },
+                                      icon: const Icon(Icons.edit),
+                                    ),
+                                  )),
+                              Constants.formPadding2,
+                              ListTile(
+                                leading: Text("Name",
+                                    style: Constants.detailGreyedStyle),
+                                trailing: Text(snapshotAccount.data.partnerName ?? '',
+                                    style: Constants.detailStyle),
+                              ),
+                              ListTile(
+                                leading: Text("Email",
+                                    style: Constants.detailGreyedStyle),
+                                trailing: Text(snapshotAccount.data.partnerEmail ?? '',
+                                    style: Constants.detailStyle),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                     Constants.sectionPadding,
