@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lovebirds_app/Budget/BudgetCategory.dart';
 import 'package:lovebirds_app/Budget/edit_budget_category.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
-import '../Task/view_task.dart';
 
 class ViewBudgetCategory extends StatefulWidget {
-  ViewBudgetCategory({Key? key, required this.category}) : super(key: key);
+  ViewBudgetCategory({Key? key, required this.categoryString, required this.index}) : super(key: key);
 
   final List<String> dueDates = <String>[
     "January 13th, 2022",
@@ -24,10 +24,20 @@ class ViewBudgetCategory extends StatefulWidget {
     return _ViewBudgetCategory();
   }
 
-  final String category;
+  final String categoryString;
+  final int index;
 }
 
 class _ViewBudgetCategory extends State<ViewBudgetCategory> {
+  late Future<List<BudgetCategory>> _futureCategories;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _futureCategories= BudgetCategory.fetchAllBudgetCategories();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +47,12 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
         titleTextStyle: Constants.appBarStyle,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: Column(
+      body:
+      FutureBuilder<List<BudgetCategory>>(
+      future: _futureCategories,
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+        return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Padding(padding: EdgeInsets.only(bottom: 15)),
@@ -67,7 +82,7 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
                           onPressed: () {
                             // Jump to edit screen
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => EditBudgetPage(category: widget.category,),
+                              builder: (context) => EditBudgetPage(category: snapshot.data[widget.index]),
                             ));
                           },
                           icon: const Icon(Icons.edit),
@@ -78,7 +93,7 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
                   Constants.sectionPadding,
                   const Text("Category", style: Constants.taskHeading),
                   Constants.formPadding,
-                  Text(widget.category,
+                  Text(widget.categoryString,
                       style: Constants.cardContentStyle),
                   Constants.taskPadding,
 
@@ -132,9 +147,12 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
                               )),
                           ElevatedButton(
                             onPressed: () => {
-                              // TODO: Delete guest functionality
-                              Navigator.pop(context),
-                              Navigator.pop(context)
+                              setState(() {
+                                BudgetCategory.deleteBudgetCategory(snapshot.data[widget.index].id);
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              })
+
                             },
                             child: const Text('Delete',
                                 style: Constants.buttonRedStyle),
@@ -246,6 +264,13 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
               ),
             ),
           ],
+          );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+        }
+            // By default, show a loading spinner.
+            return const CircularProgressIndicator();
+        },
       ),
     );
   }

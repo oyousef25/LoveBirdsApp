@@ -5,7 +5,6 @@ import 'package:lovebirds_app/Budget/view_budget_category.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 import '../helper/constants.dart';
-import 'delete_budget_categories.dart';
 
 class BudgetPage extends StatefulWidget {
   const BudgetPage({Key? key}) : super(key: key);
@@ -85,7 +84,7 @@ class _BudgetPageState extends State<BudgetPage> {
                             category = snapshot.data.keys.elementAt(index);
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ViewBudgetCategory(
-                                category: category,
+                                categoryString: category, index: index
                               ),
                             ));
                           },

@@ -71,7 +71,7 @@ class _CreateBudgetPageState extends State<CreateBudgetPage> {
                   validator: (String? value) {
                     // Vendor name validation code
                     if (value == null || value.isEmpty) {
-                      return 'Task Name cannot be empty';
+                      return 'Budget Category Name cannot be empty';
                     } else if (value.length > Constants.maxTextFieldLength) {
                       return 'Max ${Constants.maxTextFieldLength} characters allowed';
                     }

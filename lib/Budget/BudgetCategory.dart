@@ -42,7 +42,7 @@ class BudgetCategory{
     List<BudgetCategory> categoriesList = [];
 
     // With the json data, convert it to a BudgetCategory and add it to our budget categories list
-    for (var json in jsonData["categories"]["data"]) {
+    for (var json in jsonData) {
       BudgetCategory category = BudgetCategory(
           id: json['id'],
           category: json['category_name'],
