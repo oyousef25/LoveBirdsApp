@@ -18,6 +18,31 @@ class EditAccount extends StatefulWidget {
 
 class _EditAccount extends State<EditAccount> {
   final _formKey = GlobalKey<FormState>();
+  DateTime currentDate = DateTime.now();
+  // String userWeddingDate = '${currentDate.year}-${currentDate.month > 9 ? '' : '0'}${currentDate.month}-${currentDate.day > 9 ? '' : '0'}${currentDate.day}';
+  String userWeddingDate = '';
+  TextEditingController dateEditingController = TextEditingController();
+
+  // This shows a CupertinoModalPopup with a reasonable fixed height which hosts CupertinoDatePicker.
+  void _showDialog(Widget child) {
+    showCupertinoModalPopup<void>(
+        context: context,
+        builder: (BuildContext context) => Container(
+          height: 216,
+          padding: const EdgeInsets.only(top: 6.0),
+          // The Bottom margin is provided to align the popup above the system navigation bar.
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          // Provide a background color for the popup.
+          color: CupertinoColors.systemBackground.resolveFrom(context),
+          // Use a SafeArea widget to avoid system overlaps.
+          child: SafeArea(
+            top: false,
+            child: child,
+          ),
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,30 +51,6 @@ class _EditAccount extends State<EditAccount> {
     String userName = widget.accountInfo.name;
     String userEmail = widget.accountInfo.email;
     String userBudget = widget.accountInfo.budget;
-
-    DateTime currentDate = DateTime.now();
-    String userWeddingDate = '${currentDate.year}-${currentDate.month > 9 ? '' : '0'}${currentDate.month}-${currentDate.day > 9 ? '' : '0'}${currentDate.day}';
-
-    // This shows a CupertinoModalPopup with a reasonable fixed height which hosts CupertinoDatePicker.
-    void _showDialog(Widget child) {
-      showCupertinoModalPopup<void>(
-          context: context,
-          builder: (BuildContext context) => Container(
-            height: 216,
-            padding: const EdgeInsets.only(top: 6.0),
-            // The Bottom margin is provided to align the popup above the system navigation bar.
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            // Provide a background color for the popup.
-            color: CupertinoColors.systemBackground.resolveFrom(context),
-            // Use a SafeArea widget to avoid system overlaps.
-            child: SafeArea(
-              top: false,
-              child: child,
-            ),
-          ));
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -206,27 +207,29 @@ class _EditAccount extends State<EditAccount> {
                   elevation: Constants.elevation,
                   color: Colors.white,
                   child: TextFormField(
-                    // Adds a 0 in front if the month or day is less than 10
-                    initialValue: '$userWeddingDate',
+                    controller: dateEditingController,
+                    // initialValue: userWeddingDate,
                     onSaved: (String? value) {
                       userWeddingDate = value!;
                     },
                     decoration: InputDecoration(
                         suffixIcon: IconButton(
                           // Calendar picker
-                          onPressed: () => _showDialog(
-                            CupertinoDatePicker(
-                              key: _formKey,
-                              initialDateTime: DateTime.now(),
-                              mode: CupertinoDatePickerMode.date,
-                              // This is called when the user changes the date.
-                              onDateTimeChanged: (DateTime newDate) {
-                                setState(() =>
-                                userWeddingDate =
-                                '${newDate.year}-${newDate.month > 9 ? '' : '0'}${newDate}-${newDate.day > 9 ? '' : '0'}${newDate.day}');
-                              },
-                            ),
-                          ),
+                          onPressed: () {
+                            _showDialog(
+                              CupertinoDatePicker(
+                                initialDateTime: DateTime.now(),
+                                mode: CupertinoDatePickerMode.date,
+                                // This is called when the user changes the date.
+                                onDateTimeChanged: (DateTime newDate) {
+                                  setState(() {
+                                    userWeddingDate = '${newDate.year}-${newDate.month > 9 ? '' : '0'}${newDate.month}-${newDate.day > 9 ? '' : '0'}${newDate.day}';
+                                    dateEditingController.text = userWeddingDate;
+                                  });
+                                }
+                              ),
+                            );
+                          },
                           icon: Icon(Icons.calendar_month_rounded),
                         ),
                         labelText: "YYYY-MM-DD",
