@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lovebirds_app/Budget/BudgetCategory.dart';
 import 'package:lovebirds_app/Task/create_task.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
@@ -22,7 +23,7 @@ class _PlanningPageState extends State<PlanningPage> {
   int? _selectedIndex = 0; // Index of selected chip
   final List<String> _chips = ['Me', 'Partner', 'All']; // List of chip options
   late Future<List<Task>> futureTasks;
-
+  late Future<List<BudgetCategory>> futureCategories;
 
   Map<String, double> dataMap = {
     "Food": 5,
