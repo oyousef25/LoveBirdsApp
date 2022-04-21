@@ -156,7 +156,7 @@ class _Login extends State<Login> {
                       child: ElevatedButton(
                         onPressed: () {
                           //Login functionality
-                          if (_formKey.currentState?.validate() != null) {
+                          if (_formKey.currentState?.validate() == null) {
                             _login();
                           }
                         },
