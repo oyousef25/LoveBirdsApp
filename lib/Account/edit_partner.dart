@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lovebirds_app/helper/Account/invitePartner.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 import '../helper/Account/accountInfo.dart';
@@ -15,7 +16,8 @@ class EditPartner extends StatefulWidget {
 }
 
 class _EditPartner extends State<EditPartner> {
-  var email = '';
+  var partnerEmail = '';
+  late Future<bool> _futurePartner;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -43,7 +45,7 @@ class _EditPartner extends State<EditPartner> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "Email",
+                  "Partner's Email",
                   textAlign: TextAlign.left,
                   style: Constants.sectionHeading,
                 ),
@@ -69,7 +71,7 @@ class _EditPartner extends State<EditPartner> {
                           Constants.maxEmailLength) {
                         return 'Email must be less than ${Constants.maxEmailLength}';
                       }
-                      email = emailValue;
+                      partnerEmail = emailValue;
                       return null;
                     },
                   ),
@@ -83,7 +85,7 @@ class _EditPartner extends State<EditPartner> {
                       ElevatedButton(
                         onPressed: () {
                           // Make sure all fields are validated before showing the confirmation dialog
-                          if (_formKey.currentState?.validate() == null) {
+                          if (_formKey.currentState!.validate()) {
                             _invitePartner();
                           }
                         },
@@ -137,7 +139,7 @@ class _EditPartner extends State<EditPartner> {
         contentPadding: EdgeInsets.only(
             top: 20.0, bottom: 0.0, left: 25.0, right: 25.0),
         content: Text(
-            'Are you sure you want to invite ${email} as your partner?',
+            'Are you sure you want to invite ${partnerEmail} as your partner?',
             style: Constants.dialogContentStyle),
         actionsAlignment: MainAxisAlignment.center,
         // actionsPadding: ,
@@ -166,7 +168,11 @@ class _EditPartner extends State<EditPartner> {
               )),
           ElevatedButton(
             onPressed: () => {
-              // TODO: Invite guest functionality
+              // Invite partner functionality
+              setState(() {
+                _futurePartner = invitePartner(widget.accountInfo.email, partnerEmail);
+              }),
+
               Navigator.pop(context),
               Navigator.pop(context)
             },

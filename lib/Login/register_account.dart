@@ -233,7 +233,7 @@ class _RegisterAccount extends State<RegisterAccount> {
                       child: ElevatedButton(
                         onPressed: () {
                           //Create account functionality
-                          if (_formKey.currentState?.validate() == null) {
+                          if (_formKey.currentState!.validate()) {
                             _register();
                           }
                         },
