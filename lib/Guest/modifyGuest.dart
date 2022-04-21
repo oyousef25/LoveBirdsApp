@@ -120,6 +120,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                               filled: true,
                             ),
                             validator: (String? value) {
+                              // First name validation
                               if (value == null || value.isEmpty) {
                                 return 'First name cannot be empty';
                               } else if (value.length > Constants.maxTextFieldLength) {
@@ -164,6 +165,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                               filled: true,
                             ),
                             validator: (String? value) {
+                              // Last name validation
                               if (value == null || value.isEmpty) {
                                 return 'Last name cannot be empty';
                               } else if (value.length > Constants.maxTextFieldLength) {
@@ -266,6 +268,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                               filled: true,
                             ),
                             validator: (String? value) {
+                              // Email validation
                               if (value == null || value.isEmpty) {
                                 return 'E-mail cannot be empty';
                               } else if (!Constants.emailRegex.hasMatch(value)) {
@@ -311,6 +314,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                               filled: true,
                             ),
                             validator: (String? value) {
+                              // Phone validation
                               if (value == null || value.isEmpty) {
                                 return 'Phone # cannot be empty';
                               } else if (!Constants.phoneRegex.hasMatch(value)) {

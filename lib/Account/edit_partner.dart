@@ -24,7 +24,7 @@ class _EditPartner extends State<EditPartner> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Partner'),
+        title: const Text('Invite Partner'),
         backgroundColor: Constants.lightPrimary,
         titleTextStyle: Constants.appBarStyle,
         iconTheme: const IconThemeData(color: Colors.black),

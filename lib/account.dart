@@ -172,7 +172,7 @@ class _AccountPageState extends State<AccountPage> {
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                           builder: (context) =>
-                                              const EditAccount(),
+                                              EditAccount(accountInfo: snapshotAccount.data,),
                                         ));
                                       },
                                       icon: const Icon(Icons.edit),
