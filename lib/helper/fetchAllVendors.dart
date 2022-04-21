@@ -59,7 +59,7 @@ Future<List<VendorInfo>> fetchAllVendors(String category) async {
     VendorInfo currentVendor = VendorInfo(
         vendor['name'] ?? 'Name N/A',
         vendor['rating'] ?? 0.0,
-        vendorDescriptionTruncated ?? 'Description N/A',
+        vendorDescriptionTruncated,
         vendor['website'] ?? 'Website N/A',
         vendor['tel'] ?? 'Contact # N/A',
         vendor['location']['address'] ?? 'Location N/A',
