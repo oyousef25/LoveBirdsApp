@@ -21,7 +21,7 @@ class Task {
     required this.spouse,
     required this.cost,
     required this.isComplete,
-    required this.budgetCategoryId
+    required this.budgetCategoryId,
   });
 
   //this is a factory constructor that creates a Task object from JSON
@@ -34,7 +34,7 @@ class Task {
         spouse: json['assigned_user'],
         cost: json['task_price'],
         isComplete: json['is_complete'],
-        budgetCategoryId: json['budget_category_id']
+        budgetCategoryId: json['budget_category_id'],
     );
   }
 
@@ -60,7 +60,7 @@ class Task {
     List<Task> tasksList = [];
 
     // With the json data, convert it to a Task and add it to our tasks list
-    for (var json in jsonData["all_tasks"]) {
+    for (var json in jsonData['all_tasks']) {
       Task task = Task(
           id: json['id'],
           task: json['task_title'],
@@ -69,7 +69,7 @@ class Task {
           spouse: json['assigned_user'],
           cost: json['task_price'],
           isComplete: json['is_complete'],
-          budgetCategoryId: json['budget_category_id']
+          budgetCategoryId: json['budget_category_id'],
       );
       tasksList.add(task);
     }
