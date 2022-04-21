@@ -10,12 +10,14 @@ class AccountInfo {
   final int partnerTasks;
   final int? partnerId;
   final String? partnerName;
+  final int? totalGuests;
 
   const AccountInfo({required this.id, required this.name,
     required this.email, required this.partnerEmail,
     required this.budget, required this.weddingDate,
     required this.userTasks, required this.partnerTasks,
-    required this.partnerId, required this.partnerName});
+    required this.partnerId, required this.partnerName,
+    required this.totalGuests});
 
   // Create an account info from json data
   factory AccountInfo.fromJson(Map<String, dynamic> json) {
@@ -41,6 +43,7 @@ class AccountInfo {
       partnerTasks: json['partner_tasks'] ?? 0,
       partnerId: tempPartnerId,
       partnerName: tempPartnerName,
+      totalGuests: json['total_guests'] ?? 0
     );
   }
 }

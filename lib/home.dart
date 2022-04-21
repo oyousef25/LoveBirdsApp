@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lovebirds_app/Vendor/savedVendor.dart';
 
 import 'Task/view_task.dart';
@@ -69,6 +70,22 @@ class _HomePageState extends State<HomePage> {
                   'There was an error fetching your account details'),
             );
           } else if (snapshotAccount.hasData) {
+            DateFormat weddingDateFormatter = DateFormat.yMMMMd('en_US');
+            DateTime? weddingDateTime = DateTime.tryParse(snapshotAccount.data.weddingDate);
+            Duration timeTilWedding = Duration.zero;
+            String prettyWeddingDate = '';
+            String prettyDaysRemaining = '';
+            if(weddingDateTime != null) {
+              // Format the wedding date and calculate the days remaining
+              timeTilWedding = weddingDateTime.difference(DateTime.now());
+              prettyWeddingDate = weddingDateFormatter.format(weddingDateTime);
+            }
+            if(timeTilWedding == Duration.zero) {
+              prettyDaysRemaining = 'Set wedding date in Account page';
+            } else {
+              prettyDaysRemaining = '${timeTilWedding.inDays} days remaining';
+            }
+
             return Scaffold(
               body: NestedScrollView(
                 // Setting floatHeaderSlivers to true is required in order to float
@@ -109,11 +126,11 @@ class _HomePageState extends State<HomePage> {
                               title: Padding(
                                   padding: EdgeInsets.only(bottom: 15.0),
                                   child: Text(
-                                    '10 days remaining',
+                                    prettyDaysRemaining,
                                     textAlign: TextAlign.center,
                                     style: Constants.homeHeaderStyle,
                                   )),
-                              subtitle: Text('April 1st, 2022',
+                              subtitle: Text(prettyWeddingDate,
                                   textAlign: TextAlign.center,
                                   style: Constants.homeSubheaderStyle)),
                         ],
@@ -152,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0)),
                                   child: Column(
-                                    children: const [
+                                    children: [
                                       Card(
                                           shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.only(
@@ -170,7 +187,7 @@ class _HomePageState extends State<HomePage> {
 
                                       //Task Name
                                       Constants.sectionPadding,
-                                      Text("\$10,000.00", style: Constants.taskNumber),
+                                      Text('\$${snapshotAccount.data.budget}', style: Constants.taskNumber),
                                       Constants.formPadding2,
                                       Text("remaining",
                                           style: Constants.cardContentStyle2),
@@ -188,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0)),
                                   child: Column(
-                                    children: const [
+                                    children: [
                                       Card(
                                           shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.only(
@@ -206,9 +223,9 @@ class _HomePageState extends State<HomePage> {
 
                                       //Task Name
                                       Constants.sectionPadding,
-                                      Text("250", style: Constants.taskNumber),
+                                      Text("${snapshotAccount.data.totalGuests}", style: Constants.taskNumber),
                                       Constants.formPadding2,
-                                      Text("confirmed",
+                                      Text("total",
                                           style: Constants.cardContentStyle2),
                                       Constants.sectionPadding,
                                     ],
