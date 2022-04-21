@@ -265,6 +265,13 @@ class _SavedVendorDetailScreenState extends State<SavedVendorDetailScreen> {
                                       vertical: 20.0, horizontal: 50.0)),
                             )),
                       ),
+                      const Padding(
+                          padding: EdgeInsets.only(bottom: 9)),
+                      Container(
+                        alignment: Alignment.centerRight,
+                        child: Image(image: AssetImage('images/foursquarelogo.png',)),
+                        width: 250.0,
+                      ),
                     ],
                   ),
                 ),

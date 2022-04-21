@@ -64,8 +64,8 @@ flutter:
   uses-material-design: true
 
   # To add fonts to your application, add an fonts section, like this:
-#  assets:
-#     - foursquarelogo.png
+  assets:
+     - images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
