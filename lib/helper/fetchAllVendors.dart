@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/vendorInfo.dart';
+import 'package:characters/characters.dart';
 
 /// Gets custom vendor list from API
 Future<List<VendorInfo>> fetchAllVendors(String category) async {
@@ -46,10 +47,19 @@ Future<List<VendorInfo>> fetchAllVendors(String category) async {
       firstPhoto = allPhotos[0]['prefix']! + 'original' + allPhotos[0]['suffix']!;
     }
 
+    // Truncate the description if it exceeds a certain length
+    String vendorDescriptionTruncated = '';
+    String fullVendorDescription = vendor['description'] ?? 'Description N/A';
+    if(fullVendorDescription.length > Constants.maxDescriptionLength) {
+      vendorDescriptionTruncated = fullVendorDescription.characters.take(Constants.maxDescriptionLength).string;
+    } else {
+      vendorDescriptionTruncated = fullVendorDescription;
+    }
+
     VendorInfo currentVendor = VendorInfo(
         vendor['name'] ?? 'Name N/A',
         vendor['rating'] ?? 0.0,
-        vendor['description'] ?? 'Description N/A',
+        vendorDescriptionTruncated ?? 'Description N/A',
         vendor['website'] ?? 'Website N/A',
         vendor['tel'] ?? 'Contact # N/A',
         vendor['location']['address'] ?? 'Location N/A',
