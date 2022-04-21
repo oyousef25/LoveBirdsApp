@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/customVendorInfo.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../helper/CustomVendor/fetchAllCustomVendors.dart';
 import '../helper/Account/accountInfo.dart';
@@ -71,7 +72,13 @@ class _CustomVendorScreenState extends State<CustomVendorScreen> {
                           subtitle: Text(snapshot.data[index].vendorType,
                               textAlign: TextAlign.left,
                               style: Constants.listSubtitleStyle),
-                          trailing: Icon(Icons.phone_rounded, size: 40),
+                          trailing: IconButton(
+                              icon: Icon(Icons.phone_rounded, size: 40),
+                              onPressed: () {
+                                // Contact vendor functionality
+                                launch('tel:${snapshot.data[index].phoneNum}');
+                              },
+                          ),
                           onTap: () {
                             // Open up the custom vendor info route which
                             // should return an updated list of custom vendors
