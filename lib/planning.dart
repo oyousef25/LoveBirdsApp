@@ -231,8 +231,8 @@ class _PlanningPageState extends State<PlanningPage> {
                                       ],
                                     ),
 
-                                    const Text(
-                                      "Great! You are under budget!",
+                                    Text(
+                                      budgetProgressValue < 1 ? "Great! You are under budget!" : "You are over budget!",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
