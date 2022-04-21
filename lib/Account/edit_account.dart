@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lovebirds_app/helper/Account/updateAccount.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 import '../helper/Account/accountInfo.dart';
@@ -19,9 +20,15 @@ class EditAccount extends StatefulWidget {
 class _EditAccount extends State<EditAccount> {
   final _formKey = GlobalKey<FormState>();
   DateTime currentDate = DateTime.now();
-  // String userWeddingDate = '${currentDate.year}-${currentDate.month > 9 ? '' : '0'}${currentDate.month}-${currentDate.day > 9 ? '' : '0'}${currentDate.day}';
-  String userWeddingDate = '';
   TextEditingController dateEditingController = TextEditingController();
+  TextEditingController nameEditingController = TextEditingController();
+  // TextEditingController emailEditingController = TextEditingController();
+  TextEditingController budgetEditingController = TextEditingController();
+  late Future<bool> _futureUpdate;
+  String userWeddingDate = '';
+  String userName = '';
+  // String userEmail = '';
+  String userBudget = '';
 
   // This shows a CupertinoModalPopup with a reasonable fixed height which hosts CupertinoDatePicker.
   void _showDialog(Widget child) {
@@ -46,11 +53,15 @@ class _EditAccount extends State<EditAccount> {
 
   @override
   Widget build(BuildContext context) {
-    // Break the account info apart
+    // Store user id
     int userId = widget.accountInfo.id;
-    String userName = widget.accountInfo.name;
-    String userEmail = widget.accountInfo.email;
-    String userBudget = widget.accountInfo.budget;
+
+    // Set text to be account's wedding date if userWeddingDate has not been set yet by the form
+    // Same with name, email and budget
+    dateEditingController.text = userWeddingDate.isNotEmpty ? userWeddingDate : widget.accountInfo.weddingDate;
+    nameEditingController.text = userName.isNotEmpty ? userName : widget.accountInfo.name;
+    // emailEditingController.text = userEmail.isNotEmpty ? userEmail : widget.accountInfo.email;
+    budgetEditingController.text = userBudget.isNotEmpty ? userBudget : widget.accountInfo.budget;
 
     return Scaffold(
       appBar: AppBar(
@@ -91,7 +102,10 @@ class _EditAccount extends State<EditAccount> {
                     onSaved: (String? value) {
                       userName = value ?? '';
                     },
-                    initialValue: userName,
+                    onChanged: (String? value) {
+                      userName = value ?? '';
+                    },
+                    controller: nameEditingController,
                     decoration: InputDecoration(
                         floatingLabelBehavior: Constants.floatingLabelBehaviour,
                         border: Constants.outlineInputBorder,
@@ -109,47 +123,50 @@ class _EditAccount extends State<EditAccount> {
                   ),
                 ),
 
-                Constants.sectionPadding,
+                // Constants.sectionPadding,
 
-                const Text(
-                  "Email",
-                  textAlign: TextAlign.left,
-                  style: Constants.sectionHeading,
-                ),
-
-                Constants.formPadding,
-
-                Material(
-                  borderRadius: Constants.borderRadius,
-                  shadowColor: Constants.formfieldColor,
-                  elevation: Constants.elevation,
-                  color: Colors.white,
-                  child: TextFormField(
-                    maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
-                    maxLength: Constants.maxTextFieldLength,
-                    initialValue: userEmail,
-                    onSaved: (String? value) {
-                      userEmail = value ?? '';
-                    },
-                    decoration: InputDecoration(
-                        floatingLabelBehavior: Constants.floatingLabelBehaviour,
-                        border: Constants.outlineInputBorder,
-                        labelText: 'sample@example.com',
-                        fillColor: Colors.white),
-                    validator: (String? value) {
-                      // Email validation
-                      if (value == null || value.isEmpty) {
-                        return 'E-mail cannot be empty';
-                      } else if (!Constants.emailRegex.hasMatch(value)) {
-                        return 'Please enter a valid email';
-                      } else if (userEmail.length >=
-                          Constants.maxEmailLength) {
-                        return 'Max ${Constants.maxEmailLength} characters allowed';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
+                // const Text(
+                //   "Email",
+                //   textAlign: TextAlign.left,
+                //   style: Constants.sectionHeading,
+                // ),
+                //
+                // Constants.formPadding,
+                //
+                // Material(
+                //   borderRadius: Constants.borderRadius,
+                //   shadowColor: Constants.formfieldColor,
+                //   elevation: Constants.elevation,
+                //   color: Colors.white,
+                //   child: TextFormField(
+                //     maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+                //     maxLength: Constants.maxTextFieldLength,
+                //     controller: emailEditingController,
+                //     onSaved: (String? value) {
+                //       userEmail = value ?? '';
+                //     },
+                //     onChanged: (String? value) {
+                //       userEmail = value ?? '';
+                //     },
+                //     decoration: InputDecoration(
+                //         floatingLabelBehavior: Constants.floatingLabelBehaviour,
+                //         border: Constants.outlineInputBorder,
+                //         labelText: 'sample@example.com',
+                //         fillColor: Colors.white),
+                //     validator: (String? value) {
+                //       // Email validation
+                //       if (value == null || value.isEmpty) {
+                //         return 'E-mail cannot be empty';
+                //       } else if (!Constants.emailRegex.hasMatch(value)) {
+                //         return 'Please enter a valid email';
+                //       } else if (userEmail.length >=
+                //           Constants.maxEmailLength) {
+                //         return 'Max ${Constants.maxEmailLength} characters allowed';
+                //       }
+                //       return null;
+                //     },
+                //   ),
+                // ),
 
                 Constants.sectionPadding,
 
@@ -168,10 +185,13 @@ class _EditAccount extends State<EditAccount> {
                   color: Colors.white,
                   child: TextFormField(
                     keyboardType: TextInputType.number,
-                    initialValue: userBudget,
+                    controller: budgetEditingController,
                     maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
                     maxLength: Constants.maxTextFieldLength,
                     onSaved: (String? value) {
+                      userBudget = value ?? '';
+                    },
+                    onChanged: (String? value) {
                       userBudget = value ?? '';
                     },
                     decoration: InputDecoration(
@@ -181,10 +201,10 @@ class _EditAccount extends State<EditAccount> {
                         fillColor: Colors.white),
                     validator: (String? value) {
                       // Budget validation
-                      if (value!.length >= Constants.maxBudgetLength) {
-                        return 'Max ${Constants.maxBudgetLength} characters allowed';
-                      } else if (double.tryParse(value) != null) {
+                      if (double.tryParse(value!) == null) {
                         return 'Please enter a valid number';
+                      } else if (double.parse(value) > Constants.maxBudgetSize) {
+                        return 'Max budget of ${Constants.maxBudgetSize} allowed';
                       }
                       return null;
                     },
@@ -208,17 +228,21 @@ class _EditAccount extends State<EditAccount> {
                   color: Colors.white,
                   child: TextFormField(
                     controller: dateEditingController,
-                    // initialValue: userWeddingDate,
                     onSaved: (String? value) {
+                      userWeddingDate = value!;
+                    },
+                    onChanged: (String? value) {
                       userWeddingDate = value!;
                     },
                     decoration: InputDecoration(
                         suffixIcon: IconButton(
                           // Calendar picker
                           onPressed: () {
+                            // Set pointer to the end whenever user tries to edit date
+                            dateEditingController.selection = TextSelection.collapsed(offset: dateEditingController.text.length);
                             _showDialog(
                               CupertinoDatePicker(
-                                initialDateTime: DateTime.now(),
+                                initialDateTime: DateTime.tryParse(dateEditingController.text) ?? DateTime.now(),
                                 mode: CupertinoDatePickerMode.date,
                                 // This is called when the user changes the date.
                                 onDateTimeChanged: (DateTime newDate) {
@@ -238,8 +262,11 @@ class _EditAccount extends State<EditAccount> {
                         fillColor: Colors.white),
                     validator: (String? value) {
                       // Date validation
-                      if (!Constants.dateRegex.hasMatch(value!)) {
-                        return 'Date format must be YYYY-MM-DD';
+                      if (value == '' || value == null) {
+                        // Don't bother checking validation if user leaves the date blank
+                        return null;
+                      } else if (!Constants.dateRegex.hasMatch(value)) {
+                        return 'Date format must match YYYY-MM-DD';
                       }
                       return null;
                     },
@@ -254,7 +281,14 @@ class _EditAccount extends State<EditAccount> {
                     onPressed: () {
                       // Make sure all fields are validated before showing the confirmation dialog
                       if (_formKey.currentState!.validate()) {
-                        //TODO: Add save functionality
+                        // Update account functionality
+                        _futureUpdate =
+                            updateAccount(
+                                userId,
+                                nameEditingController.text,
+                                // emailEditingController.text,
+                                double.tryParse(budgetEditingController.text),
+                                dateEditingController.text);
                         Navigator.pop(context);
                       }
                     },

@@ -145,7 +145,7 @@ class Constants {
   static const maxPasswordLength = 100;
   static const maxEmailLength = 100;
   static const maxDescriptionLength = 255;
-  static const maxBudgetLength = 12;
+  static const maxBudgetSize = 999999.99;
 
   // Vendor Categories
   static const venueCategory = "Wedding Venue";

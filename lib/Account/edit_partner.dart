@@ -163,8 +163,8 @@ class _EditPartner extends State<EditPartner> {
                 padding:
                 MaterialStateProperty.all<EdgeInsets>(
                     EdgeInsets.symmetric(
-                        vertical: 25.0,
-                        horizontal: 40.0)),
+                        vertical: 20.0,
+                        horizontal: 30.0)),
               )),
           ElevatedButton(
             onPressed: () => {
@@ -190,7 +190,7 @@ class _EditPartner extends State<EditPartner> {
                   Constants.buttonGreen),
               padding: MaterialStateProperty.all<EdgeInsets>(
                   EdgeInsets.symmetric(
-                      vertical: 25.0, horizontal: 35.0)),
+                      vertical: 20.0, horizontal: 30.0)),
             ),
           ),
         ],

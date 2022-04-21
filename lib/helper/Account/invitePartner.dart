@@ -13,12 +13,12 @@ Future<bool> invitePartner(String userEmail, String partnerEmail) async {
     }),
   );
 
-  if (response.statusCode == 201) {
-    // If the server did return a 201 CREATED response,
+  if (response.statusCode == 200 || response.statusCode == 201) {
+    // If the server did return a 201 CREATED response, (or 200 OK response)
     // then
     return true;
   } else {
-    // If the server did not return a 201 CREATED response,
+    // If the server did not return a 201 CREATED response, (or 200 OK response)
     // then return false
     return false;
   }
