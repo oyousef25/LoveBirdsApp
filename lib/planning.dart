@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lovebirds_app/Budget/BudgetCategory.dart';
 import 'package:lovebirds_app/Task/BudgetDetails.dart';
 import 'package:lovebirds_app/Task/create_task.dart';
@@ -39,6 +40,25 @@ class _PlanningPageState extends State<PlanningPage> {
     "Other": 2,
   };
 
+  // Reload the planning page with new data
+  refreshPage(int? choiceChipIndex, String userEmail, bool isWidgetBuilt) {
+    switch (choiceChipIndex) {
+      case 0: // User's tasks
+        _futureTasks = Task.fetchAllUserTasks(userEmail);
+        break;
+      case 1: // Partner's tasks
+        _futureTasks = Task.fetchAllPartnerTasks(userEmail);
+        break;
+      default: // All tasks
+        _futureTasks = Task.fetchAllTasks(userEmail);
+    }
+
+    // Only refresh the state if the widget is already built otherwise it will crash
+    if (isWidgetBuilt) {
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -63,7 +83,8 @@ class _PlanningPageState extends State<PlanningPage> {
             );
           } else if (snapshotAccount.hasData) {
             // Fetch the budget details after account is confirmed
-            _futureBudget = BudgetDetails.fetchBudget(snapshotAccount.data.email);
+            _futureBudget =
+                BudgetDetails.fetchBudget(snapshotAccount.data.email);
 
             return FutureBuilder(
                 future: _futureBudget,
@@ -77,13 +98,14 @@ class _PlanningPageState extends State<PlanningPage> {
                     );
                   } else if (snapshotBudget.hasData) {
                     // Fetch the tasks after account and budget is confirmed
-                    _futureTasks =
-                        Task.fetchAllTasks(snapshotAccount.data.email);
+                    refreshPage(
+                        _selectedIndex, snapshotAccount.data.email, false);
 
                     // Calculate budget progress, taking care of divide by zero case
                     double budgetProgressValue = 0;
-                    if(snapshotBudget.data.budgetTotal > 0) {
-                      budgetProgressValue = snapshotBudget.data.totalSpent / snapshotBudget.data.budgetTotal;
+                    if (snapshotBudget.data.budgetTotal > 0) {
+                      budgetProgressValue = snapshotBudget.data.totalSpent /
+                          snapshotBudget.data.budgetTotal;
                     }
 
                     return FutureBuilder(
@@ -110,7 +132,7 @@ class _PlanningPageState extends State<PlanningPage> {
                                         Expanded(
                                           child: GestureDetector(
                                             onTap: () {
-                                              // TODO: Add a budget category when FAB is pressed
+                                              // Add a budget category when FAB is pressed
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
@@ -150,7 +172,7 @@ class _PlanningPageState extends State<PlanningPage> {
                                                       padding: EdgeInsets.only(
                                                           bottom: 5)),
                                                   Text(
-                                                    '\$${snapshotBudget.data.budgetTotal}',
+                                                    '${NumberFormat.simpleCurrency().format(snapshotBudget.data.budgetTotal)}',
                                                     textAlign: TextAlign.center,
                                                     style:
                                                         Constants.budgetExpense,
@@ -194,7 +216,7 @@ class _PlanningPageState extends State<PlanningPage> {
                                                     padding: EdgeInsets.only(
                                                         bottom: 5)),
                                                 Text(
-                                                  "\$${snapshotBudget.data.totalSpent}",
+                                                  "${NumberFormat.simpleCurrency().format(snapshotBudget.data.totalSpent)}",
                                                   textAlign: TextAlign.center,
                                                   style:
                                                       Constants.budgetExpense,
@@ -253,7 +275,8 @@ class _PlanningPageState extends State<PlanningPage> {
                                                   ),
                                                 ),
                                                 Expanded(
-                                                    child: Text("\$${snapshotBudget.data.budgetTotal - snapshotBudget.data.totalSpent}",
+                                                    child: Text(
+                                                        "${NumberFormat.simpleCurrency().format(snapshotBudget.data.budgetTotal - snapshotBudget.data.totalSpent)}",
                                                         textAlign:
                                                             TextAlign.right,
                                                         style: TextStyle(
@@ -295,6 +318,7 @@ class _PlanningPageState extends State<PlanningPage> {
                                                   setState(() {
                                                     _selectedIndex =
                                                         selected ? index : null;
+                                                    refreshPage(_selectedIndex, snapshotAccount.data.email, true);
                                                   });
                                                 }
                                               },
@@ -304,112 +328,122 @@ class _PlanningPageState extends State<PlanningPage> {
 
                                     //the list of tasks (contained in a listview builder)
                                     Expanded(
-                                      child: ListView.builder(
-                                        padding: const EdgeInsets.all(15),
-                                        itemCount: snapshotTasks.data.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          //an individual list item is a card
-                                          return GestureDetector(
-                                            //This helps to make the card clickable
-                                            onTap: () {
-                                              // Open up the View Task route
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ViewTask(
-                                                              task:
-                                                                  snapshotTasks
-                                                                          .data[
-                                                                      index])));
-                                            },
+                                      child: RefreshIndicator(
+                                        onRefresh: () async => {
+                                          // Refresh the tasks list
+                                          refreshPage(_selectedIndex,
+                                              snapshotAccount.data.email, true),
+                                        },
+                                        child: ListView.builder(
+                                          padding: const EdgeInsets.all(15),
+                                          itemCount: snapshotTasks.data.length,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            //an individual list item is a card
+                                            return GestureDetector(
+                                              //This helps to make the card clickable
+                                              onTap: () {
+                                                // Open up the View Task route
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ViewTask(
+                                                                task: snapshotTasks
+                                                                        .data[
+                                                                    index])));
+                                              },
 
-                                            child: Card(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 7.0,
-                                                      horizontal: 10.0),
-                                              // Hack for shrinking card padding
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0)),
-                                              color: Colors.white,
-                                              shadowColor: Colors.grey,
-                                              elevation: 5.0,
+                                              child: Card(
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 7.0,
+                                                        horizontal: 10.0),
+                                                // Hack for shrinking card padding
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0)),
+                                                color: Colors.white,
+                                                shadowColor: Colors.grey,
+                                                elevation: 5.0,
 
-                                              //this card contains a row of the labels and widgets that make up a task item
-                                              child: Row(
-                                                children: [
-                                                  const Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 12)),
+                                                //this card contains a row of the labels and widgets that make up a task item
+                                                child: Row(
+                                                  children: [
+                                                    const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 12)),
 
-                                                  Expanded(
-                                                    //column containing task name and due date
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        const Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 12)),
-                                                        Text(
-                                                            snapshotTasks
-                                                                .data[index]
-                                                                .task,
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                            style: Constants
-                                                                .listTitleStyle),
-                                                        const Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    bottom: 2)),
-                                                        Text(
-                                                            snapshotTasks
-                                                                .data[index]
-                                                                .dueDate,
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                            style: Constants
-                                                                .listSubtitleStyle),
-                                                        const Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    bottom:
-                                                                        12)),
-                                                      ],
-                                                    ),
-                                                  ),
-
-                                                  //row containing task price and arrow indicator
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                          "\$" +
+                                                    Expanded(
+                                                      //column containing task name and due date
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          const Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 12)),
+                                                          Text(
                                                               snapshotTasks
                                                                   .data[index]
-                                                                  .cost,
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                          style: Constants
-                                                              .taskPrice),
-                                                      const Icon(Icons
-                                                          .chevron_right_rounded),
-                                                      const Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  right: 10)),
-                                                    ],
-                                                  ),
-                                                ],
+                                                                  .task,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: Constants
+                                                                  .listTitleStyle),
+                                                          const Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      bottom:
+                                                                          2)),
+                                                          Text(
+                                                              snapshotTasks
+                                                                  .data[index]
+                                                                  .dueDate,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: Constants
+                                                                  .listSubtitleStyle),
+                                                          const Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      bottom:
+                                                                          12)),
+                                                        ],
+                                                      ),
+                                                    ),
+
+                                                    //row containing task price and arrow indicator
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                            "\$" +
+                                                                snapshotTasks
+                                                                    .data[index]
+                                                                    .cost,
+                                                            textAlign:
+                                                                TextAlign.right,
+                                                            style: Constants
+                                                                .taskPrice),
+                                                        const Icon(Icons
+                                                            .chevron_right_rounded),
+                                                        const Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    right: 10)),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        },
+                                            );
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ],

@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 
 class BudgetDetails {
   /// Represents all the information about a budget
-  final int totalSpent;
-  final int budgetTotal;
+  final double totalSpent;
+  final double budgetTotal;
   final Map<int, String> budgetCategories;
 
   BudgetDetails({
@@ -37,10 +37,10 @@ class BudgetDetails {
     }
     var categoryMap = Map<int, String>.fromIterables(categoryIds, categoryTypes);
 
-    // Convert json to budget details
+    // Convert json to budget details (and convert any ints to doubles)
     BudgetDetails budgetDetails = BudgetDetails(
-        totalSpent: jsonData['total_spent'],
-        budgetTotal: jsonData['budget_total'],
+        totalSpent: jsonData['total_spent'] * 1.0,
+        budgetTotal: jsonData['budget_total'] * 1.0,
         budgetCategories: categoryMap
     );
 

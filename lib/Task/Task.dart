@@ -78,6 +78,56 @@ class Task {
     return tasksList;
   }
 
+  static Future<List<Task>> fetchAllUserTasks(String userEmail) async {
+    final response = await http
+        .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/tasks/$userEmail'));
+    var jsonData = jsonDecode(response.body);
+    List<Task> tasksList = [];
+
+    // With the json data, convert it to a Task and add it to our tasks list
+    for (var json in jsonData['user_tasks']) {
+      Task task = Task(
+        id: json['id'],
+        task: json['task_title'],
+        dueDate: json['due_date'],
+        description: json['task_description'],
+        spouse: json['assigned_user'],
+        cost: json['task_price'],
+        isComplete: json['is_complete'],
+        budgetCategoryId: json['budget_category_id'],
+      );
+      tasksList.add(task);
+    }
+
+    // Return the list of tasks
+    return tasksList;
+  }
+
+  static Future<List<Task>> fetchAllPartnerTasks(String userEmail) async {
+    final response = await http
+        .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/tasks/$userEmail'));
+    var jsonData = jsonDecode(response.body);
+    List<Task> tasksList = [];
+
+    // With the json data, convert it to a Task and add it to our tasks list
+    for (var json in jsonData['partner_tasks']) {
+      Task task = Task(
+        id: json['id'],
+        task: json['task_title'],
+        dueDate: json['due_date'],
+        description: json['task_description'],
+        spouse: json['assigned_user'],
+        cost: json['task_price'],
+        isComplete: json['is_complete'],
+        budgetCategoryId: json['budget_category_id'],
+      );
+      tasksList.add(task);
+    }
+
+    // Return the list of tasks
+    return tasksList;
+  }
+
   static Future<Task> updateTask(int id, String task, String dueDate, String description, int spouse, String cost, int userID) async {
     final response = await http.put(
       Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning/$id'),
