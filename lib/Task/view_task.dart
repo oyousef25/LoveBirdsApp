@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 import 'Task.dart';
@@ -133,7 +134,7 @@ class _ViewTask extends State<ViewTask> {
                         //Cost
                         const Text("Cost", style: Constants.taskHeading),
                         Constants.formPadding,
-                        Text("\$" + widget.task.cost,
+                        Text("${NumberFormat.simpleCurrency().currencySymbol}" + widget.task.cost,
                             style: Constants.cardContentStyle),
                         Constants.taskPadding,
 

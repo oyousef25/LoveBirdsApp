@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                   'There was an error fetching your account details'),
             );
           } else if (snapshotAccount.hasData) {
-            DateFormat weddingDateFormatter = DateFormat.yMMMMd('en_US');
+            DateFormat weddingDateFormatter = DateFormat.yMMMMd();
             DateTime? weddingDateTime = DateTime.tryParse(snapshotAccount.data.weddingDate);
             Duration timeTilWedding = Duration.zero;
             String prettyWeddingDate = '';
@@ -180,14 +180,14 @@ class _HomePageState extends State<HomePage> {
                                           margin: EdgeInsets.zero,
                                           color: Constants.lightSecondary,
                                           child: ListTile(
-                                            title: Text("Budget",
+                                            title: Text("Budget (${NumberFormat.simpleCurrency().currencySymbol})",
                                                 textAlign: TextAlign.center,
                                                 style: Constants.cardHeaderStyle),
                                           )),
 
                                       //Task Name
                                       Constants.sectionPadding,
-                                      Text('\$${snapshotAccount.data.budget}', style: Constants.taskNumber),
+                                      Text('${snapshotAccount.data.budget}', style: Constants.taskNumber),
                                       Constants.formPadding2,
                                       Text("remaining",
                                           style: Constants.cardContentStyle2),

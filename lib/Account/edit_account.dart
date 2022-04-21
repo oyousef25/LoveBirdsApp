@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:lovebirds_app/helper/Account/updateAccount.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
@@ -170,8 +171,8 @@ class _EditAccount extends State<EditAccount> {
 
                 Constants.sectionPadding,
 
-                const Text(
-                  "Budget",
+                Text(
+                  "Budget (${NumberFormat.simpleCurrency().currencySymbol})",
                   textAlign: TextAlign.left,
                   style: Constants.sectionHeading,
                 ),

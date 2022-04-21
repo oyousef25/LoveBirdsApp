@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lovebirds_app/Login/login.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -215,7 +216,7 @@ class _AccountPageState extends State<AccountPage> {
                                   ListTile(
                                     leading: Text("Budget",
                                         style: Constants.detailGreyedStyle),
-                                    trailing: Text(snapshotAccount.data.budget,
+                                    trailing: Text('${NumberFormat.simpleCurrency().currencySymbol}${snapshotAccount.data.budget}',
                                         style: Constants.detailStyle),
                                   ),
                                   ListTile(

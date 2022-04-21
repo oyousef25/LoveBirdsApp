@@ -172,7 +172,7 @@ class _PlanningPageState extends State<PlanningPage> {
                                                       padding: EdgeInsets.only(
                                                           bottom: 5)),
                                                   Text(
-                                                    '${NumberFormat.simpleCurrency().format(snapshotBudget.data.budgetTotal)}',
+                                                    '${NumberFormat.compactSimpleCurrency().format(snapshotBudget.data.budgetTotal)}',
                                                     textAlign: TextAlign.center,
                                                     style:
                                                         Constants.budgetExpense,
@@ -216,7 +216,7 @@ class _PlanningPageState extends State<PlanningPage> {
                                                     padding: EdgeInsets.only(
                                                         bottom: 5)),
                                                 Text(
-                                                  "${NumberFormat.simpleCurrency().format(snapshotBudget.data.totalSpent)}",
+                                                  "${NumberFormat.compactSimpleCurrency().format(snapshotBudget.data.totalSpent)}",
                                                   textAlign: TextAlign.center,
                                                   style:
                                                       Constants.budgetExpense,
@@ -422,7 +422,7 @@ class _PlanningPageState extends State<PlanningPage> {
                                                     Row(
                                                       children: [
                                                         Text(
-                                                            "\$" +
+                                                            "${NumberFormat.simpleCurrency().currencySymbol}" +
                                                                 snapshotTasks
                                                                     .data[index]
                                                                     .cost,

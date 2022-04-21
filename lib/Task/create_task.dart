@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 import 'Task.dart';
@@ -267,8 +268,8 @@ class _CreateTask extends State<CreateTask> {
 
                   Constants.sectionPadding,
 
-                  const Text(
-                    "Cost",
+                  Text(
+                    "Cost (${NumberFormat.simpleCurrency().currencySymbol})",
                     textAlign: TextAlign.left,
                     style: Constants.sectionHeading,
                   ),
