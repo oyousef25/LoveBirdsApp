@@ -99,7 +99,7 @@ class _Login extends State<Login> {
                             Constants.maxEmailLength) {
                           return 'Email must be less than ${Constants.maxEmailLength}';
                         }
-                        email = emailValue;
+                        email = emailValue.trim();
                         return null;
                       },
                     ),
