@@ -10,6 +10,8 @@ class Task {
   final String description;
   final int spouse;
   final String cost;
+  final int isComplete;
+  final int budgetCategoryId;
 
   Task({
     required this.id,
@@ -17,7 +19,9 @@ class Task {
     required this.dueDate,
     required this.description,
     required this.spouse,
-    required this.cost
+    required this.cost,
+    required this.isComplete,
+    required this.budgetCategoryId
   });
 
   //this is a factory constructor that creates a Task object from JSON
@@ -28,7 +32,9 @@ class Task {
         dueDate: json['due_date'],
         description: json['task_description'],
         spouse: json['assigned_user'],
-        cost: json['task_price']
+        cost: json['task_price'],
+        isComplete: json['is_complete'],
+        budgetCategoryId: json['budget_category_id']
     );
   }
 
@@ -47,21 +53,23 @@ class Task {
     }
   }
 
-  static Future<List<Task>> fetchAllTasks() async {
+  static Future<List<Task>> fetchAllTasks(String userEmail) async {
     final response = await http
-        .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning'));
+        .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/tasks/$userEmail'));
     var jsonData = jsonDecode(response.body);
     List<Task> tasksList = [];
 
     // With the json data, convert it to a Task and add it to our tasks list
-    for (var json in jsonData["tasks"]["data"]) {
+    for (var json in jsonData["all_tasks"]) {
       Task task = Task(
           id: json['id'],
           task: json['task_title'],
           dueDate: json['due_date'],
           description: json['task_description'],
           spouse: json['assigned_user'],
-          cost: json['task_price']
+          cost: json['task_price'],
+          isComplete: json['is_complete'],
+          budgetCategoryId: json['budget_category_id']
       );
       tasksList.add(task);
     }
