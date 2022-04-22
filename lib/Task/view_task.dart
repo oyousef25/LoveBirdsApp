@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lovebirds_app/helper/Account/accountInfo.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 import 'Task.dart';
+import 'modify_task.dart';
 
 class ViewTask extends StatefulWidget {
-  const ViewTask({Key? key, required this.task, required this.budgetCategoryMap}) : super(key: key);
+  const ViewTask({Key? key, required this.task, required this.budgetCategoryMap, required this.accountInfo}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -14,6 +16,7 @@ class ViewTask extends StatefulWidget {
 
   final Task task;
   final Map<int, String> budgetCategoryMap;
+  final AccountInfo accountInfo;
 }
 
 class _ViewTask extends State<ViewTask> {
@@ -37,6 +40,7 @@ class _ViewTask extends State<ViewTask> {
         backgroundColor: Constants.lightPrimary,
         titleTextStyle: Constants.appBarStyle,
         iconTheme: const IconThemeData(color: Colors.black),
+        centerTitle: true,
       ),
       body: FutureBuilder<Task>(
         future: _futureTask,
@@ -67,16 +71,19 @@ class _ViewTask extends State<ViewTask> {
                             margin: EdgeInsets.zero,
                             color: Constants.lightSecondary,
                             child: ListTile(
-                              title: const Text("My Task",
+                              // determine if it's the user's task or their partner's task
+                              title: Text(widget.task.spouse != widget.task.id ? 'My Task' : 'Partner Task',
                                   textAlign: TextAlign.center,
                                   style: Constants.cardHeaderStyle),
                               trailing: IconButton(
                                 onPressed: () {
                                   // Jump to edit screen
-                                  // Navigator.of(context).push(MaterialPageRoute(
-                                  //   builder: (context) => ModifyTask(
-                                  //       dataMap: dataMap, task: widget.task),
-                                  // ));
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ModifyTask(
+                                        budgetCategories: widget.budgetCategoryMap,
+                                        taskInfo: widget.task,
+                                        accountInfo: widget.accountInfo)
+                                  ));
                                 },
                                 icon: const Icon(Icons.edit),
                               ),

@@ -420,7 +420,8 @@ class _PlanningPageState extends State<PlanningPage> {
                                                         ViewTask(
                                                             task: snapshotTasks
                                                                 .data[index],
-                                                        budgetCategoryMap: snapshotBudget.data.budgetCategories,)));
+                                                        budgetCategoryMap: snapshotBudget.data.budgetCategories,
+                                                        accountInfo: snapshotAccount.data,)));
                                           },
 
                                           child: Card(

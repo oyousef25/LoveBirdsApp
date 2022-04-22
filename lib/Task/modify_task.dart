@@ -35,6 +35,7 @@ class _ModifyTask extends State<ModifyTask> {
 
   TextEditingController dateEditingController = TextEditingController();
   String taskDueDate = '';
+  int? assignedUser;
 
   // This shows a CupertinoModalPopup with a reasonable fixed height which hosts CupertinoDatePicker.
   void _showDialog(Widget child) {
@@ -67,7 +68,16 @@ class _ModifyTask extends State<ModifyTask> {
     // If user has a partner then add to the assigned user choice chip
     if (widget.accountInfo.partnerId != null) {
       _chips.add('Partner');
+      if(widget.taskInfo != null) {
+        setState(() {
+          // Change selected chip based on if the user id matches the assigned user
+          _selectedIndex = widget.taskInfo!.id == widget.taskInfo!.spouse ? 1 : 0;
+        });
+      }
     }
+
+    // Set initial assigned user
+    assignedUser = widget.taskInfo?.spouse ?? widget.accountInfo.id;
   }
 
   @override
@@ -76,7 +86,6 @@ class _ModifyTask extends State<ModifyTask> {
     String task = widget.taskInfo?.task ?? '';
     // String? dueDate = widget.taskInfo?.dueDate;
     String description = widget.taskInfo?.description ?? '';
-    int assignedUser = widget.taskInfo?.spouse ?? widget.accountInfo.id;
     String? cost = widget.taskInfo?.cost;
     int? categoryId = widget.taskInfo?.budgetCategoryId ?? -1;
     String? categoryValue =
@@ -264,6 +273,7 @@ class _ModifyTask extends State<ModifyTask> {
                               elevation: Constants.elevation,
                               color: Colors.white,
                               child: TextFormField(
+                                initialValue: description,
                                 decoration: InputDecoration(
                                     floatingLabelBehavior:
                                         Constants.floatingLabelBehaviour,
@@ -484,14 +494,14 @@ class _ModifyTask extends State<ModifyTask> {
 
                                     setState(() {
                                       if (widget.taskInfo == null) {
-                                        // Update task to API
+                                        // Create task to API
                                         _futureTask = Task.createTask(
                                           task,
                                           dateEditingController.text,
                                           description,
-                                          assignedUser,
+                                          assignedUser!,
                                           cost,
-                                          widget.accountInfo.id,
+                                          assignedUser!, // userId is based on the assigned user
                                           categoryId != -1 ? categoryId : null,
                                         );
                                         // Go back to previous page
