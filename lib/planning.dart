@@ -151,7 +151,8 @@ class _PlanningPageState extends State<PlanningPage> {
                                                                         (context) =>
                                                                             BudgetPage(taskList: snapshotTasks.data,
                                                                             budgetCategories: snapshotBudget.data.budgetCategories,
-                                                                            accountInfo: snapshotAccount.data,)),
+                                                                            accountInfo: snapshotAccount.data,
+                                                                            currentChip: _selectedIndex!)),
                                                               );
                                                             },
                                                             child: Card(

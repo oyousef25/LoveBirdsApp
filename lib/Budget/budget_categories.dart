@@ -9,11 +9,14 @@ import 'package:pie_chart/pie_chart.dart';
 import '../helper/constants.dart';
 
 class BudgetPage extends StatefulWidget {
-  const BudgetPage({Key? key, required this.taskList, required this.budgetCategories, required this.accountInfo}) : super(key: key);
+  const BudgetPage({Key? key,
+    required this.taskList, required this.budgetCategories,
+    required this.accountInfo, required this.currentChip}) : super(key: key);
 
   final List<Task> taskList;
   final Map<int, String> budgetCategories;
   final AccountInfo accountInfo;
+  final int currentChip;
 
   /// Creates a state
   ///
@@ -26,6 +29,8 @@ class BudgetPage extends StatefulWidget {
 
 class _BudgetPageState extends State<BudgetPage> {
   late Future<Map<String, double>> futureCategories;
+
+  String title = '';
 
   String category = ""; //will hold the current category selected
   int? categoryId; //will hold the current category id selected
@@ -54,13 +59,26 @@ class _BudgetPageState extends State<BudgetPage> {
     for(int id in widget.budgetCategories.keys) {
       dataMap[widget.budgetCategories[id]!] = numOfTasksInEachCategory[id]!.length * 1.0;
     }
+
+    // Title based on current person
+    switch(widget.currentChip) {
+      case 0:
+        title = 'Budget (Me)';
+        break;
+      case 1:
+        title = "Budget (Partner)";
+        break;
+      default:
+        title = "Budget (All)";
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Budget'),
+        title: Text(title),
         backgroundColor: Constants.lightPrimary,
         titleTextStyle: Constants.appBarStyle,
         iconTheme: const IconThemeData(color: Colors.black),
