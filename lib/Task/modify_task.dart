@@ -333,8 +333,8 @@ class _ModifyTask extends State<ModifyTask> {
 
                             Constants.sectionPadding,
 
-                            const Text(
-                              "Assigned to",
+                            Text(
+                              "Assigned to - ${_chips[_selectedIndex ?? 0]}",
                               textAlign: TextAlign.left,
                               style: Constants.sectionHeading,
                             ),
@@ -375,7 +375,7 @@ class _ModifyTask extends State<ModifyTask> {
                             Constants.sectionPadding,
 
                             Text(
-                              "Cost (${NumberFormat.simpleCurrency().currencySymbol})",
+                              "Cost (${NumberFormat.simpleCurrency().currencySymbol}) - ${isSwitched ? 'Enabled' : 'Disabled'}",
                               textAlign: TextAlign.left,
                               style: Constants.sectionHeading,
                             ),
@@ -391,13 +391,31 @@ class _ModifyTask extends State<ModifyTask> {
                                     elevation: Constants.elevation,
                                     color: Colors.white,
                                     child: TextFormField(
+                                      enabled: isSwitched,
+                                      keyboardType: TextInputType.number,
+                                      initialValue: cost,
                                       decoration: InputDecoration(
                                           floatingLabelBehavior:
                                           Constants.floatingLabelBehaviour,
                                           border: Constants.outlineInputBorder,
-                                          fillColor: Colors.white),
+                                          fillColor: Constants.formfieldColor,
+                                          filled: !isSwitched),
                                       onSaved: (String? value) {
-                                        cost = value ?? '';
+                                        // Save cost if it is enabled
+                                        if(isSwitched) {
+                                          cost = value ?? '';
+                                        } else {
+                                          cost = '';
+                                        }
+                                      },
+                                      validator: (String? value) {
+                                        // Cost validation
+                                        if (double.tryParse(value!) == null) {
+                                          return 'Please enter a valid number';
+                                        } else if (double.parse(value) > Constants.maxCostSize) {
+                                          return 'Max cost of ${Constants.maxCostSize} allowed';
+                                        }
+                                        return null;
                                       },
                                     ),
                                   ),
@@ -405,11 +423,10 @@ class _ModifyTask extends State<ModifyTask> {
                                 const Padding(padding: EdgeInsets.only(right: 10)),
                                 Switch(
                                   value: isSwitched,
-                                  //TODO: Toggle Switch and enable/disable cost textfield
+                                  // Toggle Switch and enable/disable cost textfield
                                   onChanged: (value) {
                                     setState(() {
                                       isSwitched = value;
-                                      print(isSwitched);
                                     });
                                   },
                                   activeTrackColor: Colors.lightGreenAccent,
