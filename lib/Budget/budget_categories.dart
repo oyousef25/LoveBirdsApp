@@ -3,15 +3,17 @@ import 'package:lovebirds_app/Budget/BudgetCategory.dart';
 import 'package:lovebirds_app/Budget/create_budget_category.dart';
 import 'package:lovebirds_app/Budget/view_budget_category.dart';
 import 'package:lovebirds_app/Task/Task.dart';
+import 'package:lovebirds_app/helper/Account/accountInfo.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 import '../helper/constants.dart';
 
 class BudgetPage extends StatefulWidget {
-  const BudgetPage({Key? key, required this.taskList, required this.budgetCategories}) : super(key: key);
+  const BudgetPage({Key? key, required this.taskList, required this.budgetCategories, required this.accountInfo}) : super(key: key);
 
   final List<Task> taskList;
   final Map<int, String> budgetCategories;
+  final AccountInfo accountInfo;
 
   /// Creates a state
   ///
@@ -26,18 +28,36 @@ class _BudgetPageState extends State<BudgetPage> {
   late Future<Map<String, double>> futureCategories;
 
   String category = ""; //will hold the current category selected
-  int categoryId = 0; //will hold the current category id selected
+  int? categoryId; //will hold the current category id selected
+
+  Map<int, List<int>> numOfTasksInEachCategory = {};
+  Map<String, double> dataMap = {};
 
   @override
   void initState() {
     super.initState();
     futureCategories = BudgetCategory.fetchBudgetCategoriesMap();
+
+    /// Hack for populating the datamap
+    // Populate the categories
+    for(int id in widget.budgetCategories.keys) {
+      numOfTasksInEachCategory[id] = [];
+    }
+    // Populate the tasks in the categories
+    for(Task task in widget.taskList) {
+      int? validId = task.budgetCategoryId;
+      if(validId != null) {
+        numOfTasksInEachCategory[validId]?.add(1);
+      }
+    }
+    // Now populate the datamap used for the pie chart
+    for(int id in widget.budgetCategories.keys) {
+      dataMap[widget.budgetCategories[id]!] = numOfTasksInEachCategory[id]!.length * 1.0;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    Map<String, double> dataMap;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Budget'),
@@ -50,7 +70,6 @@ class _BudgetPageState extends State<BudgetPage> {
         future: futureCategories,
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            dataMap = snapshot.data;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -84,13 +103,15 @@ class _BudgetPageState extends State<BudgetPage> {
                         return GestureDetector(
                           onTap: () {
                             // Jump to view budget category screen
-                            category = snapshot.data.keys.elementAt(index);
+                            category = widget.budgetCategories.values.elementAt(index);
                             categoryId = widget.budgetCategories.keys.elementAt(index);
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ViewBudgetCategory(
                                 categoryString: category, index: index,
                                 taskList: widget.taskList,
                                 categoryId: categoryId,
+                                categoryMap: widget.budgetCategories,
+                                accountInfo: widget.accountInfo,
                               ),
                             ));
                           },

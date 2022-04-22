@@ -484,14 +484,6 @@ class _ModifyTask extends State<ModifyTask> {
                                     _taskFormKey.currentState!
                                         .save(); // Save all the form field items
                                     // Process data.
-                                    print(task);
-                                    print(dateEditingController.text);
-                                    print(description);
-                                    print(assignedUser);
-                                    print(cost);
-                                    print(widget.accountInfo.id);
-                                    print(categoryId);
-
                                     setState(() {
                                       if (widget.taskInfo == null) {
                                         // Create task to API

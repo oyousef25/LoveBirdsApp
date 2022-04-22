@@ -150,7 +150,8 @@ class _PlanningPageState extends State<PlanningPage> {
                                                                     builder:
                                                                         (context) =>
                                                                             BudgetPage(taskList: snapshotTasks.data,
-                                                                            budgetCategories: snapshotBudget.data.budgetCategories,)),
+                                                                            budgetCategories: snapshotBudget.data.budgetCategories,
+                                                                            accountInfo: snapshotAccount.data,)),
                                                               );
                                                             },
                                                             child: Card(

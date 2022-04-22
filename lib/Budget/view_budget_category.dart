@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:lovebirds_app/Budget/BudgetCategory.dart';
 import 'package:lovebirds_app/Budget/edit_budget_category.dart';
 import 'package:lovebirds_app/Task/Task.dart';
+import 'package:lovebirds_app/Task/view_task.dart';
+import 'package:lovebirds_app/helper/Account/accountInfo.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 
 class ViewBudgetCategory extends StatefulWidget {
   ViewBudgetCategory({Key? key, required this.categoryString, required this.index,
-  required this.taskList, required this.categoryId }) : super(key: key);
+  required this.taskList, required this.categoryId, required this.categoryMap,
+  required this.accountInfo}) : super(key: key);
 
   final List<Task> taskList;
-  final int categoryId;
+  final int? categoryId;
+  final Map<int, String> categoryMap;
+  final AccountInfo accountInfo;
 
   @override
   State<StatefulWidget> createState() {
@@ -45,6 +50,7 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
         backgroundColor: Constants.lightPrimary,
         titleTextStyle: Constants.appBarStyle,
         iconTheme: const IconThemeData(color: Colors.black),
+        centerTitle: true,
       ),
       body:
       FutureBuilder<List<BudgetCategory>>(
@@ -203,9 +209,12 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
                   return GestureDetector(
                     //This helps to make the card clickable
                     onTap: () {
-                      // // Open up the View Task route
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //     builder: (context) => ViewTask()));
+                      // Open up the View Task route
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ViewTask(
+                              task: widget.taskList[index],
+                              budgetCategoryMap: widget.categoryMap,
+                              accountInfo: widget.accountInfo)));
                     },
 
                     child: Card(
