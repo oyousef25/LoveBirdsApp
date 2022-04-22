@@ -518,8 +518,8 @@ class _PlanningPageState extends State<PlanningPage> {
                                     MaterialPageRoute(
                                         builder: (context) => ModifyTask(
                                               budgetCategories: snapshotBudget.data.budgetCategories,
-                                              userID: snapshotAccount.data.id,
                                               taskInfo: null,
+                                              accountInfo: snapshotAccount.data,
                                             )),
                                   );
                                 },

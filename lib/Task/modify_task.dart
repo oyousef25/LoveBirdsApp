@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:lovebirds_app/helper/Account/accountInfo.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 import 'Task.dart';
@@ -10,8 +11,8 @@ class ModifyTask extends StatefulWidget {
   const ModifyTask(
       {Key? key,
       required this.budgetCategories,
-      required this.userID,
-      required this.taskInfo})
+      required this.taskInfo,
+      required this.accountInfo})
       : super(key: key);
 
   @override
@@ -20,14 +21,14 @@ class ModifyTask extends StatefulWidget {
   }
 
   final Map<int, String> budgetCategories;
-  final int userID;
   final Task? taskInfo;
+  final AccountInfo accountInfo;
 }
 
 class _ModifyTask extends State<ModifyTask> {
   bool isSwitched = false;
   int? _selectedIndex = 0; // Index of selected chip
-  final List<String> _chips = ['Me', 'Partner']; // List of chip options
+  final List<String> _chips = ['Me']; // List of chip options
 
   final GlobalKey<FormState> _taskFormKey = GlobalKey<FormState>();
   late Future<Task> _futureTask;
@@ -62,6 +63,11 @@ class _ModifyTask extends State<ModifyTask> {
 
     // Get the task if given one
     _futureTask = Task.fetchTask(widget.taskInfo?.id ?? -1);
+
+    // If user has a partner then add to the assigned user choice chip
+    if(widget.accountInfo.partnerId != null) {
+      _chips.add('Partner');
+    }
   }
 
   @override
@@ -70,7 +76,7 @@ class _ModifyTask extends State<ModifyTask> {
     String task = widget.taskInfo?.task ?? '';
     String? dueDate = widget.taskInfo?.dueDate;
     String description = widget.taskInfo?.description ?? '';
-    int spouse = widget.taskInfo?.spouse ?? 0;
+    int assignedUser = widget.taskInfo?.spouse ?? widget.accountInfo.id;
     String? cost = widget.taskInfo?.cost;
     int? categoryId = widget.taskInfo?.budgetCategoryId;
     String? categoryValue = widget.budgetCategories[widget.taskInfo?.budgetCategoryId];
@@ -357,6 +363,8 @@ class _ModifyTask extends State<ModifyTask> {
                                         if (_selectedIndex != index) {
                                           setState(() {
                                             _selectedIndex = selected ? index : null;
+                                            // Set assigned user to user or partner (if partner exists) depending on 0 or 1 index
+                                            assignedUser = _selectedIndex == 0 ? widget.accountInfo.id : widget.accountInfo.partnerId!;
                                           });
                                         }
                                       },
