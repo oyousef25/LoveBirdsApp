@@ -247,10 +247,38 @@ class _ViewTask extends State<ViewTask> {
 
                         ElevatedButton(
                           onPressed: () => {
-                            // TODO: Provide complete functionality
-                            Navigator.pop(context),
+                            if(widget.task.isComplete == 0) {
+                              // Complete task functionality
+                              setState(() {
+                                _futureTask = Task.updateTask(
+                                    widget.task.id,
+                                    widget.task.task,
+                                    widget.task.dueDate ?? '',
+                                    widget.task.description,
+                                    widget.task.spouse,
+                                    widget.task.cost,
+                                    widget.task.spouse, // userId is based on the assigned user
+                                    1, // 1 for set as complete
+                                    widget.task.budgetCategoryId);
+                                Navigator.pop(context);
+                              })
+                            } else {
+                              setState(() {
+                                _futureTask = Task.updateTask(
+                                    widget.task.id,
+                                    widget.task.task,
+                                    widget.task.dueDate ?? '',
+                                    widget.task.description,
+                                    widget.task.spouse,
+                                    widget.task.cost,
+                                    widget.task.spouse, // userId is based on the assigned user
+                                    0, // 0 for set as incomplete
+                                    widget.task.budgetCategoryId);
+                                Navigator.pop(context);
+                              })
+                            }
                           },
-                          child: const Text('Complete',
+                          child: Text(widget.task.isComplete == 0 ? 'Mark as Complete' : 'Mark as Incomplete',
                               style: Constants.buttonRedStyle),
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -262,7 +290,7 @@ class _ViewTask extends State<ViewTask> {
                                 Constants.buttonGreen),
                             padding: MaterialStateProperty.all<EdgeInsets>(
                                 const EdgeInsets.symmetric(
-                                    vertical: 20.0, horizontal: 80.0)),
+                                    vertical: 20.0, horizontal: 40.0)),
                           ),
                         ),
 
