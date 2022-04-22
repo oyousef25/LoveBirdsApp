@@ -71,7 +71,7 @@ class _ModifyTask extends State<ModifyTask> {
       if(widget.taskInfo != null) {
         setState(() {
           // Change selected chip based on if the user id matches the assigned user
-          _selectedIndex = widget.taskInfo!.id == widget.taskInfo!.spouse ? 1 : 0;
+          _selectedIndex = widget.accountInfo.id == widget.taskInfo!.spouse ? 0 : 1;
         });
       }
     }

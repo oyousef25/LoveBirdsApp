@@ -72,7 +72,7 @@ class _ViewTask extends State<ViewTask> {
                             color: Constants.lightSecondary,
                             child: ListTile(
                               // determine if it's the user's task or their partner's task
-                              title: Text(widget.task.spouse != widget.task.id ? 'My Task' : 'Partner Task',
+                              title: Text(widget.task.spouse == widget.accountInfo.id ? 'My Task' : 'Partner Task',
                                   textAlign: TextAlign.center,
                                   style: Constants.cardHeaderStyle),
                               trailing: IconButton(
