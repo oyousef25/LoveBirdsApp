@@ -110,7 +110,7 @@ class _BudgetPageState extends State<BudgetPage> {
             return Text('${snapshot.error}');
           }
           // By default, show a loading spinner.
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         },
       ),
 
