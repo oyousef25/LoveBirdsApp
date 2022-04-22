@@ -10,13 +10,14 @@ import '../helper/GuestCRUD/updateGuest.dart';
 
 class ModifyGuestScreen extends StatefulWidget {
   const ModifyGuestScreen(
-      {Key? key, required this.guestInfo, required this.guestRelationships})
+      {Key? key, required this.guestInfo, required this.guestRelationships, required this.userID})
       : super(key: key);
 
   // Will be null if adding a guest
   // Otherwise it will contain the guest info to edit.
   final GuestInfo? guestInfo;
   final Map<int, String> guestRelationships; // Guest relationship map
+  final int userID;
 
   @override
   State<StatefulWidget> createState() {
@@ -49,6 +50,17 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
     String guestEmail = widget.guestInfo?.email ?? '';
     String guestPhoneNum = widget.guestInfo?.phoneNum ?? '';
     int guestStatus = widget.guestInfo?.status ?? 1;
+
+    // Create the relationship map so we can access the relationship id by type
+    List<int> relationshipIds = [];
+    List<String> relationshipTypes = [];
+    for (var id in widget.guestRelationships.keys) {
+      relationshipIds.add(id);
+    }
+    for (var type in widget.guestRelationships.values) {
+      relationshipTypes.add(type);
+    }
+    var relationshipMap = Map<String, int>.fromIterables(relationshipTypes, relationshipIds);
 
     return Scaffold(
       appBar: AppBar(
@@ -108,6 +120,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                               filled: true,
                             ),
                             validator: (String? value) {
+                              // First name validation
                               if (value == null || value.isEmpty) {
                                 return 'First name cannot be empty';
                               } else if (value.length > Constants.maxTextFieldLength) {
@@ -152,6 +165,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                               filled: true,
                             ),
                             validator: (String? value) {
+                              // Last name validation
                               if (value == null || value.isEmpty) {
                                 return 'Last name cannot be empty';
                               } else if (value.length > Constants.maxTextFieldLength) {
@@ -199,6 +213,10 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                             icon: const Icon(Icons.arrow_drop_down_rounded),
                             elevation: 16,
                             style: Constants.formDropdownStyle,
+                            onSaved: (String? value) {
+                              guestRelationshipValue = value ?? '';
+                              guestRelationship = relationshipMap[guestRelationshipValue] ?? 1;
+                            },
                             onChanged: (String? newValue) {
                               setState(() {
                                 guestRelationshipValue = newValue!;
@@ -250,6 +268,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                               filled: true,
                             ),
                             validator: (String? value) {
+                              // Email validation
                               if (value == null || value.isEmpty) {
                                 return 'E-mail cannot be empty';
                               } else if (!Constants.emailRegex.hasMatch(value)) {
@@ -295,6 +314,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                               filled: true,
                             ),
                             validator: (String? value) {
+                              // Phone validation
                               if (value == null || value.isEmpty) {
                                 return 'Phone # cannot be empty';
                               } else if (!Constants.phoneRegex.hasMatch(value)) {
@@ -321,7 +341,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                                       setState(() {
                                         // Add a guest to API
                                         _futureGuest = createGuest(
-                                          1,
+                                          widget.userID,
                                           guestFirstName,
                                           guestLastName,
                                           guestRelationship,
@@ -338,7 +358,7 @@ class _ModifyGuestState extends State<ModifyGuestScreen> {
                                         // Update a guest to API
                                         _futureGuest = updateGuest(
                                             guestId,
-                                            1,
+                                            widget.userID,
                                             guestFirstName,
                                             guestLastName,
                                             guestRelationship,

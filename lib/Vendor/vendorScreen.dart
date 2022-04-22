@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/Vendor/vendorDetail.dart';
+import 'package:lovebirds_app/helper/Account/accountInfo.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/fetchAllVendors.dart';
 import 'package:lovebirds_app/helper/vendorInfo.dart';
@@ -8,11 +9,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 class VendorScreen extends StatefulWidget {
   // In the constructor, require a Vendor type and vendor list.
   const VendorScreen(
-      {Key? key, required this.vendorType})
+      {Key? key, required this.vendorType, required this.accountInfo})
       : super(key: key);
 
   // Declare a field that holds the vendor type and vendor list.
   final String vendorType;
+  final AccountInfo accountInfo;
 
   @override
   State createState() {
@@ -62,6 +64,7 @@ class _VendorScreenState extends State<VendorScreen> {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => VendorDetailScreen(
                             vendorInfo: snapshot.data[index],
+                            accountInfo: widget.accountInfo,
                           ),
                         ));
                       },

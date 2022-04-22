@@ -3,10 +3,10 @@ import 'package:http/http.dart' as http;
 import '../guestInfo.dart';
 
 /// Gets guest list from API
-Future<List<GuestInfo>> fetchConfirmedGuests() async {
+Future<List<GuestInfo>> fetchConfirmedGuests(String email) async {
   // Request the guest data, convert to JSon
   var response = await http
-      .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/guests'));
+      .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/guest/$email'));
   var jsonData = jsonDecode(response.body);
   List<GuestInfo> customGuestsList = [];
 

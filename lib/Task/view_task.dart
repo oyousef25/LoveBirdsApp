@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:lovebirds_app/helper/Account/accountInfo.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 import 'Task.dart';
-import 'edit_task.dart';
+import 'modify_task.dart';
 
 class ViewTask extends StatefulWidget {
-  const ViewTask({Key? key, required this.task}) : super(key: key);
+  const ViewTask({Key? key, required this.task, required this.budgetCategoryMap, required this.accountInfo}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -13,24 +15,21 @@ class ViewTask extends StatefulWidget {
   }
 
   final Task task;
+  final Map<int, String> budgetCategoryMap;
+  final AccountInfo accountInfo;
 }
 
 class _ViewTask extends State<ViewTask> {
-  Map<String, double> dataMap = {
-    "Food": 5,
-    "Venue": 3,
-    "Photos": 2,
-    "Hummus": 7,
-    "Bride": 1,
-    "Other": 2,
-  };
-
   Future<Task>? _futureTask;
+  String? budgetCategoryValue;
 
   @override
   void initState() {
     super.initState();
     _futureTask = Task.fetchTask(widget.task.id);
+
+    budgetCategoryValue =
+        widget.budgetCategoryMap[widget.task.budgetCategoryId];
   }
 
   @override
@@ -41,6 +40,7 @@ class _ViewTask extends State<ViewTask> {
         backgroundColor: Constants.lightPrimary,
         titleTextStyle: Constants.appBarStyle,
         iconTheme: const IconThemeData(color: Colors.black),
+        centerTitle: true,
       ),
       body: FutureBuilder<Task>(
         future: _futureTask,
@@ -71,15 +71,18 @@ class _ViewTask extends State<ViewTask> {
                             margin: EdgeInsets.zero,
                             color: Constants.lightSecondary,
                             child: ListTile(
-                              title: const Text("My Task",
+                              // determine if it's the user's task or their partner's task
+                              title: Text(widget.task.spouse == widget.accountInfo.id ? 'My Task' : 'Partner Task',
                                   textAlign: TextAlign.center,
                                   style: Constants.cardHeaderStyle),
                               trailing: IconButton(
                                 onPressed: () {
                                   // Jump to edit screen
                                   Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => EditTask(
-                                        dataMap: dataMap, task: widget.task),
+                                    builder: (context) => ModifyTask(
+                                        budgetCategories: widget.budgetCategoryMap,
+                                        taskInfo: widget.task,
+                                        accountInfo: widget.accountInfo)
                                   ));
                                 },
                                 icon: const Icon(Icons.edit),
@@ -97,7 +100,7 @@ class _ViewTask extends State<ViewTask> {
                         //Due Date of Task
                         const Text("Due Date", style: Constants.taskHeading),
                         Constants.formPadding,
-                        Text(widget.task.dueDate,
+                        Text('${widget.task.dueDate}',
                             style: Constants.cardContentStyle),
                         Constants.taskPadding,
 
@@ -121,8 +124,8 @@ class _ViewTask extends State<ViewTask> {
                         Constants.formPadding,
                         Container(
                           padding: const EdgeInsets.only(left: 40, right: 40),
-                          child: const Text(
-                            "Food",
+                          child: Text(
+                            budgetCategoryValue ?? 'None',
                             style: Constants.cardContentStyle,
                             textAlign: TextAlign.center,
                           ),
@@ -131,9 +134,9 @@ class _ViewTask extends State<ViewTask> {
                         Constants.taskPadding,
 
                         //Cost
-                        const Text("Cost", style: Constants.taskHeading),
+                        Text("Cost (${NumberFormat.simpleCurrency().currencySymbol})", style: Constants.taskHeading),
                         Constants.formPadding,
-                        Text("\$" + widget.task.cost,
+                        Text('${widget.task.cost}',
                             style: Constants.cardContentStyle),
                         Constants.taskPadding,
 
@@ -189,14 +192,14 @@ class _ViewTask extends State<ViewTask> {
                                       padding:
                                           MaterialStateProperty.all<EdgeInsets>(
                                               EdgeInsets.symmetric(
-                                                  vertical: 25.0,
-                                                  horizontal: 40.0)),
+                                                  vertical: 20.0,
+                                                  horizontal: 30.0)),
                                     )),
                                 ElevatedButton(
                                   onPressed: () => {
                                     setState(() {
                                     _futureTask =
-                                        Task.deleteTask(snapshot.data!.id);
+                                        Task.deleteTask(widget.task.id);
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                     })
@@ -217,8 +220,8 @@ class _ViewTask extends State<ViewTask> {
                                     padding:
                                         MaterialStateProperty.all<EdgeInsets>(
                                             EdgeInsets.symmetric(
-                                                vertical: 25.0,
-                                                horizontal: 35.0)),
+                                                vertical: 20.0,
+                                                horizontal: 30.0)),
                                   ),
                                 ),
                               ],

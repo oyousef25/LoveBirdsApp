@@ -6,10 +6,12 @@ class Task {
   /// Represents all the information about a Task
   final int id;
   final String task;
-  final String dueDate;
+  final String? dueDate;
   final String description;
   final int spouse;
-  final String cost;
+  final String? cost;
+  final int isComplete;
+  final int? budgetCategoryId;
 
   Task({
     required this.id,
@@ -17,7 +19,9 @@ class Task {
     required this.dueDate,
     required this.description,
     required this.spouse,
-    required this.cost
+    required this.cost,
+    required this.isComplete,
+    required this.budgetCategoryId,
   });
 
   //this is a factory constructor that creates a Task object from JSON
@@ -28,7 +32,9 @@ class Task {
         dueDate: json['due_date'],
         description: json['task_description'],
         spouse: json['assigned_user'],
-        cost: json['task_price']
+        cost: json['task_price'],
+        isComplete: json['is_complete'],
+        budgetCategoryId: json['budget_category_id'],
     );
   }
 
@@ -47,21 +53,23 @@ class Task {
     }
   }
 
-  static Future<List<Task>> fetchAllTasks() async {
+  static Future<List<Task>> fetchAllTasks(String userEmail) async {
     final response = await http
-        .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning'));
+        .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/tasks/$userEmail'));
     var jsonData = jsonDecode(response.body);
     List<Task> tasksList = [];
 
     // With the json data, convert it to a Task and add it to our tasks list
-    for (var json in jsonData["tasks"]["data"]) {
+    for (var json in jsonData['all_tasks']) {
       Task task = Task(
           id: json['id'],
-          task: json['task_title'],
-          dueDate: json['due_date'],
-          description: json['task_description'],
-          spouse: json['assigned_user'],
-          cost: json['task_price']
+        task: json['task_title'] ?? '',
+        dueDate: json['due_date'] ?? '',
+        description: json['task_description'] ?? '',
+        spouse: json['assigned_user'],
+        cost: json['task_price'] ?? '',
+        isComplete: json['is_complete'],
+        budgetCategoryId: json['budget_category_id'],
       );
       tasksList.add(task);
     }
@@ -70,24 +78,99 @@ class Task {
     return tasksList;
   }
 
-  static Future<Task> updateTask(int id, String task, String dueDate, String description, int spouse, String cost, int userID) async {
-    final response = await http.put(
-      Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning/$id'),
-      headers: <String, String>{ // Metadata
-        'Content-Type': 'application/json; charset=UTF-8',
-      }, // Encode the task
-      body: jsonEncode(<String, dynamic>{
-        'task_title': task,
-        'due_date': dueDate,
-        'task_description': description,
-        'assigned_user': spouse,
-        'task_price': cost,
-        'user_id' : userID
-      }),
-    );
+  static Future<List<Task>> fetchAllUserTasks(String userEmail) async {
+    final response = await http
+        .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/tasks/$userEmail'));
+    var jsonData = jsonDecode(response.body);
+    List<Task> tasksList = [];
+
+    // With the json data, convert it to a Task and add it to our tasks list
+    for (var json in jsonData['user_tasks']) {
+      Task task = Task(
+        id: json['id'],
+        task: json['task_title'] ?? '',
+        dueDate: json['due_date'] ?? '',
+        description: json['task_description'] ?? '',
+        spouse: json['assigned_user'],
+        cost: json['task_price'] ?? '',
+        isComplete: json['is_complete'],
+        budgetCategoryId: json['budget_category_id'],
+      );
+      tasksList.add(task);
+    }
+
+    // Return the list of tasks
+    return tasksList;
+  }
+
+  static Future<List<Task>> fetchAllPartnerTasks(String userEmail) async {
+    final response = await http
+        .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/tasks/$userEmail'));
+    var jsonData = jsonDecode(response.body);
+    List<Task> tasksList = [];
+
+    // With the json data, convert it to a Task and add it to our tasks list
+    for (var json in jsonData['partner_tasks']) {
+      Task task = Task(
+        id: json['id'],
+        task: json['task_title'] ?? '',
+        dueDate: json['due_date'] ?? '',
+        description: json['task_description'] ?? '',
+        spouse: json['assigned_user'],
+        cost: json['task_price'] ?? '',
+        isComplete: json['is_complete'],
+        budgetCategoryId: json['budget_category_id'],
+      );
+      tasksList.add(task);
+    }
+
+    // Return the list of tasks
+    return tasksList;
+  }
+
+  static Future<Task> updateTask(
+      int id, String task, String dueDate,
+      String description, int spouse, String? cost,
+      int userID, int? isComplete, int? budgetCategoryId) async {
+
+    final response;
+
+    if(budgetCategoryId == null) { // Case where budget category is null
+      response = await http.put(
+        Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning/$id'),
+        headers: <String, String>{ // Metadata
+          'Content-Type': 'application/json; charset=UTF-8',
+        }, // Encode the task
+        body: jsonEncode(<String, dynamic>{
+          'task_title': task,
+          'due_date': dueDate,
+          'task_description': description,
+          'assigned_user': spouse,
+          'task_price': cost,
+          'user_id' : userID,
+          'is_complete' : isComplete,
+        }),
+      );
+    } else {
+      response = await http.put(
+        Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning/$id'),
+        headers: <String, String>{ // Metadata
+          'Content-Type': 'application/json; charset=UTF-8',
+        }, // Encode the task
+        body: jsonEncode(<String, dynamic>{
+          'task_title': task,
+          'due_date': dueDate,
+          'task_description': description,
+          'assigned_user': spouse,
+          'task_price': cost,
+          'user_id' : userID,
+          'is_complete' : isComplete,
+          'budget_category_id': budgetCategoryId
+        }),
+      );
+    }
 
     if (response.statusCode == 200) {
-      print("Success");
       // If the server did return a 200 OK response,
       // then parse the JSON.
       return Task.fromJson(jsonDecode(response.body));
@@ -98,21 +181,42 @@ class Task {
     }
   }
 
-  static Future<Task> createTask(String task, String dueDate, String description, int spouse, String cost, int userID) async {
-    final response = await http.post(
-      Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning'),
-      headers: <String, String>{ // Metadata
-        'Content-Type': 'application/json; charset=UTF-8',
-      }, // Encode the task
-      body: jsonEncode(<String, dynamic>{
-        'task_title': task,
-        'due_date': dueDate,
-        'task_description': description,
-        'assigned_user': spouse,
-        'task_price': cost,
-        'user_id': userID
-      }),
-    );
+  static Future<Task> createTask(
+      String task, String dueDate, String description,
+      int spouse, String? cost, int userID, int? budgetCategoryId) async {
+    final response;
+    if(budgetCategoryId == null) { // Case where budget category is null
+      response = await http.post(
+        Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning'),
+        headers: <String, String>{ // Metadata
+          'Content-Type': 'application/json; charset=UTF-8',
+        }, // Encode the task
+        body: jsonEncode(<String, dynamic>{
+          'task_title': task,
+          'due_date': dueDate,
+          'task_description': description,
+          'assigned_user': spouse,
+          'task_price': cost,
+          'user_id': userID,
+        }),
+      );
+    } else {
+      response = await http.post(
+        Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning'),
+        headers: <String, String>{ // Metadata
+          'Content-Type': 'application/json; charset=UTF-8',
+        }, // Encode the task
+        body: jsonEncode(<String, dynamic>{
+          'task_title': task,
+          'due_date': dueDate,
+          'task_description': description,
+          'assigned_user': spouse,
+          'task_price': cost,
+          'user_id': userID,
+          'budget_category_id': budgetCategoryId
+        }),
+      );
+    }
 
     if (response.statusCode == 201) {
       // If the server did return a 201 CREATED response,
