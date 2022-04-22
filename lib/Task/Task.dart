@@ -6,12 +6,12 @@ class Task {
   /// Represents all the information about a Task
   final int id;
   final String task;
-  final String dueDate;
+  final String? dueDate;
   final String description;
   final int spouse;
-  final String cost;
+  final String? cost;
   final int isComplete;
-  final int budgetCategoryId;
+  final int? budgetCategoryId;
 
   Task({
     required this.id,
@@ -128,7 +128,10 @@ class Task {
     return tasksList;
   }
 
-  static Future<Task> updateTask(int id, String task, String dueDate, String description, int spouse, String cost, int userID) async {
+  static Future<Task> updateTask(
+      int id, String task, String dueDate,
+      String description, int spouse, String cost,
+      int userID, int? isComplete, int? budgetCategoryId) async {
     final response = await http.put(
       Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning/$id'),
       headers: <String, String>{ // Metadata
@@ -141,6 +144,8 @@ class Task {
         'assigned_user': spouse,
         'task_price': cost,
         'user_id' : userID,
+        'is_complete' : isComplete,
+        'budget_category_id': budgetCategoryId
       }),
     );
 
