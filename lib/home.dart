@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lovebirds_app/Task/Task.dart';
 import 'package:lovebirds_app/Vendor/savedVendor.dart';
+import 'package:lovebirds_app/planning.dart';
 
+import 'Task/BudgetDetails.dart';
 import 'Task/view_task.dart';
 import 'Vendor/vendorScreen.dart';
 import 'helper/Account/accountInfo.dart';
@@ -11,28 +14,7 @@ import 'helper/Account/fetchAccount.dart';
 import 'helper/vendorInfo.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key})
-      : super(key: key); // Home page key identifier
-
-  // Get task information
-  final List<String> dueDates = <String>[
-    "January 13th, 2022",
-    "February 5th, 2022",
-    "February 9th, 2022",
-    "February 12th, 2022"
-  ];
-  final List<String> taskNames = <String>[
-    "Buy a wedding dress",
-    "Buy a tuxedo",
-    "Buy flowers",
-    "Buy drinks"
-  ];
-  final List<String> taskPrices = <String>[
-    "\$500.00",
-    "\$500.00",
-    "\$150.00",
-    "\$200.00"
-  ];
+  HomePage({Key? key}) : super(key: key); // Home page key identifier
 
   /// Creates a state
   ///
@@ -45,6 +27,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late Future<AccountInfo> _futureAccount;
+  late Future<List<Task>> _futureTasks;
+  late Future<BudgetDetails> _futureBudget;
+
+  // Reload the tasks with new data
+  refreshPage(String userEmail) {
+    _futureTasks = Task.fetchAllUserTasks(userEmail);
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -66,32 +56,37 @@ class _HomePageState extends State<HomePage> {
           // If the data retrieval went wrong
           if (snapshotAccount.hasError) {
             return Center(
-              child: Text(
-                  'There was an error fetching your account details'),
+              child: Text('There was an error fetching your account details'),
             );
           } else if (snapshotAccount.hasData) {
             DateFormat weddingDateFormatter = DateFormat.yMMMMd();
-            DateTime? weddingDateTime = DateTime.tryParse(snapshotAccount.data.weddingDate);
+            DateTime? weddingDateTime =
+                DateTime.tryParse(snapshotAccount.data.weddingDate);
             Duration timeTilWedding = Duration.zero;
             String prettyWeddingDate = '';
             String prettyDaysRemaining = '';
-            if(weddingDateTime != null) {
+            if (weddingDateTime != null) {
               // Format the wedding date and calculate the days remaining
               timeTilWedding = weddingDateTime.difference(DateTime.now());
               prettyWeddingDate = weddingDateFormatter.format(weddingDateTime);
             }
-            if(timeTilWedding == Duration.zero) {
+            if (timeTilWedding == Duration.zero) {
               prettyDaysRemaining = 'Set wedding date in Account page';
             } else {
               prettyDaysRemaining = '${timeTilWedding.inDays} days remaining';
             }
+
+            // Fetch the budget details
+            _futureBudget =
+                BudgetDetails.fetchBudget(snapshotAccount.data.email);
 
             return Scaffold(
               body: NestedScrollView(
                 // Setting floatHeaderSlivers to true is required in order to float
                 // the outer slivers over the inner scrollable.
                 floatHeaderSlivers: true,
-                headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
                   return <Widget>[
                     SliverAppBar(
                       floating: true,
@@ -104,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             clipBehavior: Clip.antiAlias,
                             decoration:
-                            const BoxDecoration(), // Need this to preserve container shape
+                                const BoxDecoration(), // Need this to preserve container shape
                             child: FittedBox(
                               // clipBehavior: Clip.antiAlias,
                               fit: BoxFit.cover,
@@ -113,13 +108,14 @@ class _HomePageState extends State<HomePage> {
                                 color: Color.fromRGBO(123, 96, 0, 0.3),
                                 colorBlendMode: BlendMode.darken,
                                 placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
+                                    const CircularProgressIndicator(),
                                 imageUrl:
-                                'https://pbs.twimg.com/media/CXzwtfFWMAAdtLa?format=jpg&name=4096x4096',
+                                    'https://pbs.twimg.com/media/CXzwtfFWMAAdtLa?format=jpg&name=4096x4096',
                               ),
                             ),
                             height: 150.0,
-                            width: double.infinity, // Stretch width as much as possible
+                            width: double
+                                .infinity, // Stretch width as much as possible
                           ),
                           ListTile(
                               minVerticalPadding: 40.0,
@@ -167,7 +163,8 @@ class _HomePageState extends State<HomePage> {
                                   margin: const EdgeInsets.symmetric(
                                       vertical: 10.0, horizontal: 20.0),
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0)),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
                                   child: Column(
                                     children: [
                                       Card(
@@ -180,14 +177,17 @@ class _HomePageState extends State<HomePage> {
                                           margin: EdgeInsets.zero,
                                           color: Constants.lightSecondary,
                                           child: ListTile(
-                                            title: Text("Budget (${NumberFormat.simpleCurrency().currencySymbol})",
+                                            title: Text(
+                                                "Budget (${NumberFormat.simpleCurrency().currencySymbol})",
                                                 textAlign: TextAlign.center,
-                                                style: Constants.cardHeaderStyle),
+                                                style:
+                                                    Constants.cardHeaderStyle),
                                           )),
 
                                       //Task Name
                                       Constants.sectionPadding,
-                                      Text('${snapshotAccount.data.budget}', style: Constants.taskNumber),
+                                      Text('${snapshotAccount.data.budget}',
+                                          style: Constants.taskNumber),
                                       Constants.formPadding2,
                                       Text("remaining",
                                           style: Constants.cardContentStyle2),
@@ -203,7 +203,8 @@ class _HomePageState extends State<HomePage> {
                                   margin: const EdgeInsets.symmetric(
                                       vertical: 10.0, horizontal: 20.0),
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0)),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
                                   child: Column(
                                     children: [
                                       Card(
@@ -218,12 +219,15 @@ class _HomePageState extends State<HomePage> {
                                           child: ListTile(
                                             title: Text("Guests",
                                                 textAlign: TextAlign.center,
-                                                style: Constants.cardHeaderStyle),
+                                                style:
+                                                    Constants.cardHeaderStyle),
                                           )),
 
                                       //Task Name
                                       Constants.sectionPadding,
-                                      Text("${snapshotAccount.data.totalGuests}", style: Constants.taskNumber),
+                                      Text(
+                                          "${snapshotAccount.data.totalGuests}",
+                                          style: Constants.taskNumber),
                                       Constants.formPadding2,
                                       Text("total",
                                           style: Constants.cardContentStyle2),
@@ -247,75 +251,172 @@ class _HomePageState extends State<HomePage> {
                           // The list of tasks (contained in a listview builder)
                           SizedBox(
                             height: 300,
-                            child: ListView.builder(
-                              padding: EdgeInsets.symmetric(horizontal: 10.0),
-                              itemCount: widget.taskNames.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                //an individual list item is a card
-                                return GestureDetector(
-                                  //This helps to make the card clickable
-                                  onTap: () {
-                                    // // Open up the view task route
-                                    // Navigator.of(context).push(MaterialPageRoute(
-                                    //     builder: (context) => const ViewTask()));
-                                  },
+                            child: FutureBuilder(
+                                future: _futureBudget,
+                                // Takes the snapshotted data
+                                builder:
+                                    (context, AsyncSnapshot snapshotBudget) {
+                                  // If the data retrieval went wrong
+                                  if (snapshotBudget.hasError) {
+                                    return Center(
+                                      child: Text(
+                                          'There was an error fetching your budget details: ${snapshotBudget.error}'),
+                                    );
+                                  } else if (snapshotBudget.hasData) {
+                                    // Fetch all of the user's tasks
+                                    _futureTasks = Task.fetchAllUserTasks(
+                                        snapshotAccount.data.email);
 
-                                  child: Card(
-                                    margin: const EdgeInsets.symmetric(
-                                        vertical: 7.0,
-                                        horizontal:
-                                        10.0), // Hack for shrinking card padding
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10.0)),
-                                    color: Colors.white,
-                                    shadowColor: Colors.grey,
-                                    elevation: 5.0,
+                                    return FutureBuilder(
+                                        future: _futureTasks,
+                                        builder: (context,
+                                            AsyncSnapshot snapshotTasks) {
+                                          if (snapshotTasks.hasError) {
+                                            return Center(
+                                              child: Text(
+                                                  'There was an error fetching your tasks'),
+                                            );
+                                          } else if (snapshotTasks.hasData) {
+                                            return RefreshIndicator(
+                                              onRefresh: () async => {
+                                                // Refresh the tasks list
+                                                refreshPage(snapshotAccount.data.email),
+                                              },
+                                              child: ListView.builder(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10.0),
+                                                itemCount:
+                                                    snapshotTasks.data.length,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  //an individual list item is a card
+                                                  return GestureDetector(
+                                                    //This helps to make the card clickable
+                                                    onTap: () {
+                                                      // Open up the view task route
+                                                      Navigator.of(context).push(MaterialPageRoute(
+                                                          builder: (context) => ViewTask(
+                                                              task:
+                                                                  snapshotTasks
+                                                                          .data[
+                                                                      index],
+                                                              budgetCategoryMap:
+                                                                  snapshotBudget
+                                                                      .data
+                                                                      .budgetCategories,
+                                                              accountInfo:
+                                                                  snapshotAccount
+                                                                      .data)));
+                                                    },
 
-                                    //this card contains a row of the labels and widgets that make up a task item
-                                    child: Row(
-                                      children: [
-                                        const Padding(
-                                            padding: EdgeInsets.only(left: 12)),
+                                                    child: Card(
+                                                      margin: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 7.0,
+                                                          horizontal:
+                                                              10.0), // Hack for shrinking card padding
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0)),
+                                                      color: Colors.white,
+                                                      shadowColor: Colors.grey,
+                                                      elevation: 5.0,
 
-                                        Expanded(
-                                          //column containing task name and due date
-                                          child: Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              const Padding(
-                                                  padding: EdgeInsets.only(top: 12)),
-                                              Text(widget.taskNames[index],
-                                                  textAlign: TextAlign.left,
-                                                  style: Constants.listTitleStyle),
-                                              const Padding(
-                                                  padding: EdgeInsets.only(bottom: 2)),
-                                              Text(widget.dueDates[index],
-                                                  textAlign: TextAlign.left,
-                                                  style: Constants.listSubtitleStyle),
-                                              const Padding(
-                                                  padding: EdgeInsets.only(bottom: 12)),
-                                            ],
-                                          ),
-                                        ),
+                                                      //this card contains a row of the labels and widgets that make up a task item
+                                                      child: Row(
+                                                        children: [
+                                                          const Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left:
+                                                                          12)),
 
-                                        //row containing task price and arrow indicator
-                                        Row(
-                                          children: [
-                                            Text(widget.taskPrices[index],
-                                                textAlign: TextAlign.right,
-                                                style: Constants.taskPrice),
-                                            const Icon(Icons.chevron_right_rounded),
-                                            const Padding(
-                                                padding: EdgeInsets.only(right: 10)),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
+                                                          Expanded(
+                                                            //column containing task name and due date
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                const Padding(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                            top:
+                                                                                12)),
+                                                                Text(
+                                                                    snapshotTasks
+                                                                        .data[
+                                                                            index]
+                                                                        .task,
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .left,
+                                                                    style: Constants
+                                                                        .listTitleStyle),
+                                                                const Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            2)),
+                                                                Text(
+                                                                    snapshotTasks
+                                                                        .data[
+                                                                            index]
+                                                                        .dueDate,
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .left,
+                                                                    style: Constants
+                                                                        .listSubtitleStyle),
+                                                                const Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom:
+                                                                            12)),
+                                                              ],
+                                                            ),
+                                                          ),
+
+                                                          //row containing task price and arrow indicator
+                                                          Row(
+                                                            children: [
+                                                              Text(
+                                                                  snapshotTasks
+                                                                      .data[
+                                                                          index]
+                                                                      .cost,
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .right,
+                                                                  style: Constants
+                                                                      .taskPrice),
+                                                              const Icon(Icons
+                                                                  .chevron_right_rounded),
+                                                              const Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          right:
+                                                                              10)),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            );
+                                          }
+                                          return const Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        });
+                                  }
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }),
                           ),
 
                           // Vendor overview
@@ -334,7 +435,8 @@ class _HomePageState extends State<HomePage> {
                               scrollDirection: Axis.horizontal,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 10.0),
                                 ),
                                 Container(
                                   width: Constants.exploreWidth,
@@ -342,7 +444,8 @@ class _HomePageState extends State<HomePage> {
                                   child: ElevatedButton(
                                     onPressed: () {
                                       // Go to vendors page
-                                      Navigator.of(context).push(MaterialPageRoute(
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
                                         builder: (context) => VendorScreen(
                                           vendorType: Constants.venueCategory,
                                           accountInfo: snapshotAccount.data,
@@ -350,12 +453,15 @@ class _HomePageState extends State<HomePage> {
                                       ));
                                     },
                                     style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                                      shape: MaterialStateProperty.all<
+                                          OutlinedBorder>(
                                         RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(15.0)),
+                                            borderRadius:
+                                                BorderRadius.circular(15.0)),
                                       ),
-                                      backgroundColor: MaterialStateProperty.all<Color>(
-                                          Constants.lightSecondary),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Constants.lightSecondary),
                                       // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                                     ),
                                     child: Text(
@@ -366,7 +472,8 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 12.0),
                                 ),
                                 Container(
                                   width: Constants.exploreWidth,
@@ -375,7 +482,8 @@ class _HomePageState extends State<HomePage> {
                                     onPressed: () {
                                       // Go to vendors page
                                       // Go to vendors page
-                                      Navigator.of(context).push(MaterialPageRoute(
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
                                         builder: (context) => VendorScreen(
                                           vendorType: Constants.gownCategory,
                                           accountInfo: snapshotAccount.data,
@@ -383,12 +491,15 @@ class _HomePageState extends State<HomePage> {
                                       ));
                                     },
                                     style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                                      shape: MaterialStateProperty.all<
+                                          OutlinedBorder>(
                                         RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(15.0)),
+                                            borderRadius:
+                                                BorderRadius.circular(15.0)),
                                       ),
-                                      backgroundColor: MaterialStateProperty.all<Color>(
-                                          Constants.lightSecondary),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Constants.lightSecondary),
                                       // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                                     ),
                                     child: Text(
@@ -399,7 +510,8 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 12.0),
                                 ),
                                 Container(
                                   width: Constants.exploreWidth,
@@ -407,7 +519,8 @@ class _HomePageState extends State<HomePage> {
                                   child: ElevatedButton(
                                     onPressed: () {
                                       // Go to vendors page
-                                      Navigator.of(context).push(MaterialPageRoute(
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
                                         builder: (context) => VendorScreen(
                                           vendorType: Constants.photoCategory,
                                           accountInfo: snapshotAccount.data,
@@ -415,12 +528,15 @@ class _HomePageState extends State<HomePage> {
                                       ));
                                     },
                                     style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                                      shape: MaterialStateProperty.all<
+                                          OutlinedBorder>(
                                         RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(15.0)),
+                                            borderRadius:
+                                                BorderRadius.circular(15.0)),
                                       ),
-                                      backgroundColor: MaterialStateProperty.all<Color>(
-                                          Constants.lightSecondary),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Constants.lightSecondary),
                                       // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                                     ),
                                     child: Text(
@@ -431,7 +547,8 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 12.0),
                                 ),
                                 Container(
                                   width: Constants.exploreWidth,
@@ -439,7 +556,8 @@ class _HomePageState extends State<HomePage> {
                                   child: ElevatedButton(
                                     onPressed: () {
                                       // Go to vendors page
-                                      Navigator.of(context).push(MaterialPageRoute(
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
                                         builder: (context) => VendorScreen(
                                           vendorType: Constants.floristCategory,
                                           accountInfo: snapshotAccount.data,
@@ -447,12 +565,15 @@ class _HomePageState extends State<HomePage> {
                                       ));
                                     },
                                     style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                                      shape: MaterialStateProperty.all<
+                                          OutlinedBorder>(
                                         RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(15.0)),
+                                            borderRadius:
+                                                BorderRadius.circular(15.0)),
                                       ),
-                                      backgroundColor: MaterialStateProperty.all<Color>(
-                                          Constants.lightSecondary),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Constants.lightSecondary),
                                       // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                                     ),
                                     child: Text(
@@ -463,7 +584,8 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 12.0),
                                 ),
                                 Container(
                                   width: Constants.exploreWidth,
@@ -471,7 +593,8 @@ class _HomePageState extends State<HomePage> {
                                   child: ElevatedButton(
                                     onPressed: () {
                                       // Go to vendors page
-                                      Navigator.of(context).push(MaterialPageRoute(
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
                                         builder: (context) => VendorScreen(
                                           vendorType: Constants.giftCategory,
                                           accountInfo: snapshotAccount.data,
@@ -479,12 +602,15 @@ class _HomePageState extends State<HomePage> {
                                       ));
                                     },
                                     style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                                      shape: MaterialStateProperty.all<
+                                          OutlinedBorder>(
                                         RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(15.0)),
+                                            borderRadius:
+                                                BorderRadius.circular(15.0)),
                                       ),
-                                      backgroundColor: MaterialStateProperty.all<Color>(
-                                          Constants.lightSecondary),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Constants.lightSecondary),
                                       // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(vertical: 40.0, horizontal: 150.0)),
                                     ),
                                     child: Text(
@@ -508,7 +634,9 @@ class _HomePageState extends State<HomePage> {
                           // List of recently saved vendors
                           SizedBox(
                             height: 350,
-                            child: SavedVendorScreen(accountInfo: snapshotAccount.data,),
+                            child: SavedVendorScreen(
+                              accountInfo: snapshotAccount.data,
+                            ),
                           )
                         ],
                       ),
@@ -519,7 +647,6 @@ class _HomePageState extends State<HomePage> {
             );
           }
           return const CircularProgressIndicator();
-        }
-    );
+        });
   }
 }
