@@ -1,17 +1,31 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:lovebirds_app/account.dart';
+import 'package:lovebirds_app/guests.dart';
+import 'package:lovebirds_app/helper/vendorInfo.dart';
+import 'package:lovebirds_app/home.dart';
+import 'package:lovebirds_app/planning.dart';
+import 'package:lovebirds_app/vendors.dart';
+import 'package:lovebirds_app/helper/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Login/login.dart';
+
+/// Main app
+///
+/// Runs the main app
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key); // Main app key identifier
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false, // Don't show the debug banner icon
       title: 'LoveBirds',
       theme: ThemeData(
         // This is the theme of your application.
@@ -23,20 +37,61 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.pink,
-        primaryTextTheme: TextTheme(
-          titleSmall: TextStyle(
-            color: Colors.black
-          )
-        )
+        primarySwatch: Constants.appMaterialSwatch,
+        // Default font family
+        fontFamily: 'Roboto Slab',
+        primaryTextTheme:
+            const TextTheme(titleSmall: TextStyle(color: Colors.black)),
       ),
-      home: const MyHomePage(title: 'LoveBirds'),
+      // home: const MainPage(title: 'LoveBirds'),
+      home: const CheckAuth(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+//Authentication Class
+class CheckAuth extends StatefulWidget {
+  const CheckAuth({Key? key}) : super(key: key);
+
+  @override
+  _CheckAuthState createState() => _CheckAuthState();
+}
+
+class _CheckAuthState extends State<CheckAuth> {
+  bool isAuth = false;
+  @override
+  void initState() {
+    _checkIfLoggedIn();
+    super.initState();
+  }
+
+  void _checkIfLoggedIn() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var token = localStorage.getString('token');
+    if(token != null){
+      setState(() {
+        isAuth = true;
+      });
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    Widget child;
+    if (isAuth) {
+      child = MainPage(title: 'LoveBirds');
+    } else {
+      child = Login();
+    }
+    return Scaffold(
+      body: child,
+    );
+  }
+}
+
+
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key, required this.title})
+      : super(key: key); // Main page key identifier
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -47,19 +102,31 @@ class MyHomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
+  final String title; // Top header
 
+  /// Creates a state
+  ///
+  /// Return the Main page State
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
-  Color myColor = const Color(0xFFFFC9C9);//Bottom Nav Color
+class _MainPageState extends State<MainPage> {
+  int _selectedPage = 0; // Current selected page index of the bottom nav
+  static List<Widget> _widgetOptions = <Widget>[
+    HomePage(),
+    PlanningPage(),
+    GuestsPage(),
+    VendorsPage(),
+    AccountPage(),
+  ];
 
+  /// Trigger bottom nav item tap
+  ///
+  /// Given an [index] set the selected page to it.
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _selectedPage = index;
     });
   }
 
@@ -73,51 +140,47 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: myColor,
+        backgroundColor: Constants.lightPrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Center(
           child: Text(widget.title,
-          style: TextStyle(
-            color: Colors.black
-          )),
+          style: Constants.appBarStyle),
         )
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-
+        child: _widgetOptions.elementAt(_selectedPage),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.house_rounded),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.edit_calendar_rounded),
-            label: 'Planning',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.perm_contact_calendar_rounded),
-            label: 'Guests',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.storefront_rounded),
-            label: 'Vendors',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.manage_accounts_rounded),
-            label: 'Account',
-          ),
-        ],
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: myColor,
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.black,
-        onTap: _onItemTapped,
-      ),// This trailing comma makes auto-formatting nicer for build methods.
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.house_rounded),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.edit_calendar_rounded),
+              label: 'Planning',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.perm_contact_calendar_rounded),
+              label: 'Guests',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.storefront_rounded),
+              label: 'Vendors',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.manage_accounts_rounded),
+              label: 'Account',
+            ),
+          ],
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Constants.lightPrimary,
+          currentIndex: _selectedPage,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.black,
+          onTap:
+              _onItemTapped), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
