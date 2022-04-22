@@ -6,10 +6,10 @@ class Task {
   /// Represents all the information about a Task
   final int id;
   final String task;
-  final String? dueDate;
+  final String dueDate;
   final String description;
   final int spouse;
-  final String? cost;
+  final String cost;
   final int isComplete;
   final int budgetCategoryId;
 

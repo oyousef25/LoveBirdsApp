@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
@@ -29,6 +31,30 @@ class _ModifyTask extends State<ModifyTask> {
 
   final GlobalKey<FormState> _taskFormKey = GlobalKey<FormState>();
   late Future<Task> _futureTask;
+
+  TextEditingController dateEditingController = TextEditingController();
+  String taskDueDate = '';
+
+  // This shows a CupertinoModalPopup with a reasonable fixed height which hosts CupertinoDatePicker.
+  void _showDialog(Widget child) {
+    showCupertinoModalPopup<void>(
+        context: context,
+        builder: (BuildContext context) => Container(
+          height: 216,
+          padding: const EdgeInsets.only(top: 6.0),
+          // The Bottom margin is provided to align the popup above the system navigation bar.
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          // Provide a background color for the popup.
+          color: CupertinoColors.systemBackground.resolveFrom(context),
+          // Use a SafeArea widget to avoid system overlaps.
+          child: SafeArea(
+            top: false,
+            child: child,
+          ),
+        ));
+  }
 
   @override
   void initState() {
@@ -61,6 +87,9 @@ class _ModifyTask extends State<ModifyTask> {
     }
     var categoryMap =
         Map<String, int>.fromIterables(categoryTypes, categoryIds);
+
+    // Get due date
+    dateEditingController.text = widget.taskInfo?.dueDate ?? taskDueDate;
 
     return Scaffold(
       appBar: AppBar(
@@ -113,6 +142,9 @@ class _ModifyTask extends State<ModifyTask> {
                               elevation: Constants.elevation,
                               color: Colors.white,
                               child: TextFormField(
+                                maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+                                maxLength: Constants.maxTextFieldLength,
+                                initialValue: task,
                                 decoration: InputDecoration(
                                     floatingLabelBehavior:
                                     Constants.floatingLabelBehaviour,
@@ -150,24 +182,47 @@ class _ModifyTask extends State<ModifyTask> {
                               elevation: Constants.elevation,
                               color: Colors.white,
                               child: TextFormField(
+                                controller: dateEditingController,
+                                onSaved: (String? value) {
+                                  taskDueDate = value!;
+                                },
+                                onChanged: (String? value) {
+                                  taskDueDate = value!;
+                                },
                                 decoration: InputDecoration(
                                   //calendar functionality goes here
                                     suffixIcon: IconButton(
-                                      //TODO: Supply Calendar functionality
-                                      onPressed: null,
+                                      // Supply Calendar functionality
+                                      onPressed: () {
+                                        // Set pointer to the end whenever user tries to edit date
+                                        dateEditingController.selection = TextSelection.collapsed(offset: dateEditingController.text.length);
+                                        _showDialog(
+                                          CupertinoDatePicker(
+                                              initialDateTime: DateTime.tryParse(dateEditingController.text) ?? DateTime.now(),
+                                              mode: CupertinoDatePickerMode.date,
+                                              // This is called when the user changes the date.
+                                              onDateTimeChanged: (DateTime newDate) {
+                                                setState(() {
+                                                  taskDueDate = '${newDate.year}-${newDate.month > 9 ? '' : '0'}${newDate.month}-${newDate.day > 9 ? '' : '0'}${newDate.day}';
+                                                  dateEditingController.text = taskDueDate;
+                                                });
+                                              }
+                                          ),
+                                        );
+                                      },
                                       icon: Icon(Icons.calendar_month_rounded),
                                     ),
                                     floatingLabelBehavior:
                                     Constants.floatingLabelBehaviour,
                                     border: Constants.outlineInputBorder,
                                     fillColor: Colors.white),
-                                onSaved: (String? value) {
-                                  dueDate = value ?? '';
-                                },
                                 validator: (String? value) {
-                                  // due date validation
-                                  if (value == null || value.isEmpty) {
-                                    return 'due date cannot be empty';
+                                  // Date validation
+                                  if (value == '' || value == null) {
+                                    // Don't bother checking validation if user leaves the date blank
+                                    return null;
+                                  } else if (!Constants.dateRegex.hasMatch(value)) {
+                                    return 'Date format must match YYYY-MM-DD';
                                   }
                                   return null;
                                 },
@@ -393,7 +448,7 @@ class _ModifyTask extends State<ModifyTask> {
                 );
               }
             }
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }),
     );
   }
