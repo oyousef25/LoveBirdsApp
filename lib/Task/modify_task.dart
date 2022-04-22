@@ -506,6 +506,21 @@ class _ModifyTask extends State<ModifyTask> {
                                         );
                                         // Go back to previous page
                                         Navigator.pop(context);
+                                      } else {
+                                        // Update task to API
+                                        _futureTask = Task.updateTask(
+                                          id,
+                                          task,
+                                          dateEditingController.text,
+                                          description,
+                                          assignedUser!,
+                                          cost,
+                                          assignedUser!, // userId is based on the assigned user
+                                          isComplete,
+                                          categoryId != -1 ? categoryId : null,
+                                        );
+                                        // Go back to previous page
+                                        Navigator.pop(context);
                                       }
                                     });
                                   }

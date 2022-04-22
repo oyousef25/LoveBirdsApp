@@ -130,27 +130,47 @@ class Task {
 
   static Future<Task> updateTask(
       int id, String task, String dueDate,
-      String description, int spouse, String cost,
+      String description, int spouse, String? cost,
       int userID, int? isComplete, int? budgetCategoryId) async {
-    final response = await http.put(
-      Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning/$id'),
-      headers: <String, String>{ // Metadata
-        'Content-Type': 'application/json; charset=UTF-8',
-      }, // Encode the task
-      body: jsonEncode(<String, dynamic>{
-        'task_title': task,
-        'due_date': dueDate,
-        'task_description': description,
-        'assigned_user': spouse,
-        'task_price': cost,
-        'user_id' : userID,
-        'is_complete' : isComplete,
-        'budget_category_id': budgetCategoryId
-      }),
-    );
+
+    final response;
+
+    if(budgetCategoryId == null) { // Case where budget category is null
+      response = await http.put(
+        Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning/$id'),
+        headers: <String, String>{ // Metadata
+          'Content-Type': 'application/json; charset=UTF-8',
+        }, // Encode the task
+        body: jsonEncode(<String, dynamic>{
+          'task_title': task,
+          'due_date': dueDate,
+          'task_description': description,
+          'assigned_user': spouse,
+          'task_price': cost,
+          'user_id' : userID,
+          'is_complete' : isComplete,
+        }),
+      );
+    } else {
+      response = await http.put(
+        Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning/$id'),
+        headers: <String, String>{ // Metadata
+          'Content-Type': 'application/json; charset=UTF-8',
+        }, // Encode the task
+        body: jsonEncode(<String, dynamic>{
+          'task_title': task,
+          'due_date': dueDate,
+          'task_description': description,
+          'assigned_user': spouse,
+          'task_price': cost,
+          'user_id' : userID,
+          'is_complete' : isComplete,
+          'budget_category_id': budgetCategoryId
+        }),
+      );
+    }
 
     if (response.statusCode == 200) {
-      print("Success");
       // If the server did return a 200 OK response,
       // then parse the JSON.
       return Task.fromJson(jsonDecode(response.body));
