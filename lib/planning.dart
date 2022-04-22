@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lovebirds_app/Budget/BudgetCategory.dart';
 import 'package:lovebirds_app/Task/BudgetDetails.dart';
-import 'package:lovebirds_app/Task/create_task.dart';
+import 'package:lovebirds_app/Task/modify_task.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 import 'Budget/budget_categories.dart';
@@ -30,15 +30,6 @@ class _PlanningPageState extends State<PlanningPage> {
   late Future<BudgetDetails> _futureBudget;
   late Future<List<Task>> _futureTasks;
   late Future<List<BudgetCategory>> _futureCategories;
-
-  Map<String, double> dataMap = {
-    "Food": 5,
-    "Venue": 3,
-    "Photos": 2,
-    "Hummus": 7,
-    "Bride": 1,
-    "Other": 2,
-  };
 
   // Reload the planning page with new data
   refreshPage(int? choiceChipIndex, String userEmail, bool isWidgetBuilt) {
@@ -493,7 +484,9 @@ class _PlanningPageState extends State<PlanningPage> {
                                                 Row(
                                                   children: [
                                                     Text(
-                                                        "${NumberFormat.simpleCurrency().currencySymbol}" +
+                                                        "${snapshotTasks
+                                                            .data[index]
+                                                            .cost.isNotEmpty ? NumberFormat.simpleCurrency().currencySymbol : ''}" +
                                                             snapshotTasks
                                                                 .data[index]
                                                                 .cost,
@@ -523,9 +516,10 @@ class _PlanningPageState extends State<PlanningPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => CreateTask(
-                                              dataMap: dataMap,
-                                              task: null,
+                                        builder: (context) => ModifyTask(
+                                              budgetCategories: snapshotBudget.data.budgetCategories,
+                                              userID: snapshotAccount.data.id,
+                                              taskInfo: null,
                                             )),
                                   );
                                 },

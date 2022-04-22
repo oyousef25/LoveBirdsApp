@@ -6,10 +6,10 @@ class Task {
   /// Represents all the information about a Task
   final int id;
   final String task;
-  final String dueDate;
+  final String? dueDate;
   final String description;
   final int spouse;
-  final String cost;
+  final String? cost;
   final int isComplete;
   final int budgetCategoryId;
 
@@ -63,13 +63,13 @@ class Task {
     for (var json in jsonData['all_tasks']) {
       Task task = Task(
           id: json['id'],
-          task: json['task_title'],
-          dueDate: json['due_date'],
-          description: json['task_description'],
-          spouse: json['assigned_user'],
-          cost: json['task_price'],
-          isComplete: json['is_complete'],
-          budgetCategoryId: json['budget_category_id'],
+        task: json['task_title'] ?? '',
+        dueDate: json['due_date'] ?? '',
+        description: json['task_description'] ?? '',
+        spouse: json['assigned_user'],
+        cost: json['task_price'] ?? '',
+        isComplete: json['is_complete'],
+        budgetCategoryId: json['budget_category_id'],
       );
       tasksList.add(task);
     }
@@ -88,11 +88,11 @@ class Task {
     for (var json in jsonData['user_tasks']) {
       Task task = Task(
         id: json['id'],
-        task: json['task_title'],
-        dueDate: json['due_date'],
-        description: json['task_description'],
+        task: json['task_title'] ?? '',
+        dueDate: json['due_date'] ?? '',
+        description: json['task_description'] ?? '',
         spouse: json['assigned_user'],
-        cost: json['task_price'],
+        cost: json['task_price'] ?? '',
         isComplete: json['is_complete'],
         budgetCategoryId: json['budget_category_id'],
       );
@@ -113,11 +113,11 @@ class Task {
     for (var json in jsonData['partner_tasks']) {
       Task task = Task(
         id: json['id'],
-        task: json['task_title'],
-        dueDate: json['due_date'],
-        description: json['task_description'],
+        task: json['task_title'] ?? '',
+        dueDate: json['due_date'] ?? '',
+        description: json['task_description'] ?? '',
         spouse: json['assigned_user'],
-        cost: json['task_price'],
+        cost: json['task_price'] ?? '',
         isComplete: json['is_complete'],
         budgetCategoryId: json['budget_category_id'],
       );
@@ -156,7 +156,9 @@ class Task {
     }
   }
 
-  static Future<Task> createTask(String task, String dueDate, String description, int spouse, String cost, int userID) async {
+  static Future<Task> createTask(
+      String task, String dueDate, String description,
+      int spouse, String cost, int userID, int isComplete, int budgetCategoryId) async {
     final response = await http.post(
       Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning'),
       headers: <String, String>{ // Metadata
@@ -168,7 +170,9 @@ class Task {
         'task_description': description,
         'assigned_user': spouse,
         'task_price': cost,
-        'user_id': userID
+        'user_id': userID,
+        'is_complete': isComplete,
+        'budget_category_id': budgetCategoryId
       }),
     );
 

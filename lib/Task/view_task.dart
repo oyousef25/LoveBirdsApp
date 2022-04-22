@@ -98,7 +98,7 @@ class _ViewTask extends State<ViewTask> {
                         //Due Date of Task
                         const Text("Due Date", style: Constants.taskHeading),
                         Constants.formPadding,
-                        Text(widget.task.dueDate,
+                        Text('${widget.task.dueDate}',
                             style: Constants.cardContentStyle),
                         Constants.taskPadding,
 
@@ -134,7 +134,7 @@ class _ViewTask extends State<ViewTask> {
                         //Cost
                         const Text("Cost", style: Constants.taskHeading),
                         Constants.formPadding,
-                        Text("${NumberFormat.simpleCurrency().currencySymbol}" + widget.task.cost,
+                        Text("${NumberFormat.simpleCurrency().currencySymbol}" + '${widget.task.cost}',
                             style: Constants.cardContentStyle),
                         Constants.taskPadding,
 
