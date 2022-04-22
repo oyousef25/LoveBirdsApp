@@ -250,7 +250,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           // The list of tasks (contained in a listview builder)
                           SizedBox(
-                            height: 300,
+                            height: 200,
                             child: FutureBuilder(
                                 future: _futureBudget,
                                 // Takes the snapshotted data
@@ -633,7 +633,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           // List of recently saved vendors
                           SizedBox(
-                            height: 350,
+                            height: 250,
                             child: SavedVendorScreen(
                               accountInfo: snapshotAccount.data,
                             ),
