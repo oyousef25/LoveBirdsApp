@@ -66,9 +66,12 @@ class _BudgetPageState extends State<BudgetPage> {
                 Expanded(
                   child: GridView.builder(
                       gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                          SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        mainAxisExtent: 250,
+                        mainAxisExtent: 100,
+                        mainAxisSpacing: 4.0,
+                        crossAxisSpacing: 8.0,
+                            childAspectRatio: 1.5
                       ),
                       itemCount: snapshot.data.keys.length,
                       itemBuilder: (BuildContext context, int index) {
@@ -84,7 +87,7 @@ class _BudgetPageState extends State<BudgetPage> {
                           },
                           child: Card(
                             margin: const EdgeInsets.symmetric(
-                                vertical: 30.0, horizontal: 30.0),
+                                vertical: 10.0, horizontal: 10.0),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0)),
                             color: Colors.white,

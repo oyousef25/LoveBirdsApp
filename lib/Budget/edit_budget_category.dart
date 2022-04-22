@@ -120,7 +120,7 @@ class _EditBudgetPageState extends State<EditBudgetPage> {
                   MaterialStateProperty.all<Color>(Constants.buttonRed),
                   padding: MaterialStateProperty.all<EdgeInsets>(
                       const EdgeInsets.symmetric(
-                          vertical: 25.0, horizontal: 209.0)),
+                          vertical: 20.0, horizontal: 100.0)),
                 ),
               ),
             ),

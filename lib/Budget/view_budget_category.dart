@@ -143,7 +143,7 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
                                     Constants.buttonRed),
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                     EdgeInsets.symmetric(
-                                        vertical: 25.0, horizontal: 40.0)),
+                                        vertical: 20.0, horizontal: 30.0)),
                               )),
                           ElevatedButton(
                             onPressed: () => {
@@ -166,7 +166,7 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
                                   Constants.buttonGreen),
                               padding: MaterialStateProperty.all<EdgeInsets>(
                                   EdgeInsets.symmetric(
-                                      vertical: 25.0, horizontal: 35.0)),
+                                      vertical: 20.0, horizontal: 30.0)),
                             ),
                           ),
                         ],
@@ -184,7 +184,7 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
                       MaterialStateProperty.all<Color>(Constants.buttonRed),
                       padding: MaterialStateProperty.all<EdgeInsets>(
                           const EdgeInsets.symmetric(
-                              vertical: 25.0, horizontal: 161.0)),
+                              vertical: 20.0, horizontal: 100.0)),
                     ),
                   ),
 
