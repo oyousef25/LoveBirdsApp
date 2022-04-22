@@ -137,6 +137,7 @@ class Constants {
   // Regex
   static final phoneRegex = RegExp(r'^[0-9]{1,15}$');
   static final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+  static final dateRegex = RegExp(r'^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$');
   // Max Field Lengths
   static const maxTextFieldLength = 150;
   static const maxTextBoxLength = 255;
@@ -144,6 +145,8 @@ class Constants {
   static const maxPasswordLength = 100;
   static const maxEmailLength = 100;
   static const maxDescriptionLength = 255;
+  static const maxBudgetSize = 999999.99;
+  static const maxCostSize = 99999.99;
 
   // Vendor Categories
   static const venueCategory = "Wedding Venue";

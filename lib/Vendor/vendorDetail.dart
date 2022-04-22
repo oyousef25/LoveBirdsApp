@@ -1,19 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/SavedVendor/createSavedVendor.dart';
 import 'package:lovebirds_app/helper/savedVendorInfo.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../helper/Account/accountInfo.dart';
 import '../helper/constants.dart';
 import '../helper/vendorInfo.dart';
 
 class VendorDetailScreen extends StatefulWidget {
   // In the constructor, require a vendor info.
-  const VendorDetailScreen({Key? key, required this.vendorInfo})
+  const VendorDetailScreen({Key? key, required this.vendorInfo, required this.accountInfo})
       : super(key: key);
 
   // Declare a field that holds the vendor info.
   final VendorInfo vendorInfo;
+  final AccountInfo accountInfo;
 
   @override
   State createState() {
@@ -70,7 +74,8 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                   subtitle: Text('Rating: ${widget.vendorInfo.rating}',
                       textAlign: TextAlign.left,
                       style: Constants.bigListSubtitleStyle),
-                  trailing: Icon(Icons.favorite_border_rounded,
+                  trailing: Icon(
+                    Icons.favorite_border_rounded,
                     color: Constants.lightPrimary,
                     size: 40.0,
                   ),
@@ -107,9 +112,17 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                     Icons.link_rounded,
                     color: Colors.black,
                   ),
-                  title: Text(widget.vendorInfo.website,
-                      textAlign: TextAlign.left,
-                      style: Constants.bigListSubtitleStyle),
+                  title: RichText(
+                    textAlign: TextAlign.left,
+                    text: TextSpan(
+                        text: widget.vendorInfo.website,
+                        style: Constants.bigListSubtitleStyle,
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            // Open website URL if valid
+                            launch(widget.vendorInfo.website).onError((error, stackTrace) => false);
+                          }),
+                  ),
                   contentPadding: EdgeInsets.symmetric(horizontal: 30.0),
                   minLeadingWidth: 0.0,
                 ),
@@ -130,7 +143,8 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                   child: ElevatedButton(
                       onPressed: () {
                         String limitedDescription = '';
-                        if(widget.vendorInfo.description.length > Constants.maxDescriptionLength) {
+                        if (widget.vendorInfo.description.length >
+                            Constants.maxDescriptionLength) {
                           // limitedDescription
                         }
 
@@ -143,7 +157,7 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                             widget.vendorInfo.location,
                             widget.vendorInfo.phoneNum,
                             widget.vendorInfo.photos,
-                            widget.vendorInfo.userID);
+                            widget.accountInfo.id);
 
                         // Go back
                         Navigator.pop(context);
@@ -161,6 +175,13 @@ class _VendorDetailScreenState extends State<VendorDetailScreen> {
                             EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 50.0)),
                       )),
+                ),
+                const Padding(
+                    padding: EdgeInsets.only(bottom: 9)),
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: Image(image: AssetImage('images/foursquarelogo.png',)),
+                  width: 250.0,
                 ),
               ],
             ),

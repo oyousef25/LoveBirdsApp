@@ -99,7 +99,7 @@ class _Login extends State<Login> {
                             Constants.maxEmailLength) {
                           return 'Email must be less than ${Constants.maxEmailLength}';
                         }
-                        email = emailValue;
+                        email = emailValue.trim();
                         return null;
                       },
                     ),
@@ -156,7 +156,7 @@ class _Login extends State<Login> {
                       child: ElevatedButton(
                         onPressed: () {
                           //Login functionality
-                          if (_formKey.currentState?.validate() != null) {
+                          if (_formKey.currentState!.validate()) {
                             _login();
                           }
                         },

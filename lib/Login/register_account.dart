@@ -87,10 +87,10 @@ class _RegisterAccount extends State<RegisterAccount> {
                           labelText: 'Enter a username',
                           fillColor: Colors.white),
                       validator: (String? usernameValue) {
-                        if (usernameValue != null && usernameValue.isEmpty) {
+                        if (usernameValue == null || usernameValue.isEmpty) {
                           return 'Please enter username';
                         }
-                        username = usernameValue;
+                        username = usernameValue.trim();
                         return null;
                       },
                     ),
@@ -128,7 +128,7 @@ class _RegisterAccount extends State<RegisterAccount> {
                             Constants.maxEmailLength) {
                           return 'Email must be less than ${Constants.maxEmailLength}';
                         }
-                        email = emailValue;
+                        email = emailValue.trim();
                         return null;
                       },
                     ),
@@ -233,7 +233,7 @@ class _RegisterAccount extends State<RegisterAccount> {
                       child: ElevatedButton(
                         onPressed: () {
                           //Create account functionality
-                          if (_formKey.currentState?.validate() != null) {
+                          if (_formKey.currentState!.validate()) {
                             _register();
                           }
                         },

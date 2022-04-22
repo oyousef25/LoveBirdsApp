@@ -55,7 +55,7 @@ class BudgetCategory{
   }
 
   static Future<Map<String, double>> fetchBudgetCategoriesMap() async {
-    // Request the guest data, convert to JSon
+    // Request the budget data, convert to JSon
     var response = await http
         .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning'));
     var jsonData = jsonDecode(response.body);
@@ -65,7 +65,7 @@ class BudgetCategory{
     List<String> budgetCategories = [];
 
     for (var json in jsonData['categories']) {
-      categoryIds.add(json['id']);
+      categoryIds.add(json['id'] * 1.0);
       budgetCategories.add(json['category_name']);
     }
 

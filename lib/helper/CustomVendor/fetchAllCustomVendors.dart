@@ -3,15 +3,15 @@ import 'package:http/http.dart' as http;
 import '../customVendorInfo.dart';
 
 /// Gets custom vendor list from API
-Future<List<CustomVendorInfo>> fetchAllCustomVendors() async {
+Future<List<CustomVendorInfo>> fetchAllCustomVendors(String email) async {
   // Request the custom vendor data, convert to JSon
   var response = await http
-      .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/custom-vendors'));
+      .get(Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/custom-vendor/$email'));
   var jsonData = jsonDecode(response.body);
   List<CustomVendorInfo> customVendorsList = [];
 
   // With the json data, convert it to a CustomVendorInfo and add it to our custom vendors list
-  for (var vendor in jsonData['data']) {
+  for (var vendor in jsonData) {
     CustomVendorInfo customVendor = CustomVendorInfo(
         id: vendor['id'],
         name: vendor['vendor_name'],

@@ -3,18 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:lovebirds_app/helper/GuestCRUD/deleteGuest.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/guestInfo.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../helper/GuestCRUD/fetchGuest.dart';
 import 'modifyGuest.dart';
 
 class GuestDetailsScreen extends StatefulWidget {
   // In the constructor, require a GuestInfo.
-  const GuestDetailsScreen({Key? key, required this.guestInfo, required this.guestRelationships})
+  const GuestDetailsScreen(
+      {Key? key, required this.guestInfo, required this.guestRelationships, required this.userID})
       : super(key: key);
 
   // Declare a field that holds the GuestInfo and relationships.
   final GuestInfo guestInfo;
   final Map<int, String> guestRelationships;
+  final int userID;
 
   @override
   State createState() {
@@ -33,7 +36,8 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String guestRelationshipValue = widget.guestRelationships[widget.guestInfo.relationship]!;
+    String guestRelationshipValue =
+        widget.guestRelationships[widget.guestInfo.relationship]!;
 
     // Use the GuestInfo to create the UI.
     return Scaffold(
@@ -84,7 +88,9 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
                                           .push(MaterialPageRoute(
                                         builder: (context) => ModifyGuestScreen(
                                           guestInfo: widget.guestInfo,
-                                          guestRelationships: widget.guestRelationships,
+                                          guestRelationships:
+                                              widget.guestRelationships,
+                                          userID: widget.userID,
                                         ),
                                       ));
                                     },
@@ -194,13 +200,15 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
                                             )),
                                         ElevatedButton(
                                           onPressed: () => {
-                                            // Delete guest functionality
-                                            _futureGuest =
-                                                deleteGuest(snapshot.data!.id),
+                                            setState(() {
+                                              // Delete guest functionality
+                                              _futureGuest = deleteGuest(
+                                                  snapshot.data!.id);
 
-                                            // Go back
-                                            Navigator.pop(context),
-                                            Navigator.pop(context)
+                                              // Go back
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                            }),
                                           },
                                           child: const Text('Confirm',
                                               style: Constants.buttonRedStyle),
@@ -249,7 +257,8 @@ class _GuestDetailsScreenState extends State<GuestDetailsScreen> {
                           ElevatedButton(
                             // Contact guest button
                             onPressed: () {
-                              // TODO: Contact guest functionality goes here
+                              // Contact guest functionality
+                              launch('tel:${widget.guestInfo.phoneNum}');
                             },
                             child: Text('Contact Guest',
                                 style: Constants.buttonWhiteStyle),

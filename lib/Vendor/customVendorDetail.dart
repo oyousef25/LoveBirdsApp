@@ -3,16 +3,19 @@ import 'package:lovebirds_app/helper/constants.dart';
 import 'package:lovebirds_app/helper/CustomVendor/deleteCustomVendorInfo.dart';
 
 import '../helper/CustomVendor/fetchCustomVendorInfo.dart';
+import '../helper/Account/accountInfo.dart';
 import '../helper/customVendorInfo.dart';
 import 'modifyVendor.dart';
 
 class CustomVendorDetailScreen extends StatefulWidget {
   // In the constructor, require a custom vendor.
-  const CustomVendorDetailScreen({Key? key, required this.customVendor})
+  const CustomVendorDetailScreen(
+      {Key? key, required this.customVendor, required this.accountInfo})
       : super(key: key);
 
   // Declare a field that holds the custom vendor info.
   final CustomVendorInfo customVendor;
+  final AccountInfo accountInfo;
 
   @override
   State createState() {
@@ -54,20 +57,23 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
                     Card(
                       shadowColor: Colors.grey,
                       elevation: 5.0,
-                      margin:
-                      const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 20.0, horizontal: 20.0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)),
                       child: Column(
                         children: <Widget>[
                           ListTile(
-                            contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 10.0),
                             trailing: IconButton(
                               onPressed: () {
                                 // Jump to edit screen
                                 Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      ModifyVendorScreen(customVendor: widget.customVendor),
+                                  builder: (context) => ModifyVendorScreen(
+                                    customVendor: widget.customVendor,
+                                    accountInfo: widget.accountInfo,
+                                  ),
                                 ));
                               },
                               icon: const Icon(Icons.edit),
@@ -77,7 +83,8 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
                           // Custom vendor name
                           const Text("Vendor", style: Constants.taskHeading),
                           Constants.formPadding,
-                          Text(widget.customVendor.name, style: Constants.cardContentStyle),
+                          Text(widget.customVendor.name,
+                              style: Constants.cardContentStyle),
                           Constants.taskPadding,
 
                           // Custom vendor location (removed until further notice)
@@ -88,14 +95,16 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
                           // Constants.taskPadding,
 
                           // Custom vendor phone number
-                          const Text("Phone Number", style: Constants.taskHeading),
+                          const Text("Phone Number",
+                              style: Constants.taskHeading),
                           Constants.formPadding,
                           Text(widget.customVendor.phoneNum,
                               style: Constants.cardContentStyle),
                           Constants.taskPadding,
 
                           // Description of custom vendor
-                          const Text("Description", style: Constants.taskHeading),
+                          const Text("Description",
+                              style: Constants.taskHeading),
                           Constants.formPadding,
                           Container(
                             padding: const EdgeInsets.only(left: 40, right: 40),
@@ -109,7 +118,8 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
                           Constants.taskPadding,
 
                           // Type of vendor
-                          const Text("Vendor Type", style: Constants.taskHeading),
+                          const Text("Vendor Type",
+                              style: Constants.taskHeading),
                           Constants.formPadding,
                           Text(widget.customVendor.vendorType,
                               style: Constants.cardContentStyle),
@@ -118,102 +128,116 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
                           // Remove custom vendor button
                           ElevatedButton(
                               onPressed: () => showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0)),
-                                  titlePadding: EdgeInsets.zero,
-                                  title: Card(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(10),
-                                              topRight: Radius.circular(10),
-                                              bottomLeft: Radius.zero,
-                                              bottomRight: Radius.zero)),
-                                      margin: EdgeInsets.zero,
-                                      color: Constants.lightSecondary,
-                                      child: ListTile(
-                                        title: Text('Deletion Confirmation',
-                                            textAlign: TextAlign.center,
-                                            style: Constants.cardHeaderStyle),
-                                      )),
-                                  contentPadding: EdgeInsets.only(
-                                      top: 20.0,
-                                      bottom: 0.0,
-                                      left: 25.0,
-                                      right: 25.0),
-                                  content: Text(
-                                      'Are you sure you want to remove the vendor ' +
-                                          widget.customVendor.name +
-                                          '?',
-                                      style: Constants.dialogContentStyle),
-                                  actionsAlignment: MainAxisAlignment.center,
-                                  buttonPadding:
-                                  EdgeInsets.symmetric(horizontal: 25.0),
-                                  actions: <Widget>[
-                                    ElevatedButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, 'Cancel'),
-                                        child: const Text('Cancel',
-                                            style: Constants.buttonRedStyle),
-                                        style: ButtonStyle(
-                                          shape: MaterialStateProperty.all<
-                                              OutlinedBorder>(
-                                            RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(10.0)),
-                                          ),
-                                          backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Constants.buttonRed),
-                                          padding:
-                                          MaterialStateProperty.all<EdgeInsets>(
-                                              EdgeInsets.symmetric(
-                                                  vertical: 25.0,
-                                                  horizontal: 40.0)),
-                                        )),
-                                    ElevatedButton(
-                                      onPressed: () => {
-                                        setState(() {
-                                          // Delete custom vendor functionality
-                                          _futureCustomVendor = deleteCustomVendorInfo(snapshot.data!.id);
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                      titlePadding: EdgeInsets.zero,
+                                      title: Card(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(10),
+                                                  topRight: Radius.circular(10),
+                                                  bottomLeft: Radius.zero,
+                                                  bottomRight: Radius.zero)),
+                                          margin: EdgeInsets.zero,
+                                          color: Constants.lightSecondary,
+                                          child: ListTile(
+                                            title: Text('Deletion Confirmation',
+                                                textAlign: TextAlign.center,
+                                                style:
+                                                    Constants.cardHeaderStyle),
+                                          )),
+                                      contentPadding: EdgeInsets.only(
+                                          top: 20.0,
+                                          bottom: 0.0,
+                                          left: 25.0,
+                                          right: 25.0),
+                                      content: Text(
+                                          'Are you sure you want to remove the vendor ' +
+                                              widget.customVendor.name +
+                                              '?',
+                                          style: Constants.dialogContentStyle),
+                                      actionsAlignment:
+                                          MainAxisAlignment.center,
+                                      buttonPadding: EdgeInsets.symmetric(
+                                          horizontal: 25.0),
+                                      actions: <Widget>[
+                                        ElevatedButton(
+                                            onPressed: () => Navigator.pop(
+                                                context, 'Cancel'),
+                                            child: const Text('Cancel',
+                                                style:
+                                                    Constants.buttonRedStyle),
+                                            style: ButtonStyle(
+                                              shape: MaterialStateProperty.all<
+                                                  OutlinedBorder>(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0)),
+                                              ),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                          Color>(
+                                                      Constants.buttonRed),
+                                              padding: MaterialStateProperty
+                                                  .all<EdgeInsets>(
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 25.0,
+                                                          horizontal: 40.0)),
+                                            )),
+                                        ElevatedButton(
+                                          onPressed: () => {
+                                            setState(() {
+                                              // Delete custom vendor functionality
+                                              _futureCustomVendor =
+                                                  deleteCustomVendorInfo(
+                                                      snapshot.data!.id);
 
-                                          // Go back
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                        })
-                                      },
-                                      child: const Text('Confirm',
-                                          style: Constants.buttonRedStyle),
-                                      style: ButtonStyle(
-                                        shape: MaterialStateProperty.all<
-                                            OutlinedBorder>(
-                                          RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadius.circular(10.0),
+                                              // Go back
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                            })
+                                          },
+                                          child: const Text('Confirm',
+                                              style: Constants.buttonRedStyle),
+                                          style: ButtonStyle(
+                                            shape: MaterialStateProperty.all<
+                                                OutlinedBorder>(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                            ),
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                        Color>(
+                                                    Constants.buttonGreen),
+                                            padding: MaterialStateProperty.all<
+                                                    EdgeInsets>(
+                                                EdgeInsets.symmetric(
+                                                    vertical: 25.0,
+                                                    horizontal: 35.0)),
                                           ),
                                         ),
-                                        backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Constants.buttonGreen),
-                                        padding:
-                                        MaterialStateProperty.all<EdgeInsets>(
-                                            EdgeInsets.symmetric(
-                                                vertical: 25.0,
-                                                horizontal: 35.0)),
-                                      ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                              child: Text('Delete', style: Constants.buttonRedStyle),
+                                  ),
+                              child: Text('Delete',
+                                  style: Constants.buttonRedStyle),
                               style: ButtonStyle(
-                                shape: MaterialStateProperty.all<OutlinedBorder>(
+                                shape:
+                                    MaterialStateProperty.all<OutlinedBorder>(
                                   RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0)),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
                                 ),
-                                backgroundColor: MaterialStateProperty.all<Color>(
-                                    Constants.buttonRed),
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Constants.buttonRed),
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                     EdgeInsets.symmetric(
                                         vertical: 20.0, horizontal: 50.0)),
@@ -227,12 +251,15 @@ class _CustomVendorDetailScreenState extends State<CustomVendorDetailScreen> {
                 ),
               );
             } else if (snapshot.hasError) {
-              return Text("Vendor was already deleted, please go back and refresh the page");
+              return Text(
+                  "Vendor was already deleted, please go back and refresh the page");
             }
           }
 
           // By default, show a loading spinner.
-          return const Center(child: CircularProgressIndicator(),);
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         },
       ),
     );
