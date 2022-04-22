@@ -141,13 +141,16 @@ class _PlanningPageState extends State<PlanningPage> {
                                                           child:
                                                               GestureDetector(
                                                             onTap: () {
+                                                              // Update the task list to be passed into the budget page to all tasks
+                                                              refreshPage(2, snapshotAccount.data.email, true);
                                                               // Add a budget category when FAB is pressed
                                                               Navigator.push(
                                                                 context,
                                                                 MaterialPageRoute(
                                                                     builder:
                                                                         (context) =>
-                                                                            const BudgetPage()),
+                                                                            BudgetPage(taskList: snapshotTasks.data,
+                                                                            budgetCategories: snapshotBudget.data.budgetCategories,)),
                                                               );
                                                             },
                                                             child: Card(

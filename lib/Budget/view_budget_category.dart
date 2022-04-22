@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:lovebirds_app/Budget/BudgetCategory.dart';
 import 'package:lovebirds_app/Budget/edit_budget_category.dart';
+import 'package:lovebirds_app/Task/Task.dart';
 import 'package:lovebirds_app/helper/constants.dart';
 
 
 class ViewBudgetCategory extends StatefulWidget {
-  ViewBudgetCategory({Key? key, required this.categoryString, required this.index}) : super(key: key);
+  ViewBudgetCategory({Key? key, required this.categoryString, required this.index,
+  required this.taskList, required this.categoryId }) : super(key: key);
 
-  final List<String> dueDates = <String>[
-    "January 13th, 2022",
-    "February 5th, 2022",
-    "February 9th, 2022"
-  ];
-  final List<String> taskNames = <String>[
-    "Buy a wedding dress",
-    "Buy a tuxedo",
-    "Buy Flowers"
-  ];
-  final List<String> taskPrices = <String>["\$500.00", "\$500.00", "\$150.00"];
+  final List<Task> taskList;
+  final int categoryId;
 
   @override
   State<StatefulWidget> createState() {
@@ -30,12 +23,18 @@ class ViewBudgetCategory extends StatefulWidget {
 
 class _ViewBudgetCategory extends State<ViewBudgetCategory> {
   late Future<List<BudgetCategory>> _futureCategories;
-
+  List<Task> currentTaskList = [];
 
   @override
   void initState() {
     super.initState();
     _futureCategories= BudgetCategory.fetchAllBudgetCategories();
+
+    for(Task task in widget.taskList) {
+      if(task.budgetCategoryId == widget.categoryId) {
+        currentTaskList.add(task);
+      }
+    }
   }
 
   @override
@@ -198,7 +197,7 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.all(15),
-                itemCount: widget.taskNames.length,
+                itemCount: currentTaskList.length,
                 itemBuilder: (BuildContext context, int index) {
                   //an individual list item is a card
                   return GestureDetector(
@@ -231,12 +230,12 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
                               children: [
                                 const Padding(
                                     padding: EdgeInsets.only(top: 12)),
-                                Text(widget.taskNames[index],
+                                Text(currentTaskList[index].task,
                                     textAlign: TextAlign.left,
                                     style: Constants.listTitleStyle),
                                 const Padding(
                                     padding: EdgeInsets.only(bottom: 2)),
-                                Text(widget.dueDates[index],
+                                Text('${currentTaskList[index].dueDate}',
                                     textAlign: TextAlign.left,
                                     style: Constants.listSubtitleStyle),
                                 const Padding(
@@ -248,7 +247,7 @@ class _ViewBudgetCategory extends State<ViewBudgetCategory> {
                           //row containing task price and arrow indicator
                           Row(
                             children: [
-                              Text(widget.taskPrices[index],
+                              Text('${currentTaskList[index].cost}',
                                   textAlign: TextAlign.right,
                                   style: Constants.taskPrice),
                               const Icon(Icons.chevron_right_rounded),

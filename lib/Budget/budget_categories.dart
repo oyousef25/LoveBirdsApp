@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:lovebirds_app/Budget/BudgetCategory.dart';
 import 'package:lovebirds_app/Budget/create_budget_category.dart';
 import 'package:lovebirds_app/Budget/view_budget_category.dart';
+import 'package:lovebirds_app/Task/Task.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 import '../helper/constants.dart';
 
 class BudgetPage extends StatefulWidget {
-  const BudgetPage({Key? key}) : super(key: key);
+  const BudgetPage({Key? key, required this.taskList, required this.budgetCategories}) : super(key: key);
+
+  final List<Task> taskList;
+  final Map<int, String> budgetCategories;
 
   /// Creates a state
   ///
@@ -22,6 +26,7 @@ class _BudgetPageState extends State<BudgetPage> {
   late Future<Map<String, double>> futureCategories;
 
   String category = ""; //will hold the current category selected
+  int categoryId = 0; //will hold the current category id selected
 
   @override
   void initState() {
@@ -39,6 +44,7 @@ class _BudgetPageState extends State<BudgetPage> {
         backgroundColor: Constants.lightPrimary,
         titleTextStyle: Constants.appBarStyle,
         iconTheme: const IconThemeData(color: Colors.black),
+        centerTitle: true,
       ),
       body: FutureBuilder<Map<String, double>>(
         future: futureCategories,
@@ -73,15 +79,18 @@ class _BudgetPageState extends State<BudgetPage> {
                         crossAxisSpacing: 8.0,
                             childAspectRatio: 1.5
                       ),
-                      itemCount: snapshot.data.keys.length,
+                      itemCount: widget.budgetCategories.length,
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () {
                             // Jump to view budget category screen
                             category = snapshot.data.keys.elementAt(index);
+                            categoryId = widget.budgetCategories.keys.elementAt(index);
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ViewBudgetCategory(
-                                categoryString: category, index: index
+                                categoryString: category, index: index,
+                                taskList: widget.taskList,
+                                categoryId: categoryId,
                               ),
                             ));
                           },
@@ -96,7 +105,7 @@ class _BudgetPageState extends State<BudgetPage> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(snapshot.data.keys.elementAt(index),
+                                Text(widget.budgetCategories.values.elementAt(index),
                                     style: Constants.title),
                               ],
                             ),
