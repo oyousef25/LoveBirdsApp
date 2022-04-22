@@ -21,15 +21,6 @@ class BudgetPage extends StatefulWidget {
 class _BudgetPageState extends State<BudgetPage> {
   late Future<Map<String, double>> futureCategories;
 
-  Map<String, double> dataMap = {
-    "Food": 5,
-    "Venue": 3,
-    "Photos": 2,
-    "Hummus": 7,
-    "Bride": 1,
-    "Other": 2,
-  };
-
   String category = ""; //will hold the current category selected
 
   @override
@@ -40,6 +31,8 @@ class _BudgetPageState extends State<BudgetPage> {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, double> dataMap;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Budget'),
@@ -51,13 +44,14 @@ class _BudgetPageState extends State<BudgetPage> {
         future: futureCategories,
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
+            dataMap = snapshot.data;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(padding: EdgeInsets.all(10)),
                 PieChart(
                   chartLegendSpacing: 20,
-                  dataMap: snapshot.data,
+                  dataMap: dataMap,
                   legendOptions: const LegendOptions(
                       showLegendsInRow: true,
                       showLegends: true,
@@ -119,7 +113,7 @@ class _BudgetPageState extends State<BudgetPage> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Add a budget category when FAB is pressed
+          // Add a budget category when FAB is pressed
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => CreateBudgetPage(category: null)),
