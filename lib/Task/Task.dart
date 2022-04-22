@@ -140,7 +140,7 @@ class Task {
         'task_description': description,
         'assigned_user': spouse,
         'task_price': cost,
-        'user_id' : userID
+        'user_id' : userID,
       }),
     );
 
@@ -158,23 +158,40 @@ class Task {
 
   static Future<Task> createTask(
       String task, String dueDate, String description,
-      int spouse, String cost, int userID, int isComplete, int budgetCategoryId) async {
-    final response = await http.post(
-      Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning'),
-      headers: <String, String>{ // Metadata
-        'Content-Type': 'application/json; charset=UTF-8',
-      }, // Encode the task
-      body: jsonEncode(<String, dynamic>{
-        'task_title': task,
-        'due_date': dueDate,
-        'task_description': description,
-        'assigned_user': spouse,
-        'task_price': cost,
-        'user_id': userID,
-        'is_complete': isComplete,
-        'budget_category_id': budgetCategoryId
-      }),
-    );
+      int spouse, String? cost, int userID, int? budgetCategoryId) async {
+    final response;
+    if(budgetCategoryId == null) { // Case where budget category is null
+      response = await http.post(
+        Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning'),
+        headers: <String, String>{ // Metadata
+          'Content-Type': 'application/json; charset=UTF-8',
+        }, // Encode the task
+        body: jsonEncode(<String, dynamic>{
+          'task_title': task,
+          'due_date': dueDate,
+          'task_description': description,
+          'assigned_user': spouse,
+          'task_price': cost,
+          'user_id': userID,
+        }),
+      );
+    } else {
+      response = await http.post(
+        Uri.parse('https://oyousef.scweb.ca/lovebirds/api/v1/planning'),
+        headers: <String, String>{ // Metadata
+          'Content-Type': 'application/json; charset=UTF-8',
+        }, // Encode the task
+        body: jsonEncode(<String, dynamic>{
+          'task_title': task,
+          'due_date': dueDate,
+          'task_description': description,
+          'assigned_user': spouse,
+          'task_price': cost,
+          'user_id': userID,
+          'budget_category_id': budgetCategoryId
+        }),
+      );
+    }
 
     if (response.statusCode == 201) {
       // If the server did return a 201 CREATED response,

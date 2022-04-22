@@ -41,20 +41,20 @@ class _ModifyTask extends State<ModifyTask> {
     showCupertinoModalPopup<void>(
         context: context,
         builder: (BuildContext context) => Container(
-          height: 216,
-          padding: const EdgeInsets.only(top: 6.0),
-          // The Bottom margin is provided to align the popup above the system navigation bar.
-          margin: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          // Provide a background color for the popup.
-          color: CupertinoColors.systemBackground.resolveFrom(context),
-          // Use a SafeArea widget to avoid system overlaps.
-          child: SafeArea(
-            top: false,
-            child: child,
-          ),
-        ));
+              height: 216,
+              padding: const EdgeInsets.only(top: 6.0),
+              // The Bottom margin is provided to align the popup above the system navigation bar.
+              margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              // Provide a background color for the popup.
+              color: CupertinoColors.systemBackground.resolveFrom(context),
+              // Use a SafeArea widget to avoid system overlaps.
+              child: SafeArea(
+                top: false,
+                child: child,
+              ),
+            ));
   }
 
   @override
@@ -65,7 +65,7 @@ class _ModifyTask extends State<ModifyTask> {
     _futureTask = Task.fetchTask(widget.taskInfo?.id ?? -1);
 
     // If user has a partner then add to the assigned user choice chip
-    if(widget.accountInfo.partnerId != null) {
+    if (widget.accountInfo.partnerId != null) {
       _chips.add('Partner');
     }
   }
@@ -74,17 +74,18 @@ class _ModifyTask extends State<ModifyTask> {
   Widget build(BuildContext context) {
     int id = widget.taskInfo?.id ?? 0;
     String task = widget.taskInfo?.task ?? '';
-    String? dueDate = widget.taskInfo?.dueDate;
+    // String? dueDate = widget.taskInfo?.dueDate;
     String description = widget.taskInfo?.description ?? '';
     int assignedUser = widget.taskInfo?.spouse ?? widget.accountInfo.id;
     String? cost = widget.taskInfo?.cost;
-    int? categoryId = widget.taskInfo?.budgetCategoryId;
-    String? categoryValue = widget.budgetCategories[widget.taskInfo?.budgetCategoryId];
+    int? categoryId = widget.taskInfo?.budgetCategoryId ?? -1;
+    String? categoryValue =
+        widget.budgetCategories[widget.taskInfo?.budgetCategoryId] ?? 'None';
     int? isComplete = widget.taskInfo?.isComplete;
 
     // Create the category map so we can access the category id by type
-    List<int> categoryIds = [];
-    List<String> categoryTypes = [];
+    List<int> categoryIds = [-1];
+    List<String> categoryTypes = ['None'];
     for (var id in widget.budgetCategories.keys) {
       categoryIds.add(id);
     }
@@ -123,8 +124,8 @@ class _ModifyTask extends State<ModifyTask> {
 
                     //nesting in a container allows for margin on all sides
                     child: Container(
-                      margin:
-                      const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+                      margin: const EdgeInsets.only(
+                          top: 20, left: 20, right: 20, bottom: 20),
                       child: Form(
                         key: _taskFormKey,
                         //column which contains all form elements
@@ -148,12 +149,13 @@ class _ModifyTask extends State<ModifyTask> {
                               elevation: Constants.elevation,
                               color: Colors.white,
                               child: TextFormField(
-                                maxLengthEnforcement: MaxLengthEnforcement.truncateAfterCompositionEnds,
+                                maxLengthEnforcement: MaxLengthEnforcement
+                                    .truncateAfterCompositionEnds,
                                 maxLength: Constants.maxTextFieldLength,
                                 initialValue: task,
                                 decoration: InputDecoration(
                                     floatingLabelBehavior:
-                                    Constants.floatingLabelBehaviour,
+                                        Constants.floatingLabelBehaviour,
                                     border: Constants.outlineInputBorder,
                                     fillColor: Colors.white),
                                 onSaved: (String? value) {
@@ -196,30 +198,40 @@ class _ModifyTask extends State<ModifyTask> {
                                   taskDueDate = value!;
                                 },
                                 decoration: InputDecoration(
-                                  //calendar functionality goes here
+                                    //calendar functionality goes here
                                     suffixIcon: IconButton(
                                       // Supply Calendar functionality
                                       onPressed: () {
                                         // Set pointer to the end whenever user tries to edit date
-                                        dateEditingController.selection = TextSelection.collapsed(offset: dateEditingController.text.length);
+                                        dateEditingController.selection =
+                                            TextSelection.collapsed(
+                                                offset: dateEditingController
+                                                    .text.length);
                                         _showDialog(
                                           CupertinoDatePicker(
-                                              initialDateTime: DateTime.tryParse(dateEditingController.text) ?? DateTime.now(),
-                                              mode: CupertinoDatePickerMode.date,
+                                              initialDateTime:
+                                                  DateTime.tryParse(
+                                                          dateEditingController
+                                                              .text) ??
+                                                      DateTime.now(),
+                                              mode:
+                                                  CupertinoDatePickerMode.date,
                                               // This is called when the user changes the date.
-                                              onDateTimeChanged: (DateTime newDate) {
+                                              onDateTimeChanged:
+                                                  (DateTime newDate) {
                                                 setState(() {
-                                                  taskDueDate = '${newDate.year}-${newDate.month > 9 ? '' : '0'}${newDate.month}-${newDate.day > 9 ? '' : '0'}${newDate.day}';
-                                                  dateEditingController.text = taskDueDate;
+                                                  taskDueDate =
+                                                      '${newDate.year}-${newDate.month > 9 ? '' : '0'}${newDate.month}-${newDate.day > 9 ? '' : '0'}${newDate.day}';
+                                                  dateEditingController.text =
+                                                      taskDueDate;
                                                 });
-                                              }
-                                          ),
+                                              }),
                                         );
                                       },
                                       icon: Icon(Icons.calendar_month_rounded),
                                     ),
                                     floatingLabelBehavior:
-                                    Constants.floatingLabelBehaviour,
+                                        Constants.floatingLabelBehaviour,
                                     border: Constants.outlineInputBorder,
                                     fillColor: Colors.white),
                                 validator: (String? value) {
@@ -227,7 +239,8 @@ class _ModifyTask extends State<ModifyTask> {
                                   if (value == '' || value == null) {
                                     // Don't bother checking validation if user leaves the date blank
                                     return null;
-                                  } else if (!Constants.dateRegex.hasMatch(value)) {
+                                  } else if (!Constants.dateRegex
+                                      .hasMatch(value)) {
                                     return 'Date format must match YYYY-MM-DD';
                                   }
                                   return null;
@@ -253,7 +266,7 @@ class _ModifyTask extends State<ModifyTask> {
                               child: TextFormField(
                                 decoration: InputDecoration(
                                     floatingLabelBehavior:
-                                    Constants.floatingLabelBehaviour,
+                                        Constants.floatingLabelBehaviour,
                                     border: Constants.outlineInputBorder,
                                     fillColor: Colors.white),
                                 minLines: 1,
@@ -291,7 +304,8 @@ class _ModifyTask extends State<ModifyTask> {
                             Material(
                               shadowColor: Colors.grey,
                               elevation: 3.0,
-                              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
                               child: DropdownButtonFormField<String>(
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(
@@ -301,12 +315,15 @@ class _ModifyTask extends State<ModifyTask> {
                                   filled: true,
                                   isDense: true,
                                   contentPadding: EdgeInsets.only(
-                                      left: 12.0, top: 12.0, right: 12.0, bottom: 2.0),
+                                      left: 12.0,
+                                      top: 12.0,
+                                      right: 12.0,
+                                      bottom: 2.0),
                                 ),
                                 iconSize: 50.0,
                                 value: categoryValue,
-                                focusNode:
-                                FocusNode(), // Hack to not focus dropdown after selection
+                                // focusNode:
+                                //     FocusNode(), // Hack to not focus dropdown after selection
                                 icon: const Icon(Icons.arrow_drop_down_rounded),
                                 elevation: 16,
                                 style: Constants.formDropdownStyle,
@@ -319,7 +336,9 @@ class _ModifyTask extends State<ModifyTask> {
                                     categoryValue = newValue!;
                                   });
                                 },
-                                items: widget.budgetCategories.values.map<DropdownMenuItem<String>>((String value) {
+                                items: categoryTypes
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(
@@ -346,7 +365,7 @@ class _ModifyTask extends State<ModifyTask> {
                                 // Creates a list of 2 chips that will highlight the selected ones
                                 children: List<Widget>.generate(
                                   2,
-                                      (int index) {
+                                  (int index) {
                                     return ChoiceChip(
                                       label: Text(_chips[index]),
                                       labelStyle: _selectedIndex == index
@@ -362,9 +381,12 @@ class _ModifyTask extends State<ModifyTask> {
                                         // Toggles selected chip only if the user presses on an unselected chip
                                         if (_selectedIndex != index) {
                                           setState(() {
-                                            _selectedIndex = selected ? index : null;
+                                            _selectedIndex =
+                                                selected ? index : null;
                                             // Set assigned user to user or partner (if partner exists) depending on 0 or 1 index
-                                            assignedUser = _selectedIndex == 0 ? widget.accountInfo.id : widget.accountInfo.partnerId!;
+                                            assignedUser = _selectedIndex == 0
+                                                ? widget.accountInfo.id
+                                                : widget.accountInfo.partnerId!;
                                           });
                                         }
                                       },
@@ -396,31 +418,36 @@ class _ModifyTask extends State<ModifyTask> {
                                       initialValue: cost,
                                       decoration: InputDecoration(
                                           floatingLabelBehavior:
-                                          Constants.floatingLabelBehaviour,
+                                              Constants.floatingLabelBehaviour,
                                           border: Constants.outlineInputBorder,
                                           fillColor: Constants.formfieldColor,
                                           filled: !isSwitched),
                                       onSaved: (String? value) {
                                         // Save cost if it is enabled
-                                        if(isSwitched) {
+                                        if (isSwitched) {
                                           cost = value ?? '';
                                         } else {
                                           cost = '';
                                         }
                                       },
                                       validator: (String? value) {
-                                        // Cost validation
-                                        if (double.tryParse(value!) == null) {
-                                          return 'Please enter a valid number';
-                                        } else if (double.parse(value) > Constants.maxCostSize) {
-                                          return 'Max cost of ${Constants.maxCostSize} allowed';
+                                        if(isSwitched) {
+                                          // Cost validation only if it is enabled
+                                          if (double.tryParse(value!) == null) {
+                                            return 'Please enter a valid number';
+                                          } else if (double.parse(value) >
+                                              Constants.maxCostSize) {
+                                            return 'Max cost of ${Constants
+                                                .maxCostSize} allowed';
+                                          }
                                         }
                                         return null;
                                       },
                                     ),
                                   ),
                                 ),
-                                const Padding(padding: EdgeInsets.only(right: 10)),
+                                const Padding(
+                                    padding: EdgeInsets.only(right: 10)),
                                 Switch(
                                   value: isSwitched,
                                   // Toggle Switch and enable/disable cost textfield
@@ -447,30 +474,50 @@ class _ModifyTask extends State<ModifyTask> {
                                     _taskFormKey.currentState!
                                         .save(); // Save all the form field items
                                     // Process data.
+                                    print(task);
+                                    print(dateEditingController.text);
+                                    print(description);
+                                    print(assignedUser);
+                                    print(cost);
+                                    print(widget.accountInfo.id);
+                                    print(categoryId);
 
                                     setState(() {
-                                      // Update task to API
-                                      // _futureTask = Task.createTask(
-                                      //     task, dueDate, description, 1, cost, 1);
-
-                                      // Go back to previous page
-                                      Navigator.pop(context);
+                                      if (widget.taskInfo == null) {
+                                        // Update task to API
+                                        _futureTask = Task.createTask(
+                                          task,
+                                          dateEditingController.text,
+                                          description,
+                                          assignedUser,
+                                          cost,
+                                          widget.accountInfo.id,
+                                          categoryId != -1 ? categoryId : null,
+                                        );
+                                        // Go back to previous page
+                                        Navigator.pop(context);
+                                      }
                                     });
                                   }
                                 },
-                                child:
-                                const Text("Create", style: Constants.buttonRedStyle),
+                                child: Text(
+                                    widget.taskInfo == null ? 'Create' : 'Save',
+                                    style: Constants.buttonRedStyle),
                                 style: ButtonStyle(
-                                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                                  shape:
+                                      MaterialStateProperty.all<OutlinedBorder>(
                                     RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
-                                  backgroundColor: MaterialStateProperty.all<Color>(
-                                      Constants.buttonRed),
-                                  padding: MaterialStateProperty.all<EdgeInsets>(
-                                      const EdgeInsets.symmetric(
-                                          vertical: 20.0, horizontal: 100.0)),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Constants.buttonRed),
+                                  padding:
+                                      MaterialStateProperty.all<EdgeInsets>(
+                                          const EdgeInsets.symmetric(
+                                              vertical: 20.0,
+                                              horizontal: 100.0)),
                                 ),
                               ),
                             ),
