@@ -251,10 +251,22 @@ class _ModifyTask extends State<ModifyTask> {
                                     border: Constants.outlineInputBorder,
                                     fillColor: Colors.white),
                                 minLines: 1,
-                                maxLines: 3,
-                                maxLength: 255,
+                                maxLines: 4,
+                                maxLength: Constants.maxTextBoxLength,
+                                maxLengthEnforcement: MaxLengthEnforcement
+                                    .truncateAfterCompositionEnds,
                                 onSaved: (String? value) {
                                   description = value ?? '';
+                                },
+                                validator: (String? value) {
+                                  // Task description validation
+                                  if (value == null || value.isEmpty) {
+                                    return 'Description cannot be empty';
+                                  } else if (value.length >
+                                      Constants.maxTextBoxLength) {
+                                    return 'Max ${Constants.maxTextBoxLength} characters allowed';
+                                  }
+                                  return null;
                                 },
                               ),
                             ),
@@ -292,19 +304,16 @@ class _ModifyTask extends State<ModifyTask> {
                                 icon: const Icon(Icons.arrow_drop_down_rounded),
                                 elevation: 16,
                                 style: Constants.formDropdownStyle,
+                                onSaved: (String? value) {
+                                  categoryValue = value;
+                                  categoryId = categoryMap[categoryValue];
+                                },
                                 onChanged: (String? newValue) {
                                   setState(() {
                                     categoryValue = newValue!;
                                   });
                                 },
-                                items: <String>[
-                                  'Food',
-                                  'Venue',
-                                  'Photos',
-                                  'Hummus',
-                                  'Bride',
-                                  'Other',
-                                ].map<DropdownMenuItem<String>>((String value) {
+                                items: widget.budgetCategories.values.map<DropdownMenuItem<String>>((String value) {
                                   return DropdownMenuItem<String>(
                                     value: value,
                                     child: Text(
